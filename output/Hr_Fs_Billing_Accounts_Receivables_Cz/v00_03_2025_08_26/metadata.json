@@ -1,0 +1,26 @@
+{
+  "document_name": "Hr Fs Billing Accounts Receivables Cz",
+  "base_name": "HR_FS_Billing_Accounts_Receivables_CZ",
+  "version": "00_03_2025_08_26",
+  "version_display": "v00_03 (2025_08_26)",
+  "source_file": "FS_source\\HR_FS_Billing_Accounts_Receivables_CZ_00_03_at_2025_08_26.docx",
+  "generated_files": [
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\index.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_01_obsah.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_02_.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_03_historie_dokumentu.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_04_\u00favod.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_05_dom\u00e9nov\u00fd_model.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_06_akt\u00e9\u0159i.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_07_p\u0159\u00edpady_u\u017eit\u00ed.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_08_syst\u00e9mov\u00e9_funkce.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_09_syst\u00e9mov\u00e9_funkce_web_portal_api.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_10_neprocesn\u00ed_funkcionality.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_11_p\u0159\u00edloha_a_integra\u010dn\u00ed_body.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_12_p\u0159\u00edloha_b_vstupn\u00ed_a_v\u00fdstupn\u00ed_artefakty.html",
+    "output\\Hr_Fs_Billing_Accounts_Receivables_Cz\\v00_03_2025_08_26\\HR_FS_Billing_Accounts_Receivables_CZ_13_p\u0159\u00edloha_c_konfigurovatelnost_modulu.html"
+  ],
+  "generation_time": "1756189765.3817868",
+  "split_by_headers": true,
+  "header_level": 1
+}

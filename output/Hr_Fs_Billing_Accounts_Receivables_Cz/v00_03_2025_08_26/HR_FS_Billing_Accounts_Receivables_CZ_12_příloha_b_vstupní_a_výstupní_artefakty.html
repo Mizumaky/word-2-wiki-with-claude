@@ -1,0 +1,3419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Příloha B – Vstupní a
+výstupní artefakty¨ - Hr Fs Billing Accounts Receivables Cz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --pico-font-size: 16px;
+            --pico-line-height: 1.5;
+        }
+
+        /* Layout Structure */
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Space for floating header */
+        }
+
+        /* Floating Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--pico-background-color);
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .top-bar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .top-bar .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .top-bar .nav-buttons button {
+            margin: 0;
+            padding: 0.5rem 1rem;
+        }
+
+        .top-bar .title {
+            flex: 1;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-bar .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-bar .controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .top-bar .controls select,
+        .top-bar .controls input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Main Layout */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Left Sidebar - Modern 2025 Design */
+        .sidebar {
+            width: 280px;
+            background: var(--pico-background-color);
+            border-right: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Search Section */
+        .sidebar-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--pico-muted-border-color);
+            border-radius: var(--pico-border-radius);
+            background: var(--pico-background-color);
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .sidebar-search input:focus {
+            outline: none;
+            border-color: var(--pico-primary);
+            box-shadow: 0 0 0 2px var(--pico-primary-background);
+        }
+
+        .sidebar-search input::placeholder {
+            color: var(--pico-muted-color);
+        }
+
+        /* Navigation Header */
+        .sidebar-header {
+            padding: 1rem 1rem 0.5rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-header h4 {
+            margin: 0;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollable Navigation Area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem 1rem 1rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            margin: 0;
+        }
+
+        /* Modern Tree Navigation Item */
+        .nav-item {
+            margin: 2px 0;
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+        }
+
+        .nav-item-header {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item-header:hover {
+            background: var(--pico-secondary-background);
+        }
+
+        .nav-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            color: var(--pico-muted-color);
+            font-size: 12px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle:hover {
+            background: var(--pico-muted-border-color);
+            color: var(--pico-color);
+        }
+
+        .nav-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .nav-link {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem 0.5rem 0;
+            text-decoration: none;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+            min-height: 32px;
+        }
+
+        .nav-link:hover {
+            color: var(--pico-primary);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--pico-primary);
+            font-weight: 500;
+            background: var(--pico-primary-background);
+        }
+
+        /* Hierarchy Levels */
+        .nav-link.h1 {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link.h2 {
+            font-size: 0.85rem;
+            margin-left: 1.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        .nav-link.h3 {
+            font-size: 0.8rem;
+            margin-left: 2.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        /* Children Container */
+        .nav-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 24px;
+        }
+
+        .nav-children.expanded {
+            max-height: 1000px;
+        }
+
+        /* No Results State */
+        .nav-no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: none;
+            transition: max-width 0.3s ease;
+        }
+
+        .main-content.narrow { max-width: 800px; margin: 0 auto; }
+        .main-content.wide { max-width: 1400px; margin: 0 auto; }
+        .main-content.standard { max-width: 1200px; margin: 0 auto; }
+
+        /* Right Sidebar - Modern Minimap */
+        .minimap {
+            width: 80px;
+            background: var(--pico-card-background-color);
+            border-left: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .minimap-header {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-background-color);
+        }
+
+        .minimap h4 {
+            font-size: 0.7rem;
+            margin: 0;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-weight: 500;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimap-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--pico-background-color);
+        }
+
+        .minimap-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 2px;
+            min-height: 20px;
+            transition: all 0.1s ease;
+        }
+
+        [data-theme="dark"] .minimap-viewport {
+            background: rgba(100, 200, 255, 0.15);
+            border-color: rgba(100, 200, 255, 0.4);
+        }
+
+        /* Change Indicator Bar - Integrated with Minimap */
+        .change-indicator {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            right: 4px;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .change-mark {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            pointer-events: all;
+        }
+
+        .change-mark.added {
+            background: #22c55e;
+            box-shadow: 0 0 4px rgba(34, 197, 94, 0.4);
+        }
+
+        .change-mark.modified {
+            background: #f59e0b;
+            box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+        }
+
+        .change-mark.removed {
+            background: #ef4444;
+            box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+        }
+
+        .change-mark:hover {
+            height: 5px;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        /* Modern Line-by-Line Diff Highlighting */
+        .diff-line-added {
+            background: rgba(34, 197, 94, 0.15) !important;
+            border-left: 3px solid #22c55e;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        .diff-line-removed {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-left: 3px solid #ef4444;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .diff-line-modified {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border-left: 3px solid #f59e0b;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .diff-line-added {
+            background: rgba(34, 197, 94, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-removed {
+            background: rgba(239, 68, 68, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-modified {
+            background: rgba(245, 158, 11, 0.2) !important;
+        }
+
+        /* Enhanced Table Styling */
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 2rem 0;
+            background: var(--pico-card-background-color);
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+            box-shadow: var(--pico-card-box-shadow);
+        }
+
+        table th, table td { 
+            border: 1px solid var(--pico-muted-border-color);
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table td {
+            background-color: var(--pico-card-background-color);
+        }
+
+        table th { 
+            background: var(--pico-contrast);
+            color: var(--pico-contrast-inverse);
+            font-weight: 600;
+            border-bottom: 2px solid var(--pico-muted-border-color);
+            position: relative;
+        }
+
+        /* High contrast table headers for both themes */
+        [data-theme="dark"] table th {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #404040;
+        }
+
+        [data-theme="light"] table th {
+            background: #f8f9fa;
+            color: #212529;
+            border-color: #dee2e6;
+        }
+
+        table caption { 
+            caption-side: top; 
+            padding: 1rem; 
+            font-weight: 600; 
+            text-align: left;
+            color: var(--pico-muted-color);
+        }
+
+        /* Diff Styling - Light and Dark Mode Aware */
+        .diff-added { 
+            background: var(--pico-ins-color) !important; 
+            color: var(--pico-contrast-color); 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--pico-del-color) !important; 
+            color: var(--pico-contrast-color); 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--pico-mark-background-color) !important;
+            color: var(--pico-mark-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Custom theme-aware variables */
+        :root {
+            --diff-added-bg: #d4f6d4;
+            --diff-added-color: #0d5016;
+            --diff-removed-bg: #f8d7da;
+            --diff-removed-color: #721c24;
+            --diff-modified-bg: #fff3cd;
+            --diff-modified-color: #856404;
+        }
+
+        [data-theme="dark"] {
+            --diff-added-bg: #1a3d1a;
+            --diff-added-color: #90ee90;
+            --diff-removed-bg: #3d1a1a;
+            --diff-removed-color: #ffb3b3;
+            --diff-modified-bg: #3d3d1a;
+            --diff-modified-color: #ffeb99;
+        }
+
+        .diff-added { 
+            background: var(--diff-added-bg) !important; 
+            color: var(--diff-added-color) !important; 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--diff-removed-bg) !important; 
+            color: var(--diff-removed-color) !important; 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--diff-modified-bg) !important;
+            color: var(--diff-modified-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Improved dark mode colors */
+        [data-theme="dark"] {
+            --pico-muted-color: #b3b3b3;
+            --pico-color: #e0e0e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .top-bar .title {
+                font-size: 0.9rem;
+            }
+            
+            .top-bar .controls {
+                gap: 0.5rem;
+            }
+            
+            .top-bar .controls label {
+                font-size: 0.8rem;
+            }
+            
+            .change-indicator {
+                right: 10px;
+                width: 8px;
+            }
+        }
+
+        /* Dark mode enhancements */
+        @media (prefers-color-scheme: dark) {
+            .change-indicator {
+                background: rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/diff@5.1.0/dist/diff.min.js"></script>
+</head>
+<body>
+    <!-- Floating Top Bar -->
+    <header class="top-bar" id="topBar">
+        <div class="nav-buttons">
+            <button onclick="goBack()">← Back</button>
+            <button onclick="goToIndex()">📋 Index</button>
+        </div>
+        
+        <h1 class="title">Hr Fs Billing Accounts Receivables Cz - Příloha B – Vstupní a
+výstupní artefakty¨</h1>
+        
+        <div class="controls">
+            <label>
+                <input type="checkbox" id="showChanges" onchange="toggleDiff()" role="switch">
+                Show changes
+            </label>
+            
+            <label>
+                Version:
+                <select id="versionSelect" onchange="loadVersionForComparison()">
+                    
+                </select>
+            </label>
+            
+            <label>
+                Width:
+                <select id="widthSelect" onchange="changeWidth()">
+                    <option value="standard">Standard</option>
+                    <option value="narrow">Narrow</option>
+                    <option value="wide">Wide</option>
+                    <option value="full">Full</option>
+                </select>
+            </label>
+            
+            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.5rem;">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Section -->
+            <div class="sidebar-search">
+                <input type="text" id="navSearch" placeholder="Search headings..." autocomplete="off">
+            </div>
+            
+            <!-- Navigation Header -->
+            <div class="sidebar-header">
+                <h4>Contents</h4>
+            </div>
+            
+            <!-- Scrollable Navigation Area -->
+            <div class="sidebar-nav">
+                <nav>
+                    <ul id="sectionNav">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                    <div id="navNoResults" class="nav-no-results" style="display: none;">
+                        No matching headings found
+                    </div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content standard" id="mainContent">
+            <h1 id="příloha-b-vstupní-a-výstupní-artefakty">Příloha B – Vstupní a
+výstupní artefakty¨</h1>
+
+
+<h2 id="dokumenty">Dokumenty</h2>
+
+
+<h3 id="společná-nastavení">Společná nastavení</h3>
+
+
+<p>Dokumenty budou generováný dvojjazyčně: HR/EN.</p>
+
+
+<p>Název souboru BAR dokumentů bude odpovídat následující logice, pokud
+u popisu dokumentu není řečeno jinak:</p>
+
+
+<p>Číslo dokumentu_název typu dokumentu_datum generování dokumentu.pdf
+případně .csv v <mark>HR.</mark></p>
+
+
+<p>Příklad: 000000961005_Invoice_for_toll_202402270102.pdf</p>
+
+
+<p><strong>Tabulka 40: Dokumenty</strong></p>
+
+
+<table>
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 27%"/>
+<col style="width: 28%"/>
+<col style="width: 24%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Typ</strong></th>
+<th><strong><mark>Jméno HR</mark></strong></th>
+<th><strong>Jméno EN</strong></th>
+<th><strong>Jméno CZ</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DOC.BE.01.HR</td>
+<td><mark>Račun za nadoplatu</mark></td>
+<td>Advance invoice for top-up</td>
+<td>Zálohová faktura za top-up</td>
+</tr>
+<tr>
+<td>DOC.BE.01B.HR</td>
+<td><mark>Račun za nadoplatu</mark></td>
+<td>Advance invoice for top-up</td>
+<td>Zálohová faktura za top-up</td>
+</tr>
+<tr>
+<td>DOC.BE.06.HR</td>
+<td><mark>Odobrenie za neiskorištenu nadoplatu</mark></td>
+<td>Advance invoice for top-up - Credit note</td>
+<td>Zálohová faktura za top-up – Dobropis</td>
+</tr>
+<tr>
+<td>DOC.BE.10.HR</td>
+<td><mark>Račun za cestarinu</mark></td>
+<td>Invoice for toll</td>
+<td>Faktura za mýtné</td>
+</tr>
+<tr>
+<td>DOC.BE.10B.HR</td>
+<td><mark>Račun za cestarinu</mark></td>
+<td>Invoice for toll</td>
+<td>Faktura za mýtné</td>
+</tr>
+<tr>
+<td>DOC.BE.11.HR</td>
+<td><mark>Detaljan prikaz prometa cestarine na računu</mark></td>
+<td>Detailed statement of toll transactions attached to invoice</td>
+<td>Detailní výpis mýtných transakcí k faktuře</td>
+</tr>
+<tr>
+<td><mark>DOC.BE.12.HR</mark></td>
+<td><mark>Detaljan prikaz prometa cestarine</mark></td>
+<td><mark>Detailed statement of toll transactions</mark></td>
+<td><mark>Detailní výpis mýtných transakcí</mark></td>
+</tr>
+<tr>
+<td>DOC.BE.13.HR</td>
+<td><mark>Račun za cestarinu</mark></td>
+<td>Debit note for toll</td>
+<td>Vrubopis za mýtné</td>
+</tr>
+<tr>
+<td>DOC.BE.14.HR</td>
+<td><mark>Odobrenie za cestarinu</mark></td>
+<td>Credit note for toll</td>
+<td>Dobropis za mýtné</td>
+</tr>
+<tr>
+<td><mark>DOC.BE.15.HR</mark></td>
+<td><mark>Odobrenie za popuste na cestarini</mark></td>
+<td><mark>Credit note for toll discounts</mark></td>
+<td></td>
+</tr>
+<tr>
+<td>DOC.BE.16.HR</td>
+<td><mark>Račun za uslugu</mark></td>
+<td>Invoice for services</td>
+<td>Faktura za služby</td>
+</tr>
+<tr>
+<td>DOC.BE.17.HR</td>
+<td><mark>Odobrenie za usluge</mark></td>
+<td>Credit note for services</td>
+<td>Dobropis za služby</td>
+</tr>
+<tr>
+<td><mark>DOC.BE.19.HR</mark></td>
+<td><mark>Račun za ugovornu kaznu</mark></td>
+<td><mark>Invoice for contractual penalty</mark></td>
+<td></td>
+</tr>
+<tr>
+<td><mark>DOC.BE.20.HR</mark></td>
+<td><mark>Odobrenie za ugovornu kaznu</mark></td>
+<td><mark>Credit note for contractual penalty</mark></td>
+<td></td>
+</tr>
+<tr>
+<td>DOC.BE.21.HR</td>
+<td><mark>eRačun</mark></td>
+<td>eInvoice</td>
+<td>eFaktura</td>
+</tr>
+<tr>
+<td>DOC.BE.22.HR</td>
+<td><mark>Zahtjev za isplatu</mark></td>
+<td>Offence Request for payment</td>
+<td>Výzva k úhradě za přestupky</td>
+</tr>
+<tr>
+<td>DOC.BE.23.HR</td>
+<td><mark>Zahtjev za isplatu - odobrenie</mark></td>
+<td>Offence Request of Payment – credit note</td>
+<td>Výzva k úhradě za přestupky - Dobropis</td>
+</tr>
+<tr>
+<td>DOC.BE.24.HR</td>
+<td><mark>Predračun</mark></td>
+<td>Proforma bill</td>
+<td>Proforma faktura</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Podrobná specifikace jednotlivých dokumentů, notifikací a reportů je
+uvedena na <a href="https://tollnet.atlassian.net/wiki/x/FoA7Cw">Confluence</a>.</p>
+
+
+<table>
+<caption><p>Tabulka : Přehled dokumentů – nastavení metadat a
+jazyků</p></caption>
+<colgroup>
+<col style="width: 17%"/>
+<col style="width: 12%"/>
+<col style="width: 14%"/>
+<col style="width: 28%"/>
+<col style="width: 5%"/>
+<col style="width: 7%"/>
+<col style="width: 13%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Dokument</strong></th>
+<th><strong>Skupina (Document group)</strong></th>
+<th><strong>GUI</strong></th>
+<th><strong>Metadata</strong></th>
+<th><strong>Tisk</strong></th>
+<th><strong>E-mail</strong></th>
+<th><strong>Jazyk</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zálohová faktura za top-up (DOC.BE.01.HR a DOC.BE.01B.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td></td>
+<td></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Zálohová faktura za top-up – Dobropis (DOC.BE.06.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td></td>
+<td></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td><p>Faktura za mýtné (DOC.BE.10.HR)</p>
+<p>Vrubopis za mýtné (DOC.BE.13.HR)</p>
+<p>Dobropis za mýtné (DOC.BE.14.HR)</p></td>
+<td>Invoice</td>
+<td>BO</td>
+<td><p>Bill type</p>
+<p>Bill issue type</p>
+<p>Bill recurrence type</p>
+<p>Bill category</p>
+<p>Bill number</p>
+<p>Bill ID</p>
+<p>Bill session number</p>
+<p>Bill session ID</p>
+<p>Bill total amount</p>
+<p>System operator ID</p>
+<p>System operator abbreviation</p>
+<p>Subject type</p>
+<p>Customer ID</p>
+<p>Customer number</p>
+<p>Account number</p>
+<p>Account type</p>
+<p>EETS Provider ID</p>
+<p>EETS Provider abbreviation</p>
+<p>Exemption Partner ID</p>
+<p>Exemption Partner <mark>abbreviation</mark></p></td>
+<td></td>
+<td>Ano</td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Detailní výpis mýtných transakcí k faktuře (DOC.BE.11.HR)</td>
+<td>Detail statement</td>
+<td>BO</td>
+<td>Metadata jako DOC.BE.10.HR</td>
+<td>stáhnutí z SC jako příloha faktury</td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td><mark>Detailní výpis mýtných transakcí (DOC.BE.12.HR)</mark></td>
+<td><mark>Detail statement</mark></td>
+<td><mark>SC</mark></td>
+<td><p><mark>Customer number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account type</mark></p>
+<p><mark>Customer ID</mark></p></td>
+<td><mark>stáhnutí vygenerovaného exportu z SC</mark></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Faktura za služby (DOC.BE.16.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td><p>Bill type</p>
+<p>Bill issue type</p>
+<p>Bill category</p>
+<p>Bill number</p>
+<p>Bill ID</p>
+<p>Bill total amount</p>
+<p>System operator ID</p>
+<p>System operator abbreviation</p>
+<p>Subject type</p>
+<p>Customer ID</p>
+<p>Customer number</p>
+<p>Account number</p>
+<p>Account type</p>
+<p>EETS Provider ID</p>
+<p>EETS Provider abbreviation</p>
+<p>Exemption Partner ID</p>
+<p>Exemption Partner <mark>abbreviation</mark></p></td>
+<td></td>
+<td>Ano</td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Dobropis za služby (DOC.BE.17.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td>Metadata jako DOC.BE.16.HR</td>
+<td></td>
+<td>Ano</td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td><mark>Faktura za smluvní pokutu (DOC.BE.19.HR)</mark></td>
+<td><mark>Invoice</mark></td>
+<td><mark>BO</mark></td>
+<td><p><mark>Customer number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account type</mark></p>
+<p><mark>Bill issuer</mark></p>
+<p><mark>Bill number</mark></p>
+<p><mark>Bill issue type</mark></p>
+<p><mark>Bill total amount</mark></p>
+<p><mark>Bill total amount</mark></p>
+<p><mark>System operator ID</mark></p>
+<p><mark>Customer ID</mark></p>
+<p><mark>Bill ID</mark></p></td>
+<td></td>
+<td><mark>Ano</mark></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td><mark>Dobropis za smluvní pokutu (DOC.BE.20.HR)</mark></td>
+<td><mark>Invoice</mark></td>
+<td><mark>BO</mark></td>
+<td><p><mark>Customer number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account number</mark></p>
+<p><mark>Account type</mark></p>
+<p><mark>Bill issuer</mark></p>
+<p><mark>Bill number</mark></p>
+<p><mark>Bill issue type</mark></p>
+<p><mark>Bill total amount</mark></p>
+<p><mark>Bill total amount</mark></p>
+<p><mark>System operator ID</mark></p>
+<p><mark>Customer ID</mark></p>
+<p><mark>Bill ID</mark></p></td>
+<td></td>
+<td><mark>Ano</mark></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>eFaktura (DOC.BE.21.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td>Metadata jako DOC.BE.10.HR</td>
+<td></td>
+<td>Ano</td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Výzva k úhradě za přestupek (DOC.BE.22.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td><p>Bill issue type</p>
+<p>Bill number</p>
+<p>Bill ID</p>
+<p>Bill total amount</p>
+<p>System operator ID</p>
+<p>System operator abbreviation</p>
+<p>Subject type</p>
+<p>Customer ID</p>
+<p>Customer number</p>
+<p>Account number</p>
+<p>Account type</p>
+<p>Postal address</p></td>
+<td></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Výzva k úhradě za přestupky – Dobropis (DOC.BE.23.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td>Metadata jako DOC.BE.22.HR</td>
+<td></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+<tr>
+<td>Proforma faktura (DOC.BE.24.HR)</td>
+<td>Invoice</td>
+<td>BO</td>
+<td><p>Bill number</p>
+<p>Bill ID</p>
+<p>Bill total amount</p>
+<p>System operator ID</p>
+<p>System operator abbreviation</p>
+<p>Customer ID</p>
+<p>Customer number</p>
+<p>Account number</p>
+<p>Account type</p></td>
+<td></td>
+<td></td>
+<td>dvoujazyčná verze (hr+en)</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="zálohová-faktura-za-top-up-doc.be.01.hr-a-doc.be.01b.hr">Zálohová
+faktura za top-up (DOC.BE.01.HR) <mark>a (DOC.BE.01B.HR)</mark></h3>
+
+
+<p>Advance invoice for top-up</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="zálohová-faktura-za-předplacení-kreditu---dobropis-doc.be.06">Zálohová
+faktura za předplacení kreditu - dobropis (DOC.BE.06)</h3>
+
+
+<p>Advance invoice for top-up - Credit note</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="faktura-za-mýtné-doc.be.10.hr-a-doc.be.10b.hr">Faktura za mýtné
+(DOC.BE.10.HR) <mark>a (DOC.BE.10B.HR)</mark></h3>
+
+
+<p>Invoice for toll</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<table>
+<caption><p>Tabulka : Seznam atributů entity Faktura</p></caption>
+<colgroup>
+<col style="width: 5%"/>
+<col style="width: 26%"/>
+<col style="width: 7%"/>
+<col style="width: 9%"/>
+<col style="width: 31%"/>
+<col style="width: 20%"/>
+</colgroup>
+<thead>
+<tr>
+<th>Č.</th>
+<th><mark>Název parametru</mark></th>
+<th>Datový Typ</th>
+<th><p>Povinný</p>
+<p><em>Ano/Ne</em></p></th>
+<th><p>Zdroj parametru</p>
+<p>(Modul.) Entita.Atribut</p></th>
+<th>Poznámka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bill number</td>
+<td>Number</td>
+<td>Ano</td>
+<td>Bill.fiscal verification number, if null then Bill.bill number</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>JIR</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill.Variable symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>ZKI</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill.Variable symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Payment reference</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill.Variable symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bill issuer</td>
+<td>Text</td>
+<td>Ano</td>
+<td>VCM.System operator</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>BIBA</td>
+<td>Text</td>
+<td>Ano</td>
+<td>VCM.BIBA</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Customer number</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Customer.number</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Account number</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Account.number</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Full name</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Customer.full name</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Residential address</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Customer.residential address</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Postal address</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Account.postal address</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Organization ID</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Customer.organization ID</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>VAT identification number</td>
+<td>Text</td>
+<td>Ne</td>
+<td>CM.Customer.Personal identification number or VAT identification
+number</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Bill date of issue</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill.date of issue</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Bill date of beginning and end</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill.date of beginning, Bill.date of end</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>Bill due date</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill.due date</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Bill total amount</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill.total amount</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>Bill item amount</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.price amount</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>Bill item tax base</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.tax base</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>Bill item category</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.bill item category</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Billing service</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.billing service</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Number of units</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.number of units</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Unit price</td>
+<td>Text</td>
+<td>Ano</td>
+<td>Bill item.unit price VAT</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Discount amount</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill item.discount amount VAT</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Payment card</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill item.card number</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Payment card type</td>
+<td>Text</td>
+<td>Ne</td>
+<td>Bill item.card type</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="detailní-výpis-mýtných-transakcí-k-faktuře-doc.be.11"><mark>Detailní
+výpis mýtných transakcí k faktuře (DOC.BE.11)</mark></h3>
+
+
+<h4 id="csv-formát">CSV formát</h4>
+
+
+<p>Detailní výpis mýtných transakcí v csv formátu je generován jako
+příloha faktury (Customer bill z Bill session).</p>
+
+
+<p>Záznamy jsou řazeny podle Registration number a Event time.</p>
+
+
+<p>Název csv souboru bude odpovídat logice:</p>
+
+
+<p>DS_[account number]_[Bill.Date of beginning]_[Bill.Date of end]_[bill
+number]_[document issue date].csv</p>
+
+
+<p>Příklad:
+DS_4101234567_20221001_20221015_1221205075_202210160345.csv</p>
+
+
+<table>
+<caption><p>Tabulka : Seznam atributů detailního výpisu mýtných
+transakcí připojených k faktuře v csv formátu</p></caption>
+<colgroup>
+<col style="width: 15%"/>
+<col style="width: 35%"/>
+<col style="width: 6%"/>
+<col style="width: 4%"/>
+<col style="width: 38%"/>
+</colgroup>
+<thead>
+<tr>
+<th><p>Název sloupce</p>
+<p>EN</p>
+<p>CS</p>
+<p>SK</p></th>
+<th>Název atributu EN</th>
+<th>Typ</th>
+<th>Povinné</th>
+<th>Poznámky</th>
+</tr>
+<tr>
+<th></th>
+<th>Account number (VCM)</th>
+<th>Text</th>
+<th>Ano</th>
+<th>použije se ve jméně souboru, pokud existuje (DS pro pre-paid a
+post-paid bills)</th>
+</tr>
+<tr>
+<th></th>
+<th>Bill.Date of beginning+Date of end (BAR)</th>
+<th>Date - interval</th>
+<th>Ano</th>
+<th>použije se ve jméně souboru</th>
+</tr>
+<tr>
+<th></th>
+<th>Bill.Bill number (BAR)</th>
+<th>Number</th>
+<th>Ano</th>
+<th>použije se ve jméně souboru</th>
+</tr>
+<tr>
+<th></th>
+<th>document issue date</th>
+<th>Date Time</th>
+<th>Ano</th>
+<th>použije se ve jméně souboru</th>
+</tr>
+<tr>
+<th><p>Registracija</p>
+<p>Registration No.</p></th>
+<th>Toll Transaction.Registration number (BAR)</th>
+<th>Text</th>
+<th>Ne</th>
+<th></th>
+</tr>
+<tr>
+<th><p>Zemlja</p>
+<p>Country</p></th>
+<th>Toll Transaction.Registration country (BAR)</th>
+<th>Text</th>
+<th>Ne</th>
+<th></th>
+</tr>
+<tr>
+<th><p><mark>OBU serial number</mark></p>
+<p><mark>Výrobní číslo OBU</mark></p>
+<p><mark>Výrobné číslo OBU</mark></p></th>
+<th><mark>Toll Transaction.OBU serial number</mark></th>
+<th><mark>Text</mark></th>
+<th><mark>Ano</mark></th>
+<th></th>
+</tr>
+<tr>
+<th><p><mark>Vehicle category</mark></p>
+<p><mark>Kategorie vozidla</mark></p>
+<p><mark>Kategória vozidla</mark></p></th>
+<th><mark>Toll Transaction.Vehicle category (BAR)</mark></th>
+<th><mark>Text</mark></th>
+<th><mark>Ne</mark></th>
+<th></th>
+</tr>
+<tr>
+<th><p><mark>Emission class</mark></p>
+<p><mark>Emisní třída</mark></p>
+<p><mark>Emisná trieda</mark></p></th>
+<th><mark>Toll Transaction.Emission class (BAR)</mark></th>
+<th><mark>Text</mark></th>
+<th><mark>Ne</mark></th>
+<th></th>
+</tr>
+<tr>
+<th><p><mark>Emission class CO2</mark></p>
+<p><mark>Emisní třída CO2</mark></p>
+<p><mark>Emisná trieda CO2</mark></p></th>
+<th><mark>Toll Transaction.Emission class CO2 (BAR)</mark></th>
+<th><mark>Text</mark></th>
+<th><mark>Ne</mark></th>
+<th></th>
+</tr>
+<tr>
+<th><p>Datum i vrijeme</p>
+<p>Date and time</p></th>
+<th>Toll Transaction.Event time (BAR)</th>
+<th>Date Time</th>
+<th>Ano</th>
+<th></th>
+</tr>
+<tr>
+<th><p>Ulaz - Izlaz</p>
+<p>Entry - Exit</p></th>
+<th>Toll Transaction.Toll segment name (BAR)</th>
+<th>Text</th>
+<th>Ano</th>
+<th></th>
+</tr>
+<tr>
+<th><p>Cestarina</p>
+<p>Toll</p></th>
+<th><p>Součet Rated toll event.Price amount VAT pro jednu Toll
+Transaction (pro jeden průjezd) (BAR)</p>
+<p>Toll Transaction.Transaction price amount</p></th>
+<th>Money</th>
+<th>Ano</th>
+<th>Součet cen za jednotlivé složky mýtného za jeden průjezd</th>
+</tr>
+<tr>
+<th><p><mark>Infrastructure</mark></p>
+<p><mark>Pozemní komunikace</mark></p>
+<p><mark>Pozemné komunikácie</mark></p>
+<p><mark>Pollution</mark></p>
+<p><mark>Znečištění ovzduší</mark></p>
+<p><mark>Znečistenie ovzdušia</mark></p>
+<p><mark>Noise</mark></p>
+<p><mark>Hluk z provozu</mark></p>
+<p><mark>Hluk z prevádzky</mark></p>
+<p><mark>Emissions CO2</mark></p>
+<p><mark>Emise CO2</mark></p>
+<p><mark>Emisie CO2</mark></p>
+<p><mark>Pollution - Noise</mark></p>
+<p><mark>Znečištění ovzduší a hluk z provozu</mark></p>
+<p><mark>Znečistenie ovzdušia a hluk z prevádzky</mark></p></th>
+<th><mark>Rated toll event.Charge type (BAR)</mark></th>
+<th><mark>Text</mark></th>
+<th><mark>Ne</mark></th>
+<th><p><mark>Zobrazí se každý jednotlivý Charge type jako název sloupce
+a k němu odpovídající částka jako hodnota.</mark></p>
+<p><mark>Infrastraction</mark></p>
+<p><mark>Pollution</mark></p>
+<p><mark>Emission CO2</mark></p></th>
+</tr>
+<tr>
+<th></th>
+<th>Rated toll event.Price amount pro daný Charge type (BAR)</th>
+<th>Money</th>
+<th>Ne</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+<h3 id="vrubopis-za-mýtné-doc.be.13.hr">Vrubopis za mýtné
+(DOC.BE.13.HR)</h3>
+
+
+<p>Debit note for toll</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="dobropis-za-mýtné-doc.be.14.hr">Dobropis za mýtné (DOC.BE.14.HR)
+</h3>
+
+
+<p>Credit not efor toll</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="faktura-za-služby-doc.be.16.hr">Faktura za služby (DOC.BE.16.HR)
+</h3>
+
+
+<p>Invoice for services</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="dobropis-za-služby-doc.be.17.hr">Dobropis za služby
+(DOC.BE.17.HR) </h3>
+
+
+<p>Credit note for services</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="faktura-za-smluvní-pokutu-doc.be.19.hr"><mark>Faktura za smluvní
+pokutu (DOC.BE.19.HR)</mark> </h3>
+
+
+<p><mark>Invoice for contractual penalty</mark></p>
+
+
+<p><mark>Šablona entity „Faktura“ obsahuje různé části, tyto části
+závisí na subjektu, typu faktury.</mark></p>
+
+
+<h3 id="dobropis-za-smluvní-pokutu-doc.be.20.hr"><mark>Dobropis za
+smluvní pokutu (DOC.BE.20.HR)</mark> </h3>
+
+
+<p><mark>Credit note for contractual penalty</mark></p>
+
+
+<p><mark>Šablona entity „Faktura“ obsahuje různé části, tyto části
+závisí na subjektu, typu faktury .</mark></p>
+
+
+<h3 id="efaktura-doc.be.21.hr">eFaktura (DOC.BE.21.HR)</h3>
+
+
+<p>eInvoice</p>
+
+
+<p>Jde o elektronickou fakturu ve formátu podle eFINA formátu, která se
+generuje v případě, že ji Zákazník, Partner nebo Poskytovatel mýtných
+služeb požaduje.</p>
+
+
+<p>Tato XML verze se zasílá emailem společně s pdf verzí účetního
+dokladu případně přes eFINA. XML verze je k dispozici také na SC ke
+stažení.</p>
+
+
+<p>Mapování atributů eFaktury na Billien 5.8 atributy:</p>
+
+
+<p><a href="https://tollnetas-my.sharepoint.com/:x:/g/personal/zuzana_irova_tollnet_cz/EUnCEqCzuAhDv_iV1UshOVIBqObYn_uKvUYoWSBMGNHokQ?e=HPmdO5">eFina_mapping_v01.xlsx</a></p>
+
+
+<h3 id="výzva-k-úhradě-za-přestupky-doc.be.22.hr">Výzva k úhradě za
+přestupky (DOC.BE.22.HR)</h3>
+
+
+<p>Request for payment</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="výzva-k-úhradě-za-přestupky-dobropis-doc.be.23.hr">Výzva
+k úhradě za přestupky – Dobropis (DOC.BE.23.HR) </h3>
+
+
+<p>Request of Payment – credit note</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h3 id="proforma-faktura-doc.be.24.hr">Proforma faktura (DOC.BE.24.HR)
+</h3>
+
+
+<p>Proforma bill</p>
+
+
+<p>Šablona entity „Faktura“ obsahuje různé části, tyto části závisí na
+subjektu, typu faktury.</p>
+
+
+<h2 id="externí-oznámení-e-mail">Externí oznámení (e-mail)</h2>
+
+
+<p>Notifikace (e-mail) slouží pro informování o vystavení účetních
+dokladů, jiných dokladů nebo o stavu probíhajícího procesu. PDF
+případných dokumentů je v příloze tohoto e-mailu.</p>
+
+
+<p><strong>Tabulka 44: Notifikace – e-mail</strong></p>
+
+
+<table>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 22%"/>
+<col style="width: 27%"/>
+<col style="width: 27%"/>
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Typ</strong></th>
+<th style="text-align: left;"><strong>Jméno HR</strong></th>
+<th style="text-align: left;"><strong>Jméno EN</strong></th>
+<th style="text-align: left;"><strong>Jméno CZ</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NTF.BAR.01.HR</td>
+<td>Obavijest o izdavanju računa za otplatu kredita unaprijed</td>
+<td>Notification of a new Invoice for top-up</td>
+<td>Oznámení o vystavení faktury za předplacení kreditu</td>
+</tr>
+<tr>
+<td>NTF.BAR.13.HR</td>
+<td>Obavijest o transakciji neplaćene cestarine</td>
+<td>Unpaid toll transaction notification</td>
+<td>Oznámení o neúspěšné úhradě mýtné transakce</td>
+</tr>
+<tr>
+<td><mark>NTF.BAR.20.HR</mark></td>
+<td><mark>Oznámenie o zúčtovaní záväzkov a pohľadávok</mark></td>
+<td><mark>Notice of settlement of liabilities and
+receivables</mark></td>
+<td><mark>Oznámenie o zúčtovaní záväzkov a pohľadávok</mark></td>
+</tr>
+<tr>
+<td>NTF.BAR.21.HR</td>
+<td>Obavijest o fakturi</td>
+<td>Notice of invoice issue</td>
+<td>Oznámení o vystavení faktury</td>
+</tr>
+<tr>
+<td>NTF.DF.01.HR</td>
+<td>Obavijest o fakturi</td>
+<td>Notice of invoice issue</td>
+<td>Oznámení o vystavení účetního dokladu</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="společná-nastavení-e-mail">Společná nastavení – e-mail</h3>
+
+
+<p>Externí oznámení jsou poplatná System operatorovi (logo, patička) -
+notifikace budou používat stejnou parent šablonu, teda hlavičky a
+patičky, jako notifikace CM.</p>
+
+
+<p>Jako email odesílatele se použije hodnota System operator.Sender
+e-mail address Bill issuera.</p>
+
+
+<h4 id="struktura-e-mailu">Struktura e-mailu</h4>
+
+
+<ul>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+
+
+<p>Externí oznámení (e-mail) jsou generovány jako dvoujazyčné, použité
+jazyky jsou vybrány podle následujících pravidel:</p>
+
+
+<ul>
+<li><p><mark>Primární jazyk je vždy chorvatština (hr)</mark></p></li>
+<li><p><mark>Sekundární jazyk je vždy angličtina (en)</mark></p></li>
+</ul>
+
+
+<p>Externí oznámení (e-mail) má následující strukturu:</p>
+
+
+<ul>
+<li><p>Hlavička externího oznámení (hr)</p></li>
+<li><p>Obsah (hr)</p></li>
+<li><p>Patička externího oznámení (hr)</p></li>
+<li><p>Hlavička externího oznámení (en)</p></li>
+<li><p>Obsah (en)</p></li>
+<li><p>Patička externího oznámení (en)</p></li>
+</ul>
+
+
+<h5 id="hlavička-externího-oznámení-hr">Hlavička externího oznámení
+(hr)</h5>
+
+
+<p>Poštovani gospodine/gospođo, «konec řádky»</p>
+
+
+<p>«mezera»</p>
+
+
+<h5 id="hlavička-externího-oznámení-en">Hlavička externího oznámení
+(en)</h5>
+
+
+<p>Dear customer, «konec řádky»</p>
+
+
+<p>«mezera»</p>
+
+
+<h5 id="patička-externího-oznámení-hac-hr"><mark>Patička externího
+oznámení HAC (hr)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Srdačan pozdrav, HAC d.o.o.</mark></p>
+
+
+<p><mark>«praznine»</mark></p>
+
+
+<p><mark>Call centar (24/7): 0800 0422</mark></p>
+
+
+<p><mark>Email: info-naplata@hac.hr</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h5 id="patička-externího-oznámení-hac-en"><mark>Patička externího
+oznámení HAC (en)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>With best regards,</mark></p>
+
+
+<p><mark>HAC d.o.o.</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Call centre (24/7): 0800 0422 or +385 1 6504 899</mark></p>
+
+
+<p><mark>Email: info-naplata@hac.hr</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h5 id="patička-externího-oznámení-bina-istra-hr"><mark>Patička
+externího oznámení BINA-Istra (hr)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Srdačan pozdrav, BINA-ISTRA d.d.</mark></p>
+
+
+<p><mark>«praznine»</mark></p>
+
+
+<p><mark>Call centar (24/7): 0800 0422</mark></p>
+
+
+<p><mark>Email: info-naplata@hac.hr</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h5 id="patička-externího-oznámení-bina-istra-en"><mark>Patička
+externího oznámení BINA-Istra (en)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>With best regards,</mark></p>
+
+
+<p><mark>BINA-ISTRA d.d.</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Call centre (24/7): 0800 600 601</mark></p>
+
+
+<p><mark>Email:</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h5 id="patička-externího-oznámení-azm-hr"><mark>Patička externího
+oznámení AZM (hr)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Srdačan pozdrav, AZM d.o.o.</mark></p>
+
+
+<p><mark>«praznine»</mark></p>
+
+
+<p><mark>Call centar (24/7): 0800 600 601</mark></p>
+
+
+<p><mark>Email:</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h5 id="patička-externího-oznámení-azm-en"><mark>Patička externího
+oznámení AZM (en)</mark></h5>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>With best regards,</mark></p>
+
+
+<p><mark>AZM d.o.o.</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<p><mark>Call centre (24/7):</mark></p>
+
+
+<p><mark>Email:</mark></p>
+
+
+<p><mark>«mezera»</mark></p>
+
+
+<h3 id="oznámení-o-vystavení-faktury-za-předplacení-kreditu-ntf.bar.01.hr">Oznámení
+o vystavení faktury za předplacení kreditu (NTF.BAR.01.HR)</h3>
+
+
+<p>Notification of a new Invoice for top-up</p>
+
+
+<h4 id="popis-13">Popis</h4>
+
+
+<p>Oznámení slouží pro informování zákazníka o vystavení faktury po
+úspěšném předplacení kreditu.</p>
+
+
+<h4 id="předmět">Předmět</h4>
+
+
+<p>Obavijest o izdavanju računa za otplatu kredita unaprijed
+(Notification of a new Invoice for top-up)</p>
+
+
+<h4 id="obsah-hr">Obsah (hr)</h4>
+
+
+<p>ovim putem Vas obavještavamo da je u privitku e-maila dostupan za
+preuzimanje novi Račun za nadoplatu.</p>
+
+
+<p>Ako imate bilo kakvih pitanja, molimo kontaktirajte našu liniju za
+korisnike.</p>
+
+
+<h4 id="obsah-en">Obsah (en)</h4>
+
+
+<p>we hereby inform you that in the email attachment a new Invoice for
+top-up is available for download.</p>
+
+
+<p>If you have any questions, please contact our Customer hotline.</p>
+
+
+<h3 id="oznámení-o-neúspěšné-úhradě-mýtné-transakce-unpaid-toll-transaction-notification-ntf.bar.13.hr">Oznámení
+o neúspěšné úhradě mýtné transakce (Unpaid toll transaction
+notification) (NTF.BAR.13.HR)</h3>
+
+
+<h4 id="popis-14">Popis</h4>
+
+
+<p>Oznámení slouží pro informování PV o neúspěšné úhradě mýtné transakce
+při online platbě nebo předplaceným kreditem.</p>
+
+
+<p>Oznámení se odesílá v následujících případech:</p>
+
+
+<ol type="1">
+<li><p>Po vytvoření Unpaid Toll Transaction s Pre-paid registration
+type, kdy nebyl dostatečný zůstatek na pre-paid balance
+(SYS.BAR.1.8.HR)</p></li>
+<li><p>Po neúspěšném posledním pokusu o uhrazení uloženým tokenem
+platební karty Unpaid Toll Transaction s Post-paid card registration
+type (SYS.BAR.1.10.HR)</p></li>
+</ol>
+
+
+<h4 id="předmět-1">Předmět</h4>
+
+
+<p>Obavijest o transakciji neplaćene cestarine / Unpaid toll transaction
+notification</p>
+
+
+<h4 id="obsah-hr-1">Obsah (hr)</h4>
+
+
+<p>obavještavamo vas da je pokušaj plaćanja cestarine bio
+neuspješan.</p>
+
+
+<h4 id="obsah-en-1">Obsah (en)</h4>
+
+
+<p>We would like to inform you that the attempt to pay the toll
+transaction was unsuccessful.</p>
+
+
+<h3 id="oznámení-o-vystavení-faktury-ntf.bar.21.hr">Oznámení o vystavení
+faktury (NTF.BAR.21.HR)</h3>
+
+
+<p>Notification of an Accounting document</p>
+
+
+<h4 id="popis-15">Popis</h4>
+
+
+<p>Oznámení slouží pro informování zákazníka o vystavení nového
+(jednorázového) účetního dokladu.</p>
+
+
+<h4 id="předmět-hr">Předmět HR</h4>
+
+
+<p>Obavijest o fakturi</p>
+
+
+<h4 id="předmět-en">Předmět EN</h4>
+
+
+<p>Notice of invoice issue</p>
+
+
+<h4 id="obsah-hr-2">Obsah HR</h4>
+
+
+<p>obavještavamo Vas da smo izdali račun br. <mark>«BAR.Bill.Bill
+number»</mark> na vaš korisnički račun <mark>1.[na vašom mýtnom účte
+«Account.Number»]</mark>. Račun možete pronaći u privitku ovog
+e-maila.</p>
+
+
+<p><mark>1.[ Svi računi dostupni su iu zoni samoposluživanja, gdje ih
+možete preuzeti u bilo kojem trenutku.]</mark></p>
+
+
+<blockquote>
+<p>Varianty:</p>
+</blockquote>
+
+
+<ol type="1">
+<li><p><mark>[uvést, pokud jde o Account]</mark></p></li>
+</ol>
+
+
+<h4 id="obsah-en-2">Obsah EN</h4>
+
+
+<p>Please be advised that we have <mark>1.[on your toll account
+«Account.Number»]</mark> issued invoice number "BAR.Bill.Bill number".
+Please find the invoice attached to this email.</p>
+
+
+<p><mark>1.[All invoices are also available in the self-service area
+where you can download them at any time.]</mark></p>
+
+
+<blockquote>
+<p>Varianty:</p>
+</blockquote>
+
+
+<ol type="1">
+<li><p><mark>[uvést, pokud jde o Account]</mark></p></li>
+</ol>
+
+
+<h3 id="oznámení-o-vystavení-účetního-dokladu-ntf.df.01.hr">Oznámení o
+vystavení účetního dokladu (NTF.DF.01.HR) </h3>
+
+
+<p>Notification of an Accounting document</p>
+
+
+<h4 id="popis-16">Popis</h4>
+
+
+<p>Oznámení slouží pro informování o vystavení účetních dokladů za
+mýtné, služby, případně RfP generované z fakturační dávky (Bill
+Session).</p>
+
+
+<p>Definice notifikace přesunuta do FS DFRP.</p>
+
+
+<h2 id="externí-oznámení-sms"><mark>Externí oznámení (SMS)</mark></h2>
+
+
+<p>Notifikace (SMS) slouží pro informování o stavu probíhajícího
+procesu.</p>
+
+
+<p><strong>Tabulka 45: Notifikace</strong></p>
+
+
+<table>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 22%"/>
+<col style="width: 27%"/>
+<col style="width: 27%"/>
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Typ</strong></th>
+<th style="text-align: left;"><strong>Jméno HR</strong></th>
+<th style="text-align: left;"><strong>Jméno EN</strong></th>
+<th style="text-align: left;"><strong>Jméno CZ</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NTF.BAR.14.HR</td>
+<td>Obavijest o transakciji neplaćene cestarine</td>
+<td>Unpaid toll transaction notification</td>
+<td>Oznámení o neúspěšné úhradě mýtné transakce</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="společná-nastavení-sms"><mark>Společná nastavení –
+SMS</mark></h3>
+
+
+<h4 id="struktura-sms">Struktura SMS</h4>
+
+
+<p><mark>Externí oznámení (SMS) jsou generovány jako jednojazyčné,
+konkrétní jazyk je vybrán podle země odvozené od telefonního čísla
+(CO.Country.Phone prefix) a na základě konfigurovatelného atributu
+Country.Document language extended set (konfigurace pro každou zemi z
+výběru jazyků číselníku Language s Is document language =
+Ano).</mark></p>
+
+
+<p>Externí oznámení (SMS) má následující strukturu:</p>
+
+
+<ul>
+<li><p>Hlavička externího oznámení (xx) + Obsah (xx),</p></li>
+<li><p>kde (xx) je vybraný jazyk</p></li>
+</ul>
+
+
+<p>Dále je uvedena chorvatská (hr) a anglická (en) mutace.</p>
+
+
+<h4 id="hlavička-externího-oznámení-hr-1">Hlavička externího oznámení
+(hr)</h4>
+
+
+<p>Poštovani gospodine/gospođo,</p>
+
+
+<h4 id="hlavička-externího-oznámení-en-1">Hlavička externího oznámení
+(en)</h4>
+
+
+<p>Dear customer,</p>
+
+
+<h3 id="oznámení-o-neúspěšné-úhradě-mýtné-transakce-unpaid-toll-transaction-sms-notification-ntf.bar.14.hr">Oznámení
+o neúspěšné úhradě mýtné transakce (Unpaid toll transaction SMS
+notification) (NTF.BAR.14.HR)</h3>
+
+
+<h4 id="popis-17">Popis</h4>
+
+
+<p>Oznámení slouží pro informování PV o neúspěšné úhradě mýtné transakce
+při online platbě nebo předplaceným kreditem.</p>
+
+
+<p>Oznámení se odesílá v následujících případech:</p>
+
+
+<ol type="1">
+<li><p>Po vytvoření Unpaid Toll Transaction s Pre-paid registration
+type, kdy nebyl dostatečný zůstatek na pre-paid balance
+(SYS.BAR.1.8.HR)</p></li>
+<li><p>Po neúspěšném posledním pokusu o uhrazení uloženým tokenem
+platební karty Unpaid Toll Transaction s Post-paid card registration
+type (SYS.BAR.1.10.HR)</p></li>
+</ol>
+
+
+<h4 id="předmět-2">Předmět</h4>
+
+
+<p>Není</p>
+
+
+<h4 id="obsah-hr-3">Obsah (hr)</h4>
+
+
+<p>obavještavamo vas da je pokušaj plaćanja cestarine bio neuspješan.
+<mark>1.[HAC d.o.o.] 2.[BINA-ISTRA d.d.] 3.[AZM d.o.o.]</mark></p>
+
+
+<p><mark>Délka textu: cca 77 znaků.</mark></p>
+
+
+<p>Varianty:</p>
+
+
+<p>1.[(System operator = HAC)]</p>
+
+
+<p>2.[(System operator = BINA-Istra)]</p>
+
+
+<p>3.[(System operator = AZM)]</p>
+
+
+<h4 id="obsah-en-3">Obsah (en)</h4>
+
+
+<p>We would like to inform you that the attempt to pay the toll
+transaction was unsuccessful. . <mark>1.[HAC d.o.o.] 2.[BINA-ISTRA d.d.]
+3.[AZM d.o.o.]</mark></p>
+
+
+<p><mark>Délka textu: cca 101 znaků.</mark></p>
+
+
+<p>Varianty:</p>
+
+
+<p>1.[(System operator = HAC)]</p>
+
+
+<p>2.[(System operator = BINA-Istra)]</p>
+
+
+<p>3.[(System operator = AZM)]</p>
+
+
+<h2 id="výměnné-soubory">Výměnné soubory</h2>
+
+
+<h3 id="rozhraní-tc-hr-hac-int.bar.26.hr-1">Rozhraní TC HR – HAC
+(INT.BAR.26.HR)</h3>
+
+
+<h4 id="bd-hr-billing-details-doména-hr--2022-dex.bar.29.hr">BD-HR:
+Billing details – doména HR -2022 (DEX.BAR.29.HR)</h4>
+
+
+<h5 id="popis-18">Popis</h5>
+
+
+<p>Soubor slouží k předání Billing details HR oceněných Toll Chargerem
+HAC příslušným Poskytovatelům mýtných služeb.</p>
+
+
+<p>Billing details jsou podle <mark>ISO 12855:2022.</mark></p>
+
+
+<h5 id="základní-vlastnosti">Základní vlastnosti</h5>
+
+
+<table>
+<caption><p>Tabulka : Základní vlastnosti výměnného
+souboru</p></caption>
+<colgroup>
+<col style="width: 49%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Vlastnost</strong></th>
+<th><strong>Hodnota</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identifikační číslo</td>
+<td>DEX.BAR.29.HR</td>
+</tr>
+<tr>
+<td>Plný název</td>
+<td><mark>BillingDetailsHr2022</mark></td>
+</tr>
+<tr>
+<td>Název souboru (Export)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Požadovaný název souboru (Import) – File Regex</td>
+<td><p>BillingDetails_YYYYMMDD_hhmmss_GUID</p>
+<p>^BillingDetails_.+\.xml$</p></td>
+</tr>
+<tr>
+<td>Formát souboru</td>
+<td>XML</td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<colgroup>
+<col style="width: 49%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>Jazykové verze (CZ/EN)</th>
+<th>N/A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kódování</td>
+<td>UTF-8</td>
+</tr>
+<tr>
+<td>Směr (Import/Export)</td>
+<td>Export</td>
+</tr>
+<tr>
+<td>Externí systém</td>
+<td>EETS Provider</td>
+</tr>
+<tr>
+<td>Maximální velikost souboru (Import)</td>
+<td>5 MB</td>
+</tr>
+<tr>
+<td>Povolené generování/přijetí prázdného souboru</td>
+<td>Ano</td>
+</tr>
+<tr>
+<td>Soubor má hlavičku</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Zasílá se potvrzení o přijetí protistraně (Import)/Očekává se
+odpověď o přijetí protistranou (Export)</td>
+<td></td>
+</tr>
+<tr>
+<td>Úložiště pro vygenerované/přijímané soubory</td>
+<td>.\Files\EETS\HR\BillingDetails</td>
+</tr>
+</tbody>
+</table>
+
+
+<h5 id="parametry-1">Parametry</h5>
+
+
+<p>Realizace podle aktuální specifikace BillingDetails na
+Confluence.</p>
+
+
+<ol type="1">
+<li><p>ACK-HR: EETS List Acknowledgement - doména HR
+(DEX.BAR.100.HR)</p>
+<ol type="1">
+<li><p>Popis</p></li>
+</ol></li>
+</ol>
+
+
+<blockquote>
+<p>Příchozí nebo odchozí zpráva prostřednictvím Rozhraní EETS pro
+odesílání a příjem EDE zpráv (INT.CO.20), sloužící k:</p>
+</blockquote>
+
+
+<ul>
+<li><p>přijetí potvrzení od příslušného EETS Provider o přijetí
+zprávy/souboru</p></li>
+<li><p>odeslání potvrzení příslušnému EETS Provider o přijetí
+zprávy/souboru</p></li>
+</ul>
+
+
+<p><mark>EETS List Acknowledgement je podle ISO 12855:2022.</mark></p>
+
+
+<ol type="1">
+<li><p>Základní vlastnosti</p></li>
+</ol>
+
+
+<table>
+<caption><p>Tabulka : Základní vlastnosti výměnného
+souboru</p></caption>
+<colgroup>
+<col style="width: 81%"/>
+<col style="width: 18%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Vlastnost</strong></th>
+<th><strong>Hodnota</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identifikační číslo</td>
+<td>DEX.BAR.00.HR</td>
+</tr>
+<tr>
+<td>Plný název</td>
+<td>EETS List Acknowledgement HR</td>
+</tr>
+<tr>
+<td>Název souboru (Export)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Požadovaný název souboru (Import) – File Regex</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Formát souboru</td>
+<td>XML</td>
+</tr>
+<tr>
+<td>Jazykové verze (CZ/EN)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Kódování</td>
+<td><mark>UTF-8</mark></td>
+</tr>
+<tr>
+<td>Směr (Import/Export)</td>
+<td>Import</td>
+</tr>
+<tr>
+<td>Externí systém</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Maximální velikost souboru (Import)</td>
+<td><mark>10 MB</mark></td>
+</tr>
+<tr>
+<td>Povolené generování/přijetí prázdného souboru</td>
+<td>Ano</td>
+</tr>
+<tr>
+<td>Soubor má hlavičku</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Zasílá se potvrzení o přijetí protistraně (Import)/Očekává se
+odpověď o přijetí protistranou (Export)</td>
+<td>Ne</td>
+</tr>
+<tr>
+<td>Úložiště pro vygenerované/přijímané soubory</td>
+<td><mark>TBD</mark></td>
+</tr>
+</tbody>
+</table>
+
+
+<ol start="2" type="1">
+<li><p>Parametry</p></li>
+</ol>
+
+
+<blockquote>
+<p>Detailní technická specifikace je uvedena v dokumentu
+„EETS_TS_Ack_EN.xlsx“ a dále v odpovídajících XSD schématech.</p>
+</blockquote>
+
+
+<table>
+<caption><p>Tabulka : Vybrané parametry EDE zprávy ACK-HR</p></caption>
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 12%"/>
+<col style="width: 8%"/>
+<col style="width: 24%"/>
+<col style="width: 19%"/>
+<col style="width: 16%"/>
+</colgroup>
+<thead>
+<tr>
+<th>Č.</th>
+<th>Název parametru (CZ)</th>
+<th>Datový Typ</th>
+<th><p>Povinný</p>
+<p><em>Ano/Ne</em></p></th>
+<th><p>Zdroj parametru</p>
+<p>(Modul.) Entita.Atribut</p></th>
+<th>Poznámka</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+<table>
+<colgroup>
+<col style="width: 6%"/>
+<col style="width: 23%"/>
+<col style="width: 17%"/>
+<col style="width: 10%"/>
+<col style="width: 8%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th colspan="6"></th>
+</tr>
+<tr>
+<th colspan="6"><strong>InfoExchange/infoExchangeContent/adus/ackADUs/AckADU/</strong></th>
+</tr>
+<tr>
+<th>1</th>
+<th>apduIdentifier</th>
+<th>Number</th>
+<th>Ano</th>
+<th></th>
+<th>Číslo APDU</th>
+</tr>
+<tr>
+<th>2</th>
+<th>apduAckCode</th>
+<th>Number (Enum)</th>
+<th>Ano</th>
+<th></th>
+<th>Návratová hodnota</th>
+</tr>
+<tr>
+<th>3</th>
+<th>Issues/issueADUStruct</th>
+<th>Number</th>
+<th>Ne</th>
+<th></th>
+<th><p>0 – Zamítnutí celé zprávy</p>
+<p>1 – Chyba v konkrétní položce</p></th>
+</tr>
+<tr>
+<th>4</th>
+<th>Issues/issueLocation</th>
+<th>Text</th>
+<th>Ne</th>
+<th></th>
+<th>Cesta k identifikovanému elementu ve formátu XPath</th>
+</tr>
+<tr>
+<th>5</th>
+<th>Issues/issueContent</th>
+<th>Text</th>
+<th>Ne</th>
+<th></th>
+<th>Hodnota elementu identifikovaného v issue/issueLocation</th>
+</tr>
+<tr>
+<th>6</th>
+<th>Issues/issueCode</th>
+<th>Number</th>
+<th>Ne</th>
+<th></th>
+<th>Chybový kód - v případě, kdy normou předdefinovaný issueCode
+nepokrývá nastalou situaci, bude využíván issueCode =
+acceptedWithWarning</th>
+</tr>
+<tr>
+<th>7</th>
+<th>Issues/issueText</th>
+<th>Text</th>
+<th>Ne</th>
+<th></th>
+<th>Detailní popis zachycené situace při zpracování přijaté zprávy</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+        </main>
+
+        <!-- Right Sidebar - Modern Minimap -->
+        <aside class="minimap" id="minimap">
+            <div class="minimap-header">
+                <h4>Overview</h4>
+            </div>
+            <div class="minimap-content">
+                <div class="minimap-viewport" id="minimapViewport"></div>
+                <div class="change-indicator" id="changeIndicator" style="display: none;">
+                    <!-- Change marks will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <script>
+        // Document metadata
+        const documentMetadata = {
+            baseName: "HR_FS_Billing_Accounts_Receivables_CZ",
+            displayName: "Hr Fs Billing Accounts Receivables Cz",
+            version: "v00_03_2025_08_26",
+            sectionNumber: 12,
+            sectionTitle: "Příloha B – Vstupní a
+výstupní artefakty¨"
+        };
+        
+        let originalContent = document.getElementById('mainContent').outerHTML;
+        let comparisonContent = null;
+        
+        // Test diff library on load
+        function initializeDiff() {
+            if (typeof Diff === 'undefined') {
+                console.error('Diff library failed to load from CDN');
+                const warningDiv = document.createElement('div');
+                warningDiv.style.cssText = 'background: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; border: 1px solid #ffeaa7; border-radius: 4px;';
+                warningDiv.innerHTML = '⚠️ Diff comparison library failed to load. The "Show changes" feature may not work properly.';
+                document.querySelector('.version-bar').appendChild(warningDiv);
+                return false;
+            }
+            console.log('Diff library loaded successfully');
+            return true;
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            initializeTheme();
+            initializeDiff();
+            initializeVersionControls();
+            initializeNavigation();
+            initializeScrollBehavior();
+        });
+        
+        function initializeVersionControls() {
+            console.log('Initializing version controls');
+            const versionSelect = document.getElementById('versionSelect');
+            const showChangesCheckbox = document.getElementById('showChanges');
+            
+            // Detect if running standalone (file:// protocol)
+            const isStandalone = window.location.protocol === 'file:';
+            const availableVersions = versionSelect.options.length;
+            
+            console.log('Protocol:', window.location.protocol);
+            console.log('Is standalone:', isStandalone);
+            console.log('Available versions:', availableVersions);
+            
+            if (isStandalone) {
+                // Running standalone - disable comparison features
+                console.log('Standalone mode detected, disabling comparison features');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+                
+                // Add standalone notice
+                const notice = document.createElement('div');
+                notice.style.cssText = 'background: #e3f2fd; color: #1565c0; padding: 8px 12px; margin: 0 1rem; border-radius: 4px; font-size: 0.8rem;';
+                notice.innerHTML = '📄 Standalone mode - Version comparison disabled';
+                document.querySelector('.top-bar .controls').appendChild(notice);
+                
+                // Hide version controls
+                versionSelect.parentElement.style.display = 'none';
+                showChangesCheckbox.parentElement.style.display = 'none';
+            } else if (availableVersions === 0) {
+                // Server mode but no versions to compare with - disable controls
+                console.log('No comparison versions available, disabling controls');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+            } else {
+                // At least one version available for comparison - enable controls
+                console.log('Comparison versions available, enabling controls');
+                versionSelect.disabled = false;
+                showChangesCheckbox.disabled = false;
+                showChangesCheckbox.checked = false; // Start unchecked
+                
+                // Pre-load the selected version for comparison
+                loadVersionForComparison();
+            }
+        }
+        
+        function toggleDiff() {
+            console.log('toggleDiff() called');
+            const showChanges = document.getElementById('showChanges').checked;
+            console.log('showChanges checkbox value:', showChanges);
+            const contentDiv = document.getElementById('mainContent');
+            console.log('comparisonContent exists:', !!comparisonContent);
+            
+            if (showChanges && comparisonContent) {
+                console.log('Showing diff view');
+                showDiffView(originalContent, comparisonContent);
+                // Create change indicators after showing diff
+                setTimeout(createChangeIndicators, 100);
+            } else {
+                console.log('Showing original content');
+                contentDiv.innerHTML = originalContent;
+                // Hide change indicators
+                document.getElementById('changeIndicator').style.display = 'none';
+            }
+        }
+        
+        function loadVersionForComparison() {
+            console.log('loadVersionForComparison() called');
+            const selectedVersion = document.getElementById('versionSelect').value;
+            console.log('Selected version:', selectedVersion);
+            console.log('Current version:', documentMetadata.version);
+            if (selectedVersion === documentMetadata.version) {
+                console.log('Same version selected, clearing comparison');
+                comparisonContent = null;
+                toggleDiff();
+                return;
+            }
+            
+            // Generate the correct filename using the same sanitization logic as the backend
+            function sanitizeFilename(text) {
+                return text
+                    .replace(/<[^>]+>/g, '') // Remove HTML tags
+                    .replace(/[^\p{L}\p{N}\s\-_]/gu, '') // Remove non-letters/numbers but preserve Unicode letters
+                    .replace(/[\s_]+/g, '_') // Replace spaces/underscores with single underscore
+                    .toLowerCase()
+                    .substring(0, 50) // Limit length
+                    .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+            }
+            
+            const sanitizedTitle = sanitizeFilename(documentMetadata.sectionTitle);
+            const comparisonPath = `../${selectedVersion}/${documentMetadata.baseName}_${String(documentMetadata.sectionNumber).padStart(2, '0')}_${sanitizedTitle}.html`;
+            
+            console.log('Attempting to load:', comparisonPath);
+            
+            fetch(comparisonPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const content = doc.getElementById('mainContent');
+                    if (content) {
+                        comparisonContent = content.outerHTML;
+                        console.log('Comparison content loaded successfully');
+                        toggleDiff();
+                    } else {
+                        console.error('No mainContent found in comparison file');
+                        comparisonContent = null;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading comparison version:', error);
+                    console.error('Attempted path was:', comparisonPath);
+                    comparisonContent = null;
+                    
+                    // Show user-friendly error
+                    const errorMsg = `Could not load comparison version: ${error.message}\n\nPath: ${comparisonPath}\n\nNote: Make sure you're opening the HTML file directly in your browser, not through a web server.`;
+                    alert(errorMsg);
+                });
+        }
+        
+        function showDiffView(original, comparison) {
+            if (!comparison) return;
+            
+            const contentDiv = document.getElementById('mainContent');
+            
+            if (typeof Diff !== 'undefined') {
+                console.log('Creating comprehensive diff view');
+                try {
+                    // First, show the original content
+                    contentDiv.innerHTML = original;
+                    
+                    // Create temporary elements to parse the HTML
+                    const tempOriginal = document.createElement('div');
+                    const tempComparison = document.createElement('div');
+                    tempOriginal.innerHTML = original;
+                    tempComparison.innerHTML = comparison;
+                    
+                    // Apply table-specific highlighting
+                    const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+                    const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+                    
+                    if (originalRows.length > 0 || comparisonRows.length > 0) {
+                        console.log(`Comparing ${originalRows.length} vs ${comparisonRows.length} table rows`);
+                        
+                        if (originalRows.length !== comparisonRows.length) {
+                            highlightTableDifferences(original, comparison, contentDiv);
+                        } else {
+                            highlightCellDifferences(originalRows, comparisonRows, contentDiv, original);
+                        }
+                    }
+                    
+                    // Apply line-by-line text highlighting
+                    highlightTextDifferences(tempOriginal, tempComparison, contentDiv);
+                    
+                } catch (error) {
+                    console.error('Error creating diff:', error);
+                    contentDiv.innerHTML = original;
+                }
+            } else {
+                console.warn('Diff library not loaded, using original content');
+                contentDiv.innerHTML = original;
+            }
+        }
+        
+        function highlightTextDifferences(originalElement, comparisonElement, contentDiv) {
+            console.log('Applying line-by-line text highlighting');
+            
+            // Only compare actual document content, not template elements  
+            // Now that we preserve outerHTML, we can use the specific selector
+            const contentSelector = '#mainContent p, #mainContent li, #mainContent h1, #mainContent h2, #mainContent h3, #mainContent h4, #mainContent h5, #mainContent h6, #mainContent blockquote';
+            
+            // Get text-containing elements from document content only
+            const originalTextElements = originalElement.querySelectorAll(contentSelector);
+            const comparisonTextElements = comparisonElement.querySelectorAll(contentSelector);
+            
+            console.log(`Comparing ${originalTextElements.length} original elements vs ${comparisonTextElements.length} comparison elements`);
+            
+            // Create maps for comparison
+            const originalTexts = Array.from(originalTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            const comparisonTexts = Array.from(comparisonTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            
+            console.log(`Filtered to ${originalTexts.length} original texts vs ${comparisonTexts.length} comparison texts`);
+            
+            // Find corresponding elements in the rendered content
+            const renderedElements = contentDiv.querySelectorAll(contentSelector);
+            
+            let changeCount = { added: 0, modified: 0, removed: 0 };
+            
+            // Create a more sophisticated comparison
+            const originalSet = new Set(originalTexts);
+            const comparisonSet = new Set(comparisonTexts);
+            
+            // Find differences
+            const addedTexts = originalTexts.filter(text => !comparisonSet.has(text));
+            const removedTexts = comparisonTexts.filter(text => !originalSet.has(text));
+            const commonTexts = originalTexts.filter(text => comparisonSet.has(text));
+            
+            // Apply highlighting to rendered elements
+            Array.from(renderedElements).forEach(element => {
+                const elementText = element.textContent.trim();
+                
+                if (addedTexts.includes(elementText)) {
+                    // This content was added in the new version
+                    element.classList.add('diff-line-added');
+                    element.title = 'Added in this version';
+                    changeCount.added++;
+                } else if (removedTexts.includes(elementText)) {
+                    // This shouldn't happen in original content, but for completeness
+                    element.classList.add('diff-line-removed'); 
+                    element.title = 'Removed in this version';
+                    changeCount.removed++;
+                } else if (commonTexts.includes(elementText)) {
+                    // Check if position changed (simple heuristic for modification)
+                    const originalIndex = originalTexts.indexOf(elementText);
+                    const comparisonIndex = comparisonTexts.indexOf(elementText);
+                    
+                    if (Math.abs(originalIndex - comparisonIndex) > 2) {
+                        // Content moved significantly - mark as modified
+                        element.classList.add('diff-line-modified');
+                        element.title = 'Position changed in this version';
+                        changeCount.modified++;
+                    }
+                }
+            });
+            
+            // Count removed items (for completeness in logging)
+            changeCount.removed = removedTexts.length;
+            
+            console.log(`Text differences: ${changeCount.added} added, ${changeCount.modified} modified, ${changeCount.removed} removed`);
+        }
+        
+        function highlightTableDifferences(original, comparison, contentDiv) {
+            console.log('Highlighting table row differences');
+            contentDiv.innerHTML = original;
+            
+            // Parse both versions to find the differences
+            const tempOriginal = document.createElement('div');
+            const tempComparison = document.createElement('div');
+            tempOriginal.innerHTML = original;
+            tempComparison.innerHTML = comparison;
+            
+            const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+            const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+            
+            console.log(`v${documentMetadata.version} has ${originalRows.length} rows vs comparison with ${comparisonRows.length} rows - ${originalRows.length - comparisonRows.length} new rows`);
+            
+            // Highlight the new rows (if there are more in original than comparison)
+            if (originalRows.length > comparisonRows.length) {
+                const tableRows = contentDiv.querySelectorAll('tbody tr');
+                const newRowsCount = originalRows.length - comparisonRows.length;
+                console.log(`Highlighting ${newRowsCount} new rows (${comparisonRows.length} to ${originalRows.length - 1})`);
+                
+                for (let i = comparisonRows.length; i < originalRows.length; i++) {
+                    if (tableRows[i]) {
+                        tableRows[i].style.setProperty('background-color', '#d4edda', 'important');
+                        tableRows[i].style.border = '3px solid #28a745';
+                        tableRows[i].title = 'New row added in this version';
+                        
+                        // Apply background to all cells in the row
+                        const cells = tableRows[i].querySelectorAll('td');
+                        cells.forEach(cell => {
+                            cell.style.setProperty('background-color', '#d4edda', 'important');
+                        });
+                    }
+                }
+            }
+        }
+        
+        function highlightCellDifferences(originalRows, comparisonRows, contentDiv, originalHtml) {
+            console.log('Highlighting cell-level differences');
+            contentDiv.innerHTML = originalHtml;
+            
+            // Find and highlight specific cell differences
+            let differencesFound = false;
+            const tableRows = contentDiv.querySelectorAll('tbody tr');
+            
+            originalRows.forEach((originalRow, rowIndex) => {
+                if (rowIndex < comparisonRows.length) {
+                    const comparisonRow = comparisonRows[rowIndex];
+                    const originalCells = Array.from(originalRow.querySelectorAll('td'));
+                    const comparisonCells = Array.from(comparisonRow.querySelectorAll('td'));
+                    
+                    originalCells.forEach((originalCell, cellIndex) => {
+                        if (cellIndex < comparisonCells.length) {
+                            const originalText = originalCell.textContent.trim();
+                            const comparisonText = comparisonCells[cellIndex].textContent.trim();
+                            
+                            if (originalText !== comparisonText) {
+                                console.log(`Row ${rowIndex}, Cell ${cellIndex} differs`);
+                                const actualCell = tableRows[rowIndex]?.querySelectorAll('td')[cellIndex];
+                                if (actualCell) {
+                                    actualCell.style.backgroundColor = '#fff3cd';
+                                    actualCell.style.border = '2px solid #ffc107';
+                                    actualCell.title = `Changed from: "${comparisonText}"`;
+                                    differencesFound = true;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            
+            if (!differencesFound) {
+                const indicator = document.createElement('div');
+                indicator.style.cssText = 'background: #d1ecf1; color: #0c5460; padding: 10px; margin: 10px 0; border: 1px solid #bee5eb; border-radius: 4px;';
+                indicator.innerHTML = 'ℹ️ No significant content differences found between versions';
+                contentDiv.insertBefore(indicator, contentDiv.firstChild);
+            }
+        }
+        
+        function changeWidth() {
+            const widthSelect = document.getElementById('widthSelect');
+            const contentDiv = document.getElementById('mainContent');
+            const selectedWidth = widthSelect.value;
+            
+            // Remove all width classes
+            contentDiv.classList.remove('narrow', 'wide', 'full-width', 'standard');
+            
+            // Add the selected width class
+            contentDiv.classList.add(selectedWidth);
+            
+            console.log('Width changed to:', selectedWidth);
+        }
+        
+        // Theme Toggle Functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme changed to:', newTheme);
+        }
+        
+        function initializeTheme() {
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            let theme;
+            if (savedTheme) {
+                theme = savedTheme;
+            } else {
+                theme = systemPrefersDark ? 'dark' : 'light';
+            }
+            
+            document.documentElement.setAttribute('data-theme', theme);
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme initialized:', theme);
+        }
+        
+        // Navigation Functions
+        function goBack() {
+            window.history.back();
+        }
+        
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+        
+        // Modern Navigation System with Search
+        function initializeNavigation() {
+            const nav = document.getElementById('sectionNav');
+            const searchInput = document.getElementById('navSearch');
+            const noResults = document.getElementById('navNoResults');
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            
+            let navigationData = [];
+            let currentH1 = null;
+            let currentH2 = null;
+            
+            // Build navigation data structure
+            headers.forEach((header, index) => {
+                // Create anchor ID if it doesn't exist
+                if (!header.id) {
+                    header.id = `section-${index}`;
+                }
+                
+                const level = parseInt(header.tagName.charAt(1));
+                const navItem = {
+                    id: header.id,
+                    text: header.textContent.trim(),
+                    level: level,
+                    element: header,
+                    searchText: header.textContent.toLowerCase().trim()
+                };
+                
+                navigationData.push(navItem);
+            });
+            
+            // Render navigation tree
+            function renderNavigation(items = navigationData) {
+                nav.innerHTML = '';
+                noResults.style.display = items.length === 0 ? 'block' : 'none';
+                
+                let currentH1Container = null;
+                let currentH2Container = null;
+                
+                items.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'nav-item';
+                    
+                    // Create item header container
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'nav-item-header';
+                    
+                    if (item.level === 1) {
+                        const hasChildren = items.some((child, childIndex) => 
+                            childIndex > index && child.level === 2);
+                        
+                        if (hasChildren) {
+                            const toggle = document.createElement('div');
+                            toggle.className = 'nav-toggle';
+                            toggle.innerHTML = '▶';
+                            toggle.onclick = (e) => {
+                                e.stopPropagation();
+                                toggleNavSection(toggle, li);
+                            };
+                            headerDiv.appendChild(toggle);
+                        } else {
+                            const spacer = document.createElement('div');
+                            spacer.style.width = '24px';
+                            headerDiv.appendChild(spacer);
+                        }
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h1`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        headerDiv.appendChild(a);
+                        
+                        li.appendChild(headerDiv);
+                        
+                        if (hasChildren) {
+                            const childrenContainer = document.createElement('div');
+                            childrenContainer.className = 'nav-children';
+                            li.appendChild(childrenContainer);
+                            currentH2Container = childrenContainer;
+                        }
+                        
+                        nav.appendChild(li);
+                        currentH1Container = li;
+                        
+                    } else if (item.level === 2 && currentH2Container) {
+                        const h2Li = document.createElement('li');
+                        h2Li.className = 'nav-item';
+                        
+                        const h2Header = document.createElement('div');
+                        h2Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h2Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h2`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h2Header.appendChild(a);
+                        
+                        h2Li.appendChild(h2Header);
+                        currentH2Container.appendChild(h2Li);
+                        
+                    } else if (item.level === 3 && currentH2Container) {
+                        const h3Li = document.createElement('li');
+                        h3Li.className = 'nav-item';
+                        
+                        const h3Header = document.createElement('div');
+                        h3Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h3Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h3`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h3Header.appendChild(a);
+                        
+                        h3Li.appendChild(h3Header);
+                        currentH2Container.appendChild(h3Li);
+                    }
+                });
+                
+                // Auto-expand first level
+                const firstExpandable = nav.querySelector('.nav-toggle');
+                if (firstExpandable) {
+                    const firstContainer = firstExpandable.parentElement.parentElement;
+                    toggleNavSection(firstExpandable, firstContainer);
+                }
+            }
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query === '') {
+                    renderNavigation(navigationData);
+                } else {
+                    const filtered = navigationData.filter(item => 
+                        item.searchText.includes(query));
+                    renderNavigation(filtered);
+                }
+            });
+            
+            // Initial render
+            renderNavigation();
+            
+            // Update active nav item on scroll
+            window.addEventListener('scroll', updateActiveNavOnScroll);
+            
+            // Initialize minimap
+            initializeMinimap();
+        }
+        
+        function checkForChildren(headers, currentIndex, targetLevel = null) {
+            const currentLevel = parseInt(headers[currentIndex].tagName.charAt(1));
+            const checkLevel = targetLevel || (currentLevel + 1);
+            
+            for (let i = currentIndex + 1; i < headers.length; i++) {
+                const nextLevel = parseInt(headers[i].tagName.charAt(1));
+                if (nextLevel <= currentLevel) break;
+                if (nextLevel === checkLevel) return true;
+            }
+            return false;
+        }
+        
+        function toggleNavSection(toggle, container) {
+            const childrenContainer = container.querySelector('.nav-children');
+            if (!childrenContainer) return;
+            
+            const isExpanded = childrenContainer.classList.contains('expanded');
+            
+            if (isExpanded) {
+                childrenContainer.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+                toggle.innerHTML = '▶';
+            } else {
+                childrenContainer.classList.add('expanded');
+                toggle.classList.add('expanded');
+                toggle.innerHTML = '▼';
+            }
+        }
+        
+        // Modern Minimap Implementation
+        function initializeMinimap() {
+            const minimap = document.getElementById('minimap');
+            const minimapViewport = document.getElementById('minimapViewport');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (!minimap || !minimapViewport || !mainContent) return;
+            
+            function updateMinimapViewport() {
+                const docHeight = document.documentElement.scrollHeight;
+                const viewHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset;
+                const minimapHeight = minimap.clientHeight - 100; // Account for header
+                
+                // Calculate viewport position and size
+                const viewportTop = (scrollTop / docHeight) * minimapHeight;
+                const viewportHeight = Math.max(20, (viewHeight / docHeight) * minimapHeight);
+                
+                minimapViewport.style.top = `${viewportTop}px`;
+                minimapViewport.style.height = `${viewportHeight}px`;
+            }
+            
+            // Update on scroll and resize
+            window.addEventListener('scroll', updateMinimapViewport);
+            window.addEventListener('resize', updateMinimapViewport);
+            
+            // Click to navigate
+            const minimapContent = minimap.querySelector('.minimap-content');
+            minimapContent.addEventListener('click', (e) => {
+                const rect = minimapContent.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const minimapHeight = minimapContent.clientHeight;
+                const scrollPercent = clickY / minimapHeight;
+                const targetScroll = scrollPercent * (document.documentElement.scrollHeight - window.innerHeight);
+                
+                window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
+            });
+            
+            // Initial update
+            updateMinimapViewport();
+        }
+        
+        function navigateToSection(e, header, link) {
+            e.preventDefault();
+            header.scrollIntoView({ behavior: 'smooth' });
+            updateActiveNavItem(link);
+        }
+        
+        function updateActiveNavItem(activeLink) {
+            document.querySelectorAll('#sectionNav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+        
+        function updateActiveNavOnScroll() {
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            const navLinks = document.querySelectorAll('#sectionNav a');
+            
+            let current = '';
+            headers.forEach(header => {
+                const rect = header.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    current = header.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Floating Top Bar Scroll Behavior
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        
+        function initializeScrollBehavior() {
+            const topBar = document.getElementById('topBar');
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Clear any existing timeout
+                clearTimeout(scrollTimeout);
+                
+                // Hide/show logic
+                if (scrollTop > lastScrollTop && scrollTop > 60) {
+                    // Scrolling down & past header height
+                    topBar.classList.add('hidden');
+                } else {
+                    // Scrolling up or at top
+                    topBar.classList.remove('hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+                
+                // Update change indicators if visible
+                updateChangeIndicators();
+            }, { passive: true });
+        }
+        
+        // Change Indicator Functions
+        function updateChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            if (!indicator.style.display || indicator.style.display === 'none') return;
+            
+            // Get document dimensions
+            const docHeight = document.documentElement.scrollHeight;
+            const viewHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset;
+            
+            // Update existing change marks
+            const marks = indicator.querySelectorAll('.change-mark');
+            marks.forEach(mark => {
+                const targetId = mark.dataset.target;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const elementTop = targetElement.offsetTop;
+                    const percentage = (elementTop / docHeight) * 100;
+                    mark.style.top = `${percentage}%`;
+                }
+            });
+        }
+        
+        function createChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            const minimapContent = document.querySelector('.minimap-content');
+            
+            if (!indicator || !minimapContent) return;
+            
+            indicator.innerHTML = ''; // Clear existing marks
+            
+            // Find all changed elements
+            const addedElements = document.querySelectorAll('.diff-line-added, tr[style*="background-color: #d4edda"]');
+            const modifiedElements = document.querySelectorAll('.diff-line-modified, td[style*="background-color: #fff3cd"]');
+            const removedElements = document.querySelectorAll('.diff-line-removed');
+            
+            const docHeight = document.documentElement.scrollHeight;
+            const minimapHeight = minimapContent.clientHeight;
+            
+            // Helper function to create change marks
+            function createChangeMark(element, type, index) {
+                const mark = document.createElement('div');
+                mark.className = `change-mark ${type}`;
+                mark.dataset.target = element.id || `${type}-${index}`;
+                
+                if (!element.id) {
+                    element.id = `${type}-${index}`;
+                }
+                
+                const elementTop = element.offsetTop;
+                const percentage = (elementTop / docHeight) * minimapHeight;
+                mark.style.top = `${Math.max(0, Math.min(minimapHeight - 3, percentage))}px`;
+                
+                // Set titles
+                const titles = {
+                    added: 'Added content',
+                    modified: 'Modified content', 
+                    removed: 'Removed content'
+                };
+                mark.title = titles[type] || element.title || `${type} content`;
+                
+                // Click to scroll to element
+                mark.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+                
+                return mark;
+            }
+            
+            // Create marks for added elements
+            addedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'added', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for modified elements
+            modifiedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'modified', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for removed elements
+            removedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'removed', index);
+                indicator.appendChild(mark);
+            });
+            
+            const totalChanges = addedElements.length + modifiedElements.length + removedElements.length;
+            
+            // Show indicator if there are changes
+            if (totalChanges > 0) {
+                indicator.style.display = 'block';
+                console.log(`Created ${totalChanges} change indicators (${addedElements.length} added, ${modifiedElements.length} modified, ${removedElements.length} removed)`);
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

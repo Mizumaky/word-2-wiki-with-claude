@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Příloha C –
+Konfigurovatelnost modulu - Hr Fs Billing Accounts Receivables Cz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --pico-font-size: 16px;
+            --pico-line-height: 1.5;
+        }
+
+        /* Layout Structure */
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Space for floating header */
+        }
+
+        /* Floating Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--pico-background-color);
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .top-bar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .top-bar .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .top-bar .nav-buttons button {
+            margin: 0;
+            padding: 0.5rem 1rem;
+        }
+
+        .top-bar .title {
+            flex: 1;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-bar .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-bar .controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .top-bar .controls select,
+        .top-bar .controls input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Main Layout */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Left Sidebar - Modern 2025 Design */
+        .sidebar {
+            width: 280px;
+            background: var(--pico-background-color);
+            border-right: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Search Section */
+        .sidebar-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--pico-muted-border-color);
+            border-radius: var(--pico-border-radius);
+            background: var(--pico-background-color);
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .sidebar-search input:focus {
+            outline: none;
+            border-color: var(--pico-primary);
+            box-shadow: 0 0 0 2px var(--pico-primary-background);
+        }
+
+        .sidebar-search input::placeholder {
+            color: var(--pico-muted-color);
+        }
+
+        /* Navigation Header */
+        .sidebar-header {
+            padding: 1rem 1rem 0.5rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-header h4 {
+            margin: 0;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollable Navigation Area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem 1rem 1rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            margin: 0;
+        }
+
+        /* Modern Tree Navigation Item */
+        .nav-item {
+            margin: 2px 0;
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+        }
+
+        .nav-item-header {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item-header:hover {
+            background: var(--pico-secondary-background);
+        }
+
+        .nav-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            color: var(--pico-muted-color);
+            font-size: 12px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle:hover {
+            background: var(--pico-muted-border-color);
+            color: var(--pico-color);
+        }
+
+        .nav-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .nav-link {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem 0.5rem 0;
+            text-decoration: none;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+            min-height: 32px;
+        }
+
+        .nav-link:hover {
+            color: var(--pico-primary);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--pico-primary);
+            font-weight: 500;
+            background: var(--pico-primary-background);
+        }
+
+        /* Hierarchy Levels */
+        .nav-link.h1 {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link.h2 {
+            font-size: 0.85rem;
+            margin-left: 1.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        .nav-link.h3 {
+            font-size: 0.8rem;
+            margin-left: 2.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        /* Children Container */
+        .nav-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 24px;
+        }
+
+        .nav-children.expanded {
+            max-height: 1000px;
+        }
+
+        /* No Results State */
+        .nav-no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: none;
+            transition: max-width 0.3s ease;
+        }
+
+        .main-content.narrow { max-width: 800px; margin: 0 auto; }
+        .main-content.wide { max-width: 1400px; margin: 0 auto; }
+        .main-content.standard { max-width: 1200px; margin: 0 auto; }
+
+        /* Right Sidebar - Modern Minimap */
+        .minimap {
+            width: 80px;
+            background: var(--pico-card-background-color);
+            border-left: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .minimap-header {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-background-color);
+        }
+
+        .minimap h4 {
+            font-size: 0.7rem;
+            margin: 0;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-weight: 500;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimap-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--pico-background-color);
+        }
+
+        .minimap-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 2px;
+            min-height: 20px;
+            transition: all 0.1s ease;
+        }
+
+        [data-theme="dark"] .minimap-viewport {
+            background: rgba(100, 200, 255, 0.15);
+            border-color: rgba(100, 200, 255, 0.4);
+        }
+
+        /* Change Indicator Bar - Integrated with Minimap */
+        .change-indicator {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            right: 4px;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .change-mark {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            pointer-events: all;
+        }
+
+        .change-mark.added {
+            background: #22c55e;
+            box-shadow: 0 0 4px rgba(34, 197, 94, 0.4);
+        }
+
+        .change-mark.modified {
+            background: #f59e0b;
+            box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+        }
+
+        .change-mark.removed {
+            background: #ef4444;
+            box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+        }
+
+        .change-mark:hover {
+            height: 5px;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        /* Modern Line-by-Line Diff Highlighting */
+        .diff-line-added {
+            background: rgba(34, 197, 94, 0.15) !important;
+            border-left: 3px solid #22c55e;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        .diff-line-removed {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-left: 3px solid #ef4444;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .diff-line-modified {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border-left: 3px solid #f59e0b;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .diff-line-added {
+            background: rgba(34, 197, 94, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-removed {
+            background: rgba(239, 68, 68, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-modified {
+            background: rgba(245, 158, 11, 0.2) !important;
+        }
+
+        /* Enhanced Table Styling */
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 2rem 0;
+            background: var(--pico-card-background-color);
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+            box-shadow: var(--pico-card-box-shadow);
+        }
+
+        table th, table td { 
+            border: 1px solid var(--pico-muted-border-color);
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table td {
+            background-color: var(--pico-card-background-color);
+        }
+
+        table th { 
+            background: var(--pico-contrast);
+            color: var(--pico-contrast-inverse);
+            font-weight: 600;
+            border-bottom: 2px solid var(--pico-muted-border-color);
+            position: relative;
+        }
+
+        /* High contrast table headers for both themes */
+        [data-theme="dark"] table th {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #404040;
+        }
+
+        [data-theme="light"] table th {
+            background: #f8f9fa;
+            color: #212529;
+            border-color: #dee2e6;
+        }
+
+        table caption { 
+            caption-side: top; 
+            padding: 1rem; 
+            font-weight: 600; 
+            text-align: left;
+            color: var(--pico-muted-color);
+        }
+
+        /* Diff Styling - Light and Dark Mode Aware */
+        .diff-added { 
+            background: var(--pico-ins-color) !important; 
+            color: var(--pico-contrast-color); 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--pico-del-color) !important; 
+            color: var(--pico-contrast-color); 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--pico-mark-background-color) !important;
+            color: var(--pico-mark-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Custom theme-aware variables */
+        :root {
+            --diff-added-bg: #d4f6d4;
+            --diff-added-color: #0d5016;
+            --diff-removed-bg: #f8d7da;
+            --diff-removed-color: #721c24;
+            --diff-modified-bg: #fff3cd;
+            --diff-modified-color: #856404;
+        }
+
+        [data-theme="dark"] {
+            --diff-added-bg: #1a3d1a;
+            --diff-added-color: #90ee90;
+            --diff-removed-bg: #3d1a1a;
+            --diff-removed-color: #ffb3b3;
+            --diff-modified-bg: #3d3d1a;
+            --diff-modified-color: #ffeb99;
+        }
+
+        .diff-added { 
+            background: var(--diff-added-bg) !important; 
+            color: var(--diff-added-color) !important; 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--diff-removed-bg) !important; 
+            color: var(--diff-removed-color) !important; 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--diff-modified-bg) !important;
+            color: var(--diff-modified-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Improved dark mode colors */
+        [data-theme="dark"] {
+            --pico-muted-color: #b3b3b3;
+            --pico-color: #e0e0e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .top-bar .title {
+                font-size: 0.9rem;
+            }
+            
+            .top-bar .controls {
+                gap: 0.5rem;
+            }
+            
+            .top-bar .controls label {
+                font-size: 0.8rem;
+            }
+            
+            .change-indicator {
+                right: 10px;
+                width: 8px;
+            }
+        }
+
+        /* Dark mode enhancements */
+        @media (prefers-color-scheme: dark) {
+            .change-indicator {
+                background: rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/diff@5.1.0/dist/diff.min.js"></script>
+</head>
+<body>
+    <!-- Floating Top Bar -->
+    <header class="top-bar" id="topBar">
+        <div class="nav-buttons">
+            <button onclick="goBack()">← Back</button>
+            <button onclick="goToIndex()">📋 Index</button>
+        </div>
+        
+        <h1 class="title">Hr Fs Billing Accounts Receivables Cz - Příloha C –
+Konfigurovatelnost modulu</h1>
+        
+        <div class="controls">
+            <label>
+                <input type="checkbox" id="showChanges" onchange="toggleDiff()" role="switch">
+                Show changes
+            </label>
+            
+            <label>
+                Version:
+                <select id="versionSelect" onchange="loadVersionForComparison()">
+                    <option value="v00_03_2025_08_26" >v00_03_2025_08_26</option>
+<option value="v00_02" >v00_02</option>
+
+                </select>
+            </label>
+            
+            <label>
+                Width:
+                <select id="widthSelect" onchange="changeWidth()">
+                    <option value="standard">Standard</option>
+                    <option value="narrow">Narrow</option>
+                    <option value="wide">Wide</option>
+                    <option value="full">Full</option>
+                </select>
+            </label>
+            
+            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.5rem;">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Section -->
+            <div class="sidebar-search">
+                <input type="text" id="navSearch" placeholder="Search headings..." autocomplete="off">
+            </div>
+            
+            <!-- Navigation Header -->
+            <div class="sidebar-header">
+                <h4>Contents</h4>
+            </div>
+            
+            <!-- Scrollable Navigation Area -->
+            <div class="sidebar-nav">
+                <nav>
+                    <ul id="sectionNav">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                    <div id="navNoResults" class="nav-no-results" style="display: none;">
+                        No matching headings found
+                    </div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content standard" id="mainContent">
+            <h1 id="příloha-c-konfigurovatelnost-modulu">Příloha C –
+Konfigurovatelnost modulu</h1>
+
+
+<h2 id="naplánované-operace">Naplánované operace</h2>
+
+
+<table style="width:100%;">
+<caption><p>Tabulka : Naplánované operace</p></caption>
+<colgroup>
+<col style="width: 14%"/>
+<col style="width: 40%"/>
+<col style="width: 12%"/>
+<col style="width: 16%"/>
+<col style="width: 15%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Název naplánované operace CZ</strong></th>
+<th><strong>Název naplánované operace EN</strong></th>
+<th><strong>Časový plán Parametry</strong></th>
+<th><strong>Use case</strong></th>
+<th><p><strong>Popis operace</strong></p>
+<p><strong>Specifikace výsledku naplánované operace</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uzavření fakturačních dávek – 1x denně</td>
+<td>BEm.CloseBillSessionsBySystem</td>
+<td>Denní spouštění v 1:00 am</td>
+<td><p>SYS.BAR.0.1</p>
+<p>SYS.BAR.0.2</p>
+<p>SYS.BAR.0.3</p></td>
+<td>Automatická uzávěrka fakturačních dávek sloužící k vygenerování
+pravidelných faktur a výzev k úhradě</td>
+</tr>
+<tr>
+<td>Vytvoření fakturačních dávek – 1x denně</td>
+<td>BEm.CreateBillSessions</td>
+<td><mark>Denní spouštění</mark></td>
+<td></td>
+<td>Automatické vytvoření fakturačních dávek</td>
+</tr>
+<tr>
+<td>Zúčtování závazků a pohledávek účtů čekající na uzavření - 1x
+denně</td>
+<td>BEm_ProcessSettlement</td>
+<td><mark>Denní spouštění v 5:00 am</mark></td>
+<td>SYS.BAR.2.3</td>
+<td>Automatické zúčtování závazků a pohledávek účtů čekajících na
+uzavření a jejich následná terminace</td>
+</tr>
+<tr>
+<td>Zúčtování závazků a pohledávek Business Partnerů čekající na
+uzavření - 1x denně</td>
+<td>BEm_ProcessSettlementForBusinessPartner</td>
+<td></td>
+<td>SYS.BAR.2.19</td>
+<td>Automatické zúčtování závazků a pohledávek Business Partnerů
+čekajících na uzavření, a jejich následná terminace</td>
+</tr>
+<tr>
+<td>Exportování Billing details EETS Providers – 1x denně</td>
+<td>BEm.ExportBillingDetailsHr</td>
+<td><mark>Denní spouštění</mark></td>
+<td>SYS.BAR.1.9.HR</td>
+<td>Automatické vytvoření Billing details pro TSP jednou denně</td>
+</tr>
+<tr>
+<td>Zaplacení mýtné transakce tokenem platební karty</td>
+<td>BEm.ExecuteTokenPaymentPolling</td>
+<td></td>
+<td>SYS.BAR.1.10.HR</td>
+<td>Automatické dohledávání nezaplacených mýtných transakcí a jejich
+úhrada za pomocí uloženého tokenu platební karty</td>
+</tr>
+<tr>
+<td><mark>Vytvoření přestupku</mark></td>
+<td><mark>BEm.CreateOffenceTollTransaction</mark></td>
+<td><mark>Denní spouštění</mark></td>
+<td><mark>SYS.BAR.1.11.HR</mark></td>
+<td><mark>Automatické dohledávání nezaplacených mýtných transakcí ve
+stavu Grace period</mark> <mark>starších než určitá doba a vystavení na
+jejich základě Výzvy na úhradu.</mark></td>
+</tr>
+<tr>
+<td>Vytvoření výzev za úhradu za přestupky</td>
+<td>BEm.CreateOffenceRfP</td>
+<td>Denní spouštění</td>
+<td>SYS.BAR.0.13.HR</td>
+<td>Automatické dohledávání nezaplacených mýtných transakcí ve stavu
+Offence starších než určitá doba a vystavení na jejich základě Výzvy na
+úhradu.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h2 id="konfigurační-klíče"><mark>Konfigurační klíče</mark></h2>
+
+
+<table>
+<caption><p>Tabulka : Konfigurační klíče</p></caption>
+<colgroup>
+<col style="width: 51%"/>
+<col style="width: 10%"/>
+<col style="width: 14%"/>
+<col style="width: 23%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Název konfiguračního klíče EN (CZ)</strong></th>
+<th><strong>Výchozí hodnota klíče</strong></th>
+<th><strong>Datový typ</strong></th>
+<th><strong>Popis</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BE.PaymentReversalTimeout (Timeout pro zrušení platby)</td>
+<td>15</td>
+<td>Number</td>
+<td>Časový limit pro automatický reverzal nedokončené transakce platební
+kartou (v minutách)</td>
+</tr>
+<tr>
+<td>BE_DaysPriorSettlement (Počet dní před zúčtováním)</td>
+<td>20</td>
+<td>Number</td>
+<td>Počet kalendářních dní po přepnutí účtu do Pending termination, po
+jejichž uplynutí Systém vyhodnocuje podmínky ke spuštění zúčtování
+závazků a pohledávek</td>
+</tr>
+<tr>
+<td>BE_DaysAfterBillSession (Počet dní po zúčtováním)</td>
+<td>0</td>
+<td>Number</td>
+<td>Počet kalendářních dní po konci poslední bill session která nastala
+po uplynutí BE_DaysPriorSettlement (Počet dní před zúčtováním), po
+jejichž uplynutí se může spustit zúčtování závazků a pohledávek</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BE_AggregateZeroTollTransactions</td>
+<td>No</td>
+<td>Boolean</td>
+<td>Tato konfigurace umožňuje nastavit, zda mají být nulové mýtné
+události shrnuty do fakturačních položek nebo nikoliv.</td>
+</tr>
+<tr>
+<td>BE_AggregateZeroServiceTransactions (Zahrnovat nulové poplatky za
+služby)</td>
+<td>No</td>
+<td>Boolean</td>
+<td>Tato konfigurace umožňuje nastavit, zda mají být nulové transakce za
+služby shrnuty do fakturačních položek nebo nikoliv.</td>
+</tr>
+<tr>
+<td><mark>BE_VariableSymbolTopUp</mark></td>
+<td><mark>2</mark></td>
+<td><mark>Number</mark></td>
+<td><mark>Hodnota Variabilního symbolu pro platbu dobití kreditu
+placenou bankovním převodem.</mark></td>
+</tr>
+<tr>
+<td>BE_DaysInGracePeriodPriorOffenceCreation</td>
+<td>5</td>
+<td>Number</td>
+<td>Počet pracovních dní od vzniku Unpaid Toll Transactions ve stavu
+Grace period, po uplynutí kterých se přenastaví do stavu Offence.</td>
+</tr>
+<tr>
+<td>BE_DaysPriorOffencesRfPCreation</td>
+<td>5</td>
+<td>Number</td>
+<td>Počet kalendářních dní od přepnutí Unpaid Toll Transactions do stavu
+Offence, po uplynutí kterých se zařadí do RfP.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BE_MaturityPeriodForCreditNote</td>
+<td>30</td>
+<td>Number</td>
+<td>Počet kalendářních dní použitých pro výpočet Due date zákaznického
+dobropisu</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h2 id="číselníky-a-systémová-nastavení">Číselníky a systémová
+nastavení</h2>
+
+
+<p>Součástí přehledu jsou i systémová nastavení (nekonfigurovatelné
+systémové číselníky).</p>
+
+
+<h3 id="payment-type-typ-platby-1">Payment Type (Typ platby)</h3>
+
+
+<table>
+<colgroup>
+<col style="width: 29%"/>
+<col style="width: 22%"/>
+<col style="width: 25%"/>
+<col style="width: 22%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Název konfigurovatelného číselníku EN (CZ)</strong></th>
+<th><strong>Typ číselníku (jeden/více atributů)</strong></th>
+<th><strong>Omezení konfigurovatelnosti</strong></th>
+<th><strong>Poznámka k číselníku</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment type</td>
+<td>Více atributů</td>
+<td>omezená konfigurovatelnost (Create)</td>
+<td><p>Bill payment</p>
+<p>EETS Provider bill payment</p>
+<p>Credit note refund</p>
+<p>Payment cancel</p>
+<p><mark>Payment refund</mark></p>
+<p>Top-up payment</p>
+<p>Top-up refund</p>
+<p>Top-up cancel</p>
+<p><mark>Unknown credit</mark></p>
+<p><mark>Unknow debit</mark></p>
+<p><mark>Negative cent adjustment</mark></p>
+<p><mark>Positive cent adjustment</mark></p>
+<p><mark>Compensation</mark></p>
+<p><mark>Compensation cancel</mark></p>
+<p><mark>Other</mark></p>
+<p><mark>Other cancel</mark></p>
+<p><mark>Collateral guarantee payment</mark></p>
+<p><mark>Collateral guarantee refund</mark></p>
+<p><mark>Collateral guarantee cancel</mark></p>
+<p>Tokenization reservation</p>
+<p>Tokenizationr reservation cancel</p>
+<p>Toll payment</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="rounding-zaokrouhlování-1"><mark>Rounding
+(Zaokrouhlování)</mark></h3>
+
+
+<table>
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 12%"/>
+<col style="width: 12%"/>
+<col style="width: 9%"/>
+<col style="width: 22%"/>
+<col style="width: 22%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Name</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Mode</strong></th>
+<th><strong>Decimal places</strong></th>
+<th><strong>Currency</strong></th>
+<th><strong>Note</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BillDown</td>
+<td>Bill Rounding</td>
+<td>BillDown</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BillUp</td>
+<td>Bill Rounding</td>
+<td>BillUp</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BillMath</td>
+<td>Bill Rounding</td>
+<td>BillMath</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><mark>BillRoundingEur</mark></td>
+<td><mark>Bill Rounding</mark></td>
+<td><mark>BillMath</mark></td>
+<td><mark>2</mark></td>
+<td><mark>EUR</mark></td>
+<td></td>
+</tr>
+<tr>
+<td><mark>PosRoundingEur</mark></td>
+<td><mark>POS Rounding</mark></td>
+<td><mark>Aritmetic5</mark></td>
+<td><mark>2</mark></td>
+<td><mark>EUR</mark></td>
+<td><em><mark>Pokud POS měna je EUR, převedná částka se zaokrouhlí na
+nejbližší pěticent (tj. 102,02 --&gt; 102,00; 102,03 --&gt; 102,05;
+102,26 --&gt; 102,25; 99,97 --&gt; 99,95; 99,98 --&gt;
+100,00).</mark></em></td>
+</tr>
+<tr>
+<td><mark>TopUpRoundingEur</mark></td>
+<td><mark>Top-up Rounding</mark></td>
+<td><mark>BillUp</mark></td>
+<td><mark>0</mark></td>
+<td><mark>EUR</mark></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="corvuspay-payment-method-corvuspay-platební-metoda-1">CorvusPay
+Payment Method (CorvusPay platební metoda)</h3>
+
+
+<table>
+<colgroup>
+<col style="width: 17%"/>
+<col style="width: 32%"/>
+<col style="width: 27%"/>
+<col style="width: 22%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Abbreviation</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Is read only</strong></th>
+<th><strong>Currency</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><mark>CARD</mark></td>
+<td>Card payment – buyers must enter credit card details on each
+purchase</td>
+<td>yes</td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td><mark>IBAN</mark></td>
+<td>Pay by IBAN – buyer can enter IBAN to make purchase</td>
+<td></td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td><mark>WALLET</mark></td>
+<td>Quick wallet payment – buyers have option to save card and IBAN data
+for faster checkout</td>
+<td></td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td><mark>GIFT</mark></td>
+<td>paysafecard – gift card (vaucher) payments, no bank account or
+credit card required</td>
+<td></td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td><mark>GOOGLE</mark></td>
+<td>Google Pay - Enables buyers to make quick and secure payments using
+their Android devices.</td>
+<td></td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td><mark>APPLE</mark></td>
+<td>Apple Pay - Enables buyers to make quick and secure payments using
+their Apple devices.</td>
+<td></td>
+<td><mark>EUR</mark></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h3 id="corvuspay-response-code-corvuspay-kód-odpovědi-1"><mark>CorvusPay
+Response Code (CorvusPay kód odpovědi)</mark></h3>
+
+
+<p>Viz přiložený excel CorvusPay kódů odpovědí a požadované reakce
+Systému:</p>
+
+
+<table>
+<colgroup>
+<col style="width: 14%"/>
+<col style="width: 13%"/>
+<col style="width: 13%"/>
+<col style="width: 6%"/>
+<col style="width: 33%"/>
+<col style="width: 18%"/>
+</colgroup>
+<tbody>
+<tr>
+<td><strong>Response type</strong></td>
+<td><strong>Manual retry</strong></td>
+<td><strong>Customer type</strong></td>
+<td><strong>Code</strong></td>
+<td><strong>Name</strong></td>
+<td><strong>Retry type</strong></td>
+</tr>
+<tr>
+<td>Successful transaction</td>
+<td>No</td>
+<td></td>
+<td>0</td>
+<td>Approved/Accepted</td>
+<td></td>
+</tr>
+<tr>
+<td>Successful transaction</td>
+<td>No</td>
+<td></td>
+<td>300</td>
+<td>Payment is initiated with IBAN and check_PIS_status must be called
+to check payment status</td>
+<td></td>
+</tr>
+<tr>
+<td>Successful transaction</td>
+<td>No</td>
+<td></td>
+<td>400</td>
+<td>Refund Accepted</td>
+<td></td>
+</tr>
+<tr>
+<td>Successful transaction</td>
+<td><mark>Yes</mark></td>
+<td></td>
+<td>1017</td>
+<td>Previously Reversed</td>
+<td></td>
+</tr>
+<tr>
+<td>Successful transaction</td>
+<td><mark>Yes</mark></td>
+<td></td>
+<td>1018</td>
+<td>Previously Reversed</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>Yes</td>
+<td></td>
+<td>930</td>
+<td>Transaction Not Found</td>
+<td></td>
+</tr>
+<tr>
+<td><mark>Unsuccessful transaction</mark></td>
+<td>No</td>
+<td></td>
+<td><mark>1024</mark></td>
+<td><mark>Installments Are Not Allowed For This Card</mark></td>
+<td></td>
+</tr>
+<tr>
+<td><mark>Unsuccessful transaction</mark></td>
+<td>No</td>
+<td></td>
+<td><mark>1052</mark></td>
+<td><mark>Subscriptions are not enabled for this point of
+sale</mark></td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>Yes</td>
+<td></td>
+<td>1824</td>
+<td>Transaction already processed</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>2</td>
+<td>Buyer needs to call his bank, the telephone number on the back of
+his payment card</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>100</td>
+<td>Declined</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>931</td>
+<td>Card Expired</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1001</td>
+<td>Card Expired</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1002</td>
+<td>Card Suspicious</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1003</td>
+<td>Card Suspended</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1004</td>
+<td>Card Stolen</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1005</td>
+<td>Card Lost</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1011</td>
+<td>Card Not Found</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1012</td>
+<td>Cardholder Not Found</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1014</td>
+<td>Account Not Found</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1804</td>
+<td>Invalid Card Number</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1806</td>
+<td>Card Not Active</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1808</td>
+<td>Card Not Configured</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1810</td>
+<td>Invalid Amount</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1813</td>
+<td>Cardholder Not Active</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1814</td>
+<td>Cardholder Not Configured</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1815</td>
+<td>Cardholder Expired</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>1816</td>
+<td>Original Not Found</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>2000</td>
+<td>Invalid Expiration Date</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td></td>
+<td>2010</td>
+<td>Failed 3D secure authentication</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction</td>
+<td>No</td>
+<td>Anonymous registration</td>
+<td>1016</td>
+<td>Insufficient Funds</td>
+<td></td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td>Full registration</td>
+<td>1016</td>
+<td>Insufficient Funds</td>
+<td>Payment transaction 8h 3d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>909</td>
+<td>Technical Error / Unable to Process Request</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>912</td>
+<td>Host Link Down</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1015</td>
+<td>Invalid Request</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1032</td>
+<td>Temporarily declined by acquirer/issuer</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1050</td>
+<td>Transaction declined</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1090</td>
+<td>Issuer or switch is inoperative</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1802</td>
+<td>Missing Fields</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1803</td>
+<td>Extra Fields Exist</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1811</td>
+<td>System Error – Database</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1812</td>
+<td>System Error – Transaction</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1817</td>
+<td>Usage Limit Reached</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1818</td>
+<td>Configuration Error</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1819</td>
+<td>Invalid Terminal</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1820</td>
+<td>Inactive Terminal</td>
+<td>Payment transaction 1h 5 d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1821</td>
+<td>Invalid Merchant</td>
+<td>Payment transaction 1h 5 d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1822</td>
+<td>Duplicate Entity</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>1823</td>
+<td>Invalid Acquirer</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>3201</td>
+<td>Authorization host unavailable</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>No</td>
+<td></td>
+<td>109</td>
+<td>Invalid Service Establishment</td>
+<td>Payment transaction 24h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>Yes</td>
+<td></td>
+<td>2001</td>
+<td>Timeout</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td>Unsuccessful transaction – retry</td>
+<td>Yes</td>
+<td></td>
+<td>2002</td>
+<td>Timeout</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+<tr>
+<td></td>
+<td>Yes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Yes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Unprocessed transaction – retry</td>
+<td>Yes</td>
+<td></td>
+<td>1826</td>
+<td>Corvuspay queue zapunjen - pokušati kasnije</td>
+<td>Payment transaction 1h 5d</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Configurace připravena na základě:</p>
+
+
+<p><img role="img" src="data:image/x-emf;base64,AQAAAGwAAAAAAAAAAQAAAJUAAABbAAAAAAAAAAAAAAAzDAAA7gUAACBFTUYAAAEAeCwAABUAAAACAAAAAAAAAAAAAAAAAAAAAA8AAHAIAAAdAwAATgEAAAAAAAAAAAAAAAAAAEgpDACwGAUAGAAAAAwAAAAAAAAAGQAAAAwAAAD///8AcgAAAKAkAAAzAAAAAQAAAGIAAAAwAAAAMwAAAAEAAAAwAAAAMAAAAACA/wEAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAP///wAAAAAAbAAAADQAAACgAAAAACQAADAAAAAwAAAAKAAAADAAAAAwAAAAAQAgAAMAAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAA/wAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaXF2ydHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef9aXF2yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/8vLy//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//Ly8v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKE0KoEF8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/hqtn//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9xnUz////////////o7+L/QXwQ/0F8EP9BfBD/QXwQ/+jv4v///////////3GdTP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/rMaX////////////oL6I/0F8EP9BfBD/ia1q////////////uM6m/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/N1wY/zdcGP83XBj/N1wY/zdcGP/6+vr/LEoT/yxKE/8sShP/LEoT/yxKE//6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/TYQf/+jv4v//////9Pfx/02EH/9NhB//9Pfx///////09/H/TYQf/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/N1wY/zdcGP83XBj/N1wY/zdcGP/6+vr/LEoT/yxKE/8sShP/LEoT/yxKE//6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/32lW////////////6zGl/+gvoj///////////+JrWr/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP/E1rX////////////09/H//////9DfxP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9NhB//9Pfx/////////////////2WVPf9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/QXwQ/0F8EP9BfBD/QXwQ/0F8EP/6+vr/ZqMh/2ajIf9moyH/ZqMh/2ajIf/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9NhB//9Pfx////////////9Pfx/1mMLv9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/QXwQ/0F8EP9BfBD/QXwQ/0F8EP/6+vr/ZqMh/2ajIf9moyH/ZqMh/2ajIf/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP+gvoj////////////09/H//////8TWtf9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/1mMLv///////////9DfxP+gvoj///////////99pVv/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/9DfxP///////////3GdTP9BfBD/6O/i///////o7+L/TYQf/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/ZqMh/2ajIf9moyH/ZqMh/2ajIf/6+vr/gcQz/4HEM/+BxDP/gcQz/4HEM//6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/faVb////////////0N/E/0F8EP9BfBD/ia1q////////////oL6I/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/ZqMh/2ajIf9moyH/ZqMh/2ajIf/6+vr/gcQz/4HEM/+BxDP/gcQz/4HEM//6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/6O/i////////////cZ1M/0F8EP9BfBD/QXwQ/9zn0////////////1mMLv9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKE0KoEF8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/QXwQ/0F8EP9BfBD/hqtn//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/6aoqf90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/pqip/3R3ef8rLC1gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v+mqKn/dHd5/yssLWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6//r6+v/6+vr/+vr6/6aoqf90d3n/KywtYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6//r6+v/6+vr/pqip/3R3ef8rLC1gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6//r6+v+mqKn/dHd5/yssLWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/+vr6/6aoqf90d3n/KywtYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef/6+vr/pqip/3R3ef8rLC1gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef+mqKn/dnl7+SssLWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0d3n/8vLy//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6/3R3ef92eXv5FRYWMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaXF2ydHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3ef90d3n/dHd5/3R3efsVFhYwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAMAAAAAAAAAhIAAAAMAAAAAQAAAFIAAABwAQAAAQAAABQAAAAAAAAAAAAAAAAAAAC8AgAAAAAAAAECAiJTAHkAcwB0AGUAbQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGR2AAgAAAAAJQAAAAwAAAABAAAAJQAAAAwAAAANAACAKAAAAAwAAAABAAAAUgAAAHABAAABAAAA8P///wAAAAAAAAAAAAAAAJABAAAAAAAAAEAAIlMAZQBnAG8AZQAgAFUASQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZHYACAAAAAAlAAAADAAAAAEAAABUAAAAtAAAAAMAAAAyAAAAkgAAAEYAAAABAAAAqwqmQUxod0EDAAAAMgAAABEAAABMAAAABAAAAAAAAAAAAAAAlgAAAGIAAABwAAAAUwB1AGcAZwBlAHMAdABlAGQAJQAyADAAdABlAG0AcABsAAAACQAAAAkAAAAJAAAACQAAAAgAAAAHAAAABQAAAAgAAAAJAAAADQAAAAkAAAAJAAAABQAAAAgAAAAOAAAACQAAAAQAAABUAAAAwAEAAAAAAABHAAAAlQAAAFsAAAABAAAAqwqmQUxod0EAAAAARwAAAD4AAABMAAAABAAAAAAAAAAAAAAAlgAAAGIAAADIAAAAYQB0AGUAJQAyADAAZgBvAHIAJQAyADAAcgBlAHMAcABvAG4AcwBlACUAMgAwAGMAbwBkAGUAcwAlADIAMAB2ADAAMQAuADAAMQBfAEgAQQBDACUAMgAwAGQAYQB0AGEAXwAwADQAMAA4ADIAMAAyADUALgB4AGwAcwB4AAgAAAAFAAAACAAAAA0AAAAJAAAACQAAAAUAAAAJAAAABgAAAA0AAAAJAAAACQAAAAYAAAAIAAAABwAAAAkAAAAJAAAACQAAAAcAAAAIAAAADQAAAAkAAAAJAAAABwAAAAkAAAAJAAAACAAAAAcAAAANAAAACQAAAAkAAAAIAAAACQAAAAkAAAADAAAACQAAAAkAAAAHAAAACwAAAAoAAAAKAAAADQAAAAkAAAAJAAAACQAAAAgAAAAFAAAACAAAAAcAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAMAAAAHAAAABAAAAAcAAAAHAAAAJQAAAAwAAAANAACARgAAACAAAAASAAAASQBjAG8AbgBPAG4AbAB5AAAAAABGAAAArAAAAKAAAABTAHUAZwBnAGUAcwB0AGUAZAAlADIAMAB0AGUAbQBwAGwAYQB0AGUAJQAyADAAZgBvAHIAJQAyADAAcgBlAHMAcABvAG4AcwBlACUAMgAwAGMAbwBkAGUAcwAlADIAMAB2ADAAMQAuADAAMQBfAEgAQQBDACUAMgAwAGQAYQB0AGEAXwAwADQAMAA4ADIAMAAyADUALgB4AGwAcwB4AAAARgAAAJwAAACQAAAAQwA6AFwAVwBJAE4ARABPAFcAUwBcAEkAbgBzAHQAYQBsAGwAZQByAFwAewA5ADAAMQA2ADAAMAAwADAALQAwADAAMABGAC0AMAAwADAAMAAtADEAMAAwADAALQAwADAAMAAwADAAMAAwAEYARgAxAEMARQB9AFwAeABsAGkAYwBvAG4AcwAuAGUAeABlAAAARgAAABAAAAAEAAAAAQAAAEYAAAAgAAAAEgAAAEkAYwBvAG4ATwBuAGwAeQAAAAAADgAAABQAAAAAAAAAEAAAABQAAAA="/></p>
+
+
+        </main>
+
+        <!-- Right Sidebar - Modern Minimap -->
+        <aside class="minimap" id="minimap">
+            <div class="minimap-header">
+                <h4>Overview</h4>
+            </div>
+            <div class="minimap-content">
+                <div class="minimap-viewport" id="minimapViewport"></div>
+                <div class="change-indicator" id="changeIndicator" style="display: none;">
+                    <!-- Change marks will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <script>
+        // Document metadata
+        const documentMetadata = {
+            baseName: "HR_FS_Billing_Accounts_Receivables_CZ",
+            displayName: "Hr Fs Billing Accounts Receivables Cz",
+            version: "v00_03_2025_08_21",
+            sectionNumber: 13,
+            sectionTitle: "Příloha C –
+Konfigurovatelnost modulu"
+        };
+        
+        let originalContent = document.getElementById('mainContent').outerHTML;
+        let comparisonContent = null;
+        
+        // Test diff library on load
+        function initializeDiff() {
+            if (typeof Diff === 'undefined') {
+                console.error('Diff library failed to load from CDN');
+                const warningDiv = document.createElement('div');
+                warningDiv.style.cssText = 'background: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; border: 1px solid #ffeaa7; border-radius: 4px;';
+                warningDiv.innerHTML = '⚠️ Diff comparison library failed to load. The "Show changes" feature may not work properly.';
+                document.querySelector('.version-bar').appendChild(warningDiv);
+                return false;
+            }
+            console.log('Diff library loaded successfully');
+            return true;
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            initializeTheme();
+            initializeDiff();
+            initializeVersionControls();
+            initializeNavigation();
+            initializeScrollBehavior();
+        });
+        
+        function initializeVersionControls() {
+            console.log('Initializing version controls');
+            const versionSelect = document.getElementById('versionSelect');
+            const showChangesCheckbox = document.getElementById('showChanges');
+            
+            // Detect if running standalone (file:// protocol)
+            const isStandalone = window.location.protocol === 'file:';
+            const availableVersions = versionSelect.options.length;
+            
+            console.log('Protocol:', window.location.protocol);
+            console.log('Is standalone:', isStandalone);
+            console.log('Available versions:', availableVersions);
+            
+            if (isStandalone) {
+                // Running standalone - disable comparison features
+                console.log('Standalone mode detected, disabling comparison features');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+                
+                // Add standalone notice
+                const notice = document.createElement('div');
+                notice.style.cssText = 'background: #e3f2fd; color: #1565c0; padding: 8px 12px; margin: 0 1rem; border-radius: 4px; font-size: 0.8rem;';
+                notice.innerHTML = '📄 Standalone mode - Version comparison disabled';
+                document.querySelector('.top-bar .controls').appendChild(notice);
+                
+                // Hide version controls
+                versionSelect.parentElement.style.display = 'none';
+                showChangesCheckbox.parentElement.style.display = 'none';
+            } else if (availableVersions === 0) {
+                // Server mode but no versions to compare with - disable controls
+                console.log('No comparison versions available, disabling controls');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+            } else {
+                // At least one version available for comparison - enable controls
+                console.log('Comparison versions available, enabling controls');
+                versionSelect.disabled = false;
+                showChangesCheckbox.disabled = false;
+                showChangesCheckbox.checked = false; // Start unchecked
+                
+                // Pre-load the selected version for comparison
+                loadVersionForComparison();
+            }
+        }
+        
+        function toggleDiff() {
+            console.log('toggleDiff() called');
+            const showChanges = document.getElementById('showChanges').checked;
+            console.log('showChanges checkbox value:', showChanges);
+            const contentDiv = document.getElementById('mainContent');
+            console.log('comparisonContent exists:', !!comparisonContent);
+            
+            if (showChanges && comparisonContent) {
+                console.log('Showing diff view');
+                showDiffView(originalContent, comparisonContent);
+                // Create change indicators after showing diff
+                setTimeout(createChangeIndicators, 100);
+            } else {
+                console.log('Showing original content');
+                contentDiv.innerHTML = originalContent;
+                // Hide change indicators
+                document.getElementById('changeIndicator').style.display = 'none';
+            }
+        }
+        
+        function loadVersionForComparison() {
+            console.log('loadVersionForComparison() called');
+            const selectedVersion = document.getElementById('versionSelect').value;
+            console.log('Selected version:', selectedVersion);
+            console.log('Current version:', documentMetadata.version);
+            if (selectedVersion === documentMetadata.version) {
+                console.log('Same version selected, clearing comparison');
+                comparisonContent = null;
+                toggleDiff();
+                return;
+            }
+            
+            // Generate the correct filename using the same sanitization logic as the backend
+            function sanitizeFilename(text) {
+                return text
+                    .replace(/<[^>]+>/g, '') // Remove HTML tags
+                    .replace(/[^\p{L}\p{N}\s\-_]/gu, '') // Remove non-letters/numbers but preserve Unicode letters
+                    .replace(/[\s_]+/g, '_') // Replace spaces/underscores with single underscore
+                    .toLowerCase()
+                    .substring(0, 50) // Limit length
+                    .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+            }
+            
+            const sanitizedTitle = sanitizeFilename(documentMetadata.sectionTitle);
+            const comparisonPath = `../${selectedVersion}/${documentMetadata.baseName}_${String(documentMetadata.sectionNumber).padStart(2, '0')}_${sanitizedTitle}.html`;
+            
+            console.log('Attempting to load:', comparisonPath);
+            
+            fetch(comparisonPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const content = doc.getElementById('mainContent');
+                    if (content) {
+                        comparisonContent = content.outerHTML;
+                        console.log('Comparison content loaded successfully');
+                        toggleDiff();
+                    } else {
+                        console.error('No mainContent found in comparison file');
+                        comparisonContent = null;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading comparison version:', error);
+                    console.error('Attempted path was:', comparisonPath);
+                    comparisonContent = null;
+                    
+                    // Show user-friendly error
+                    const errorMsg = `Could not load comparison version: ${error.message}\n\nPath: ${comparisonPath}\n\nNote: Make sure you're opening the HTML file directly in your browser, not through a web server.`;
+                    alert(errorMsg);
+                });
+        }
+        
+        function showDiffView(original, comparison) {
+            if (!comparison) return;
+            
+            const contentDiv = document.getElementById('mainContent');
+            
+            if (typeof Diff !== 'undefined') {
+                console.log('Creating comprehensive diff view');
+                try {
+                    // First, show the original content
+                    contentDiv.innerHTML = original;
+                    
+                    // Create temporary elements to parse the HTML
+                    const tempOriginal = document.createElement('div');
+                    const tempComparison = document.createElement('div');
+                    tempOriginal.innerHTML = original;
+                    tempComparison.innerHTML = comparison;
+                    
+                    // Apply table-specific highlighting
+                    const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+                    const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+                    
+                    if (originalRows.length > 0 || comparisonRows.length > 0) {
+                        console.log(`Comparing ${originalRows.length} vs ${comparisonRows.length} table rows`);
+                        
+                        if (originalRows.length !== comparisonRows.length) {
+                            highlightTableDifferences(original, comparison, contentDiv);
+                        } else {
+                            highlightCellDifferences(originalRows, comparisonRows, contentDiv, original);
+                        }
+                    }
+                    
+                    // Apply line-by-line text highlighting
+                    highlightTextDifferences(tempOriginal, tempComparison, contentDiv);
+                    
+                } catch (error) {
+                    console.error('Error creating diff:', error);
+                    contentDiv.innerHTML = original;
+                }
+            } else {
+                console.warn('Diff library not loaded, using original content');
+                contentDiv.innerHTML = original;
+            }
+        }
+        
+        function highlightTextDifferences(originalElement, comparisonElement, contentDiv) {
+            console.log('Applying line-by-line text highlighting');
+            
+            // Only compare actual document content, not template elements  
+            // Now that we preserve outerHTML, we can use the specific selector
+            const contentSelector = '#mainContent p, #mainContent li, #mainContent h1, #mainContent h2, #mainContent h3, #mainContent h4, #mainContent h5, #mainContent h6, #mainContent blockquote';
+            
+            // Get text-containing elements from document content only
+            const originalTextElements = originalElement.querySelectorAll(contentSelector);
+            const comparisonTextElements = comparisonElement.querySelectorAll(contentSelector);
+            
+            console.log(`Comparing ${originalTextElements.length} original elements vs ${comparisonTextElements.length} comparison elements`);
+            
+            // Create maps for comparison
+            const originalTexts = Array.from(originalTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            const comparisonTexts = Array.from(comparisonTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            
+            console.log(`Filtered to ${originalTexts.length} original texts vs ${comparisonTexts.length} comparison texts`);
+            
+            // Find corresponding elements in the rendered content
+            const renderedElements = contentDiv.querySelectorAll(contentSelector);
+            
+            let changeCount = { added: 0, modified: 0, removed: 0 };
+            
+            // Create a more sophisticated comparison
+            const originalSet = new Set(originalTexts);
+            const comparisonSet = new Set(comparisonTexts);
+            
+            // Find differences
+            const addedTexts = originalTexts.filter(text => !comparisonSet.has(text));
+            const removedTexts = comparisonTexts.filter(text => !originalSet.has(text));
+            const commonTexts = originalTexts.filter(text => comparisonSet.has(text));
+            
+            // Apply highlighting to rendered elements
+            Array.from(renderedElements).forEach(element => {
+                const elementText = element.textContent.trim();
+                
+                if (addedTexts.includes(elementText)) {
+                    // This content was added in the new version
+                    element.classList.add('diff-line-added');
+                    element.title = 'Added in this version';
+                    changeCount.added++;
+                } else if (removedTexts.includes(elementText)) {
+                    // This shouldn't happen in original content, but for completeness
+                    element.classList.add('diff-line-removed'); 
+                    element.title = 'Removed in this version';
+                    changeCount.removed++;
+                } else if (commonTexts.includes(elementText)) {
+                    // Check if position changed (simple heuristic for modification)
+                    const originalIndex = originalTexts.indexOf(elementText);
+                    const comparisonIndex = comparisonTexts.indexOf(elementText);
+                    
+                    if (Math.abs(originalIndex - comparisonIndex) > 2) {
+                        // Content moved significantly - mark as modified
+                        element.classList.add('diff-line-modified');
+                        element.title = 'Position changed in this version';
+                        changeCount.modified++;
+                    }
+                }
+            });
+            
+            // Count removed items (for completeness in logging)
+            changeCount.removed = removedTexts.length;
+            
+            console.log(`Text differences: ${changeCount.added} added, ${changeCount.modified} modified, ${changeCount.removed} removed`);
+        }
+        
+        function highlightTableDifferences(original, comparison, contentDiv) {
+            console.log('Highlighting table row differences');
+            contentDiv.innerHTML = original;
+            
+            // Parse both versions to find the differences
+            const tempOriginal = document.createElement('div');
+            const tempComparison = document.createElement('div');
+            tempOriginal.innerHTML = original;
+            tempComparison.innerHTML = comparison;
+            
+            const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+            const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+            
+            console.log(`v${documentMetadata.version} has ${originalRows.length} rows vs comparison with ${comparisonRows.length} rows - ${originalRows.length - comparisonRows.length} new rows`);
+            
+            // Highlight the new rows (if there are more in original than comparison)
+            if (originalRows.length > comparisonRows.length) {
+                const tableRows = contentDiv.querySelectorAll('tbody tr');
+                const newRowsCount = originalRows.length - comparisonRows.length;
+                console.log(`Highlighting ${newRowsCount} new rows (${comparisonRows.length} to ${originalRows.length - 1})`);
+                
+                for (let i = comparisonRows.length; i < originalRows.length; i++) {
+                    if (tableRows[i]) {
+                        tableRows[i].style.setProperty('background-color', '#d4edda', 'important');
+                        tableRows[i].style.border = '3px solid #28a745';
+                        tableRows[i].title = 'New row added in this version';
+                        
+                        // Apply background to all cells in the row
+                        const cells = tableRows[i].querySelectorAll('td');
+                        cells.forEach(cell => {
+                            cell.style.setProperty('background-color', '#d4edda', 'important');
+                        });
+                    }
+                }
+            }
+        }
+        
+        function highlightCellDifferences(originalRows, comparisonRows, contentDiv, originalHtml) {
+            console.log('Highlighting cell-level differences');
+            contentDiv.innerHTML = originalHtml;
+            
+            // Find and highlight specific cell differences
+            let differencesFound = false;
+            const tableRows = contentDiv.querySelectorAll('tbody tr');
+            
+            originalRows.forEach((originalRow, rowIndex) => {
+                if (rowIndex < comparisonRows.length) {
+                    const comparisonRow = comparisonRows[rowIndex];
+                    const originalCells = Array.from(originalRow.querySelectorAll('td'));
+                    const comparisonCells = Array.from(comparisonRow.querySelectorAll('td'));
+                    
+                    originalCells.forEach((originalCell, cellIndex) => {
+                        if (cellIndex < comparisonCells.length) {
+                            const originalText = originalCell.textContent.trim();
+                            const comparisonText = comparisonCells[cellIndex].textContent.trim();
+                            
+                            if (originalText !== comparisonText) {
+                                console.log(`Row ${rowIndex}, Cell ${cellIndex} differs`);
+                                const actualCell = tableRows[rowIndex]?.querySelectorAll('td')[cellIndex];
+                                if (actualCell) {
+                                    actualCell.style.backgroundColor = '#fff3cd';
+                                    actualCell.style.border = '2px solid #ffc107';
+                                    actualCell.title = `Changed from: "${comparisonText}"`;
+                                    differencesFound = true;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            
+            if (!differencesFound) {
+                const indicator = document.createElement('div');
+                indicator.style.cssText = 'background: #d1ecf1; color: #0c5460; padding: 10px; margin: 10px 0; border: 1px solid #bee5eb; border-radius: 4px;';
+                indicator.innerHTML = 'ℹ️ No significant content differences found between versions';
+                contentDiv.insertBefore(indicator, contentDiv.firstChild);
+            }
+        }
+        
+        function changeWidth() {
+            const widthSelect = document.getElementById('widthSelect');
+            const contentDiv = document.getElementById('mainContent');
+            const selectedWidth = widthSelect.value;
+            
+            // Remove all width classes
+            contentDiv.classList.remove('narrow', 'wide', 'full-width', 'standard');
+            
+            // Add the selected width class
+            contentDiv.classList.add(selectedWidth);
+            
+            console.log('Width changed to:', selectedWidth);
+        }
+        
+        // Theme Toggle Functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme changed to:', newTheme);
+        }
+        
+        function initializeTheme() {
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            let theme;
+            if (savedTheme) {
+                theme = savedTheme;
+            } else {
+                theme = systemPrefersDark ? 'dark' : 'light';
+            }
+            
+            document.documentElement.setAttribute('data-theme', theme);
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme initialized:', theme);
+        }
+        
+        // Navigation Functions
+        function goBack() {
+            window.history.back();
+        }
+        
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+        
+        // Modern Navigation System with Search
+        function initializeNavigation() {
+            const nav = document.getElementById('sectionNav');
+            const searchInput = document.getElementById('navSearch');
+            const noResults = document.getElementById('navNoResults');
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            
+            let navigationData = [];
+            let currentH1 = null;
+            let currentH2 = null;
+            
+            // Build navigation data structure
+            headers.forEach((header, index) => {
+                // Create anchor ID if it doesn't exist
+                if (!header.id) {
+                    header.id = `section-${index}`;
+                }
+                
+                const level = parseInt(header.tagName.charAt(1));
+                const navItem = {
+                    id: header.id,
+                    text: header.textContent.trim(),
+                    level: level,
+                    element: header,
+                    searchText: header.textContent.toLowerCase().trim()
+                };
+                
+                navigationData.push(navItem);
+            });
+            
+            // Render navigation tree
+            function renderNavigation(items = navigationData) {
+                nav.innerHTML = '';
+                noResults.style.display = items.length === 0 ? 'block' : 'none';
+                
+                let currentH1Container = null;
+                let currentH2Container = null;
+                
+                items.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'nav-item';
+                    
+                    // Create item header container
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'nav-item-header';
+                    
+                    if (item.level === 1) {
+                        const hasChildren = items.some((child, childIndex) => 
+                            childIndex > index && child.level === 2);
+                        
+                        if (hasChildren) {
+                            const toggle = document.createElement('div');
+                            toggle.className = 'nav-toggle';
+                            toggle.innerHTML = '▶';
+                            toggle.onclick = (e) => {
+                                e.stopPropagation();
+                                toggleNavSection(toggle, li);
+                            };
+                            headerDiv.appendChild(toggle);
+                        } else {
+                            const spacer = document.createElement('div');
+                            spacer.style.width = '24px';
+                            headerDiv.appendChild(spacer);
+                        }
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h1`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        headerDiv.appendChild(a);
+                        
+                        li.appendChild(headerDiv);
+                        
+                        if (hasChildren) {
+                            const childrenContainer = document.createElement('div');
+                            childrenContainer.className = 'nav-children';
+                            li.appendChild(childrenContainer);
+                            currentH2Container = childrenContainer;
+                        }
+                        
+                        nav.appendChild(li);
+                        currentH1Container = li;
+                        
+                    } else if (item.level === 2 && currentH2Container) {
+                        const h2Li = document.createElement('li');
+                        h2Li.className = 'nav-item';
+                        
+                        const h2Header = document.createElement('div');
+                        h2Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h2Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h2`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h2Header.appendChild(a);
+                        
+                        h2Li.appendChild(h2Header);
+                        currentH2Container.appendChild(h2Li);
+                        
+                    } else if (item.level === 3 && currentH2Container) {
+                        const h3Li = document.createElement('li');
+                        h3Li.className = 'nav-item';
+                        
+                        const h3Header = document.createElement('div');
+                        h3Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h3Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h3`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h3Header.appendChild(a);
+                        
+                        h3Li.appendChild(h3Header);
+                        currentH2Container.appendChild(h3Li);
+                    }
+                });
+                
+                // Auto-expand first level
+                const firstExpandable = nav.querySelector('.nav-toggle');
+                if (firstExpandable) {
+                    const firstContainer = firstExpandable.parentElement.parentElement;
+                    toggleNavSection(firstExpandable, firstContainer);
+                }
+            }
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query === '') {
+                    renderNavigation(navigationData);
+                } else {
+                    const filtered = navigationData.filter(item => 
+                        item.searchText.includes(query));
+                    renderNavigation(filtered);
+                }
+            });
+            
+            // Initial render
+            renderNavigation();
+            
+            // Update active nav item on scroll
+            window.addEventListener('scroll', updateActiveNavOnScroll);
+            
+            // Initialize minimap
+            initializeMinimap();
+        }
+        
+        function checkForChildren(headers, currentIndex, targetLevel = null) {
+            const currentLevel = parseInt(headers[currentIndex].tagName.charAt(1));
+            const checkLevel = targetLevel || (currentLevel + 1);
+            
+            for (let i = currentIndex + 1; i < headers.length; i++) {
+                const nextLevel = parseInt(headers[i].tagName.charAt(1));
+                if (nextLevel <= currentLevel) break;
+                if (nextLevel === checkLevel) return true;
+            }
+            return false;
+        }
+        
+        function toggleNavSection(toggle, container) {
+            const childrenContainer = container.querySelector('.nav-children');
+            if (!childrenContainer) return;
+            
+            const isExpanded = childrenContainer.classList.contains('expanded');
+            
+            if (isExpanded) {
+                childrenContainer.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+                toggle.innerHTML = '▶';
+            } else {
+                childrenContainer.classList.add('expanded');
+                toggle.classList.add('expanded');
+                toggle.innerHTML = '▼';
+            }
+        }
+        
+        // Modern Minimap Implementation
+        function initializeMinimap() {
+            const minimap = document.getElementById('minimap');
+            const minimapViewport = document.getElementById('minimapViewport');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (!minimap || !minimapViewport || !mainContent) return;
+            
+            function updateMinimapViewport() {
+                const docHeight = document.documentElement.scrollHeight;
+                const viewHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset;
+                const minimapHeight = minimap.clientHeight - 100; // Account for header
+                
+                // Calculate viewport position and size
+                const viewportTop = (scrollTop / docHeight) * minimapHeight;
+                const viewportHeight = Math.max(20, (viewHeight / docHeight) * minimapHeight);
+                
+                minimapViewport.style.top = `${viewportTop}px`;
+                minimapViewport.style.height = `${viewportHeight}px`;
+            }
+            
+            // Update on scroll and resize
+            window.addEventListener('scroll', updateMinimapViewport);
+            window.addEventListener('resize', updateMinimapViewport);
+            
+            // Click to navigate
+            const minimapContent = minimap.querySelector('.minimap-content');
+            minimapContent.addEventListener('click', (e) => {
+                const rect = minimapContent.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const minimapHeight = minimapContent.clientHeight;
+                const scrollPercent = clickY / minimapHeight;
+                const targetScroll = scrollPercent * (document.documentElement.scrollHeight - window.innerHeight);
+                
+                window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
+            });
+            
+            // Initial update
+            updateMinimapViewport();
+        }
+        
+        function navigateToSection(e, header, link) {
+            e.preventDefault();
+            header.scrollIntoView({ behavior: 'smooth' });
+            updateActiveNavItem(link);
+        }
+        
+        function updateActiveNavItem(activeLink) {
+            document.querySelectorAll('#sectionNav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+        
+        function updateActiveNavOnScroll() {
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            const navLinks = document.querySelectorAll('#sectionNav a');
+            
+            let current = '';
+            headers.forEach(header => {
+                const rect = header.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    current = header.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Floating Top Bar Scroll Behavior
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        
+        function initializeScrollBehavior() {
+            const topBar = document.getElementById('topBar');
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Clear any existing timeout
+                clearTimeout(scrollTimeout);
+                
+                // Hide/show logic
+                if (scrollTop > lastScrollTop && scrollTop > 60) {
+                    // Scrolling down & past header height
+                    topBar.classList.add('hidden');
+                } else {
+                    // Scrolling up or at top
+                    topBar.classList.remove('hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+                
+                // Update change indicators if visible
+                updateChangeIndicators();
+            }, { passive: true });
+        }
+        
+        // Change Indicator Functions
+        function updateChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            if (!indicator.style.display || indicator.style.display === 'none') return;
+            
+            // Get document dimensions
+            const docHeight = document.documentElement.scrollHeight;
+            const viewHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset;
+            
+            // Update existing change marks
+            const marks = indicator.querySelectorAll('.change-mark');
+            marks.forEach(mark => {
+                const targetId = mark.dataset.target;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const elementTop = targetElement.offsetTop;
+                    const percentage = (elementTop / docHeight) * 100;
+                    mark.style.top = `${percentage}%`;
+                }
+            });
+        }
+        
+        function createChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            const minimapContent = document.querySelector('.minimap-content');
+            
+            if (!indicator || !minimapContent) return;
+            
+            indicator.innerHTML = ''; // Clear existing marks
+            
+            // Find all changed elements
+            const addedElements = document.querySelectorAll('.diff-line-added, tr[style*="background-color: #d4edda"]');
+            const modifiedElements = document.querySelectorAll('.diff-line-modified, td[style*="background-color: #fff3cd"]');
+            const removedElements = document.querySelectorAll('.diff-line-removed');
+            
+            const docHeight = document.documentElement.scrollHeight;
+            const minimapHeight = minimapContent.clientHeight;
+            
+            // Helper function to create change marks
+            function createChangeMark(element, type, index) {
+                const mark = document.createElement('div');
+                mark.className = `change-mark ${type}`;
+                mark.dataset.target = element.id || `${type}-${index}`;
+                
+                if (!element.id) {
+                    element.id = `${type}-${index}`;
+                }
+                
+                const elementTop = element.offsetTop;
+                const percentage = (elementTop / docHeight) * minimapHeight;
+                mark.style.top = `${Math.max(0, Math.min(minimapHeight - 3, percentage))}px`;
+                
+                // Set titles
+                const titles = {
+                    added: 'Added content',
+                    modified: 'Modified content', 
+                    removed: 'Removed content'
+                };
+                mark.title = titles[type] || element.title || `${type} content`;
+                
+                // Click to scroll to element
+                mark.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+                
+                return mark;
+            }
+            
+            // Create marks for added elements
+            addedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'added', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for modified elements
+            modifiedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'modified', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for removed elements
+            removedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'removed', index);
+                indicator.appendChild(mark);
+            });
+            
+            const totalChanges = addedElements.length + modifiedElements.length + removedElements.length;
+            
+            // Show indicator if there are changes
+            if (totalChanges > 0) {
+                indicator.style.display = 'block';
+                console.log(`Created ${totalChanges} change indicators (${addedElements.length} added, ${modifiedElements.length} modified, ${removedElements.length} removed)`);
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

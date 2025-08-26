@@ -1,0 +1,5754 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systémové funkce - Hr Fs Billing Accounts Receivables Cz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --pico-font-size: 16px;
+            --pico-line-height: 1.5;
+        }
+
+        /* Layout Structure */
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* Space for floating header */
+        }
+
+        /* Floating Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--pico-background-color);
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .top-bar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .top-bar .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .top-bar .nav-buttons button {
+            margin: 0;
+            padding: 0.5rem 1rem;
+        }
+
+        .top-bar .title {
+            flex: 1;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-bar .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-bar .controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .top-bar .controls select,
+        .top-bar .controls input[type="checkbox"] {
+            margin: 0;
+        }
+
+        /* Main Layout */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Left Sidebar - Modern 2025 Design */
+        .sidebar {
+            width: 280px;
+            background: var(--pico-background-color);
+            border-right: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Search Section */
+        .sidebar-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--pico-muted-border-color);
+            border-radius: var(--pico-border-radius);
+            background: var(--pico-background-color);
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .sidebar-search input:focus {
+            outline: none;
+            border-color: var(--pico-primary);
+            box-shadow: 0 0 0 2px var(--pico-primary-background);
+        }
+
+        .sidebar-search input::placeholder {
+            color: var(--pico-muted-color);
+        }
+
+        /* Navigation Header */
+        .sidebar-header {
+            padding: 1rem 1rem 0.5rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar-header h4 {
+            margin: 0;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollable Navigation Area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem 1rem 1rem;
+            background: var(--pico-card-background-color);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            margin: 0;
+        }
+
+        /* Modern Tree Navigation Item */
+        .nav-item {
+            margin: 2px 0;
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+        }
+
+        .nav-item-header {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item-header:hover {
+            background: var(--pico-secondary-background);
+        }
+
+        .nav-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            color: var(--pico-muted-color);
+            font-size: 12px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle:hover {
+            background: var(--pico-muted-border-color);
+            color: var(--pico-color);
+        }
+
+        .nav-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .nav-link {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem 0.5rem 0;
+            text-decoration: none;
+            color: var(--pico-color);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            border-radius: var(--pico-border-radius);
+            transition: all 0.2s ease;
+            min-height: 32px;
+        }
+
+        .nav-link:hover {
+            color: var(--pico-primary);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--pico-primary);
+            font-weight: 500;
+            background: var(--pico-primary-background);
+        }
+
+        /* Hierarchy Levels */
+        .nav-link.h1 {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link.h2 {
+            font-size: 0.85rem;
+            margin-left: 1.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        .nav-link.h3 {
+            font-size: 0.8rem;
+            margin-left: 2.5rem;
+            color: var(--pico-muted-color);
+        }
+
+        /* Children Container */
+        .nav-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 24px;
+        }
+
+        .nav-children.expanded {
+            max-height: 1000px;
+        }
+
+        /* No Results State */
+        .nav-no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: none;
+            transition: max-width 0.3s ease;
+        }
+
+        .main-content.narrow { max-width: 800px; margin: 0 auto; }
+        .main-content.wide { max-width: 1400px; margin: 0 auto; }
+        .main-content.standard { max-width: 1200px; margin: 0 auto; }
+
+        /* Right Sidebar - Modern Minimap */
+        .minimap {
+            width: 80px;
+            background: var(--pico-card-background-color);
+            border-left: 1px solid var(--pico-muted-border-color);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .minimap-header {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid var(--pico-muted-border-color);
+            background: var(--pico-background-color);
+        }
+
+        .minimap h4 {
+            font-size: 0.7rem;
+            margin: 0;
+            text-align: center;
+            color: var(--pico-muted-color);
+            font-weight: 500;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minimap-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--pico-background-color);
+        }
+
+        .minimap-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 2px;
+            min-height: 20px;
+            transition: all 0.1s ease;
+        }
+
+        [data-theme="dark"] .minimap-viewport {
+            background: rgba(100, 200, 255, 0.15);
+            border-color: rgba(100, 200, 255, 0.4);
+        }
+
+        /* Change Indicator Bar - Integrated with Minimap */
+        .change-indicator {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            right: 4px;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .change-mark {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            pointer-events: all;
+        }
+
+        .change-mark.added {
+            background: #22c55e;
+            box-shadow: 0 0 4px rgba(34, 197, 94, 0.4);
+        }
+
+        .change-mark.modified {
+            background: #f59e0b;
+            box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+        }
+
+        .change-mark.removed {
+            background: #ef4444;
+            box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+        }
+
+        .change-mark:hover {
+            height: 5px;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        /* Modern Line-by-Line Diff Highlighting */
+        .diff-line-added {
+            background: rgba(34, 197, 94, 0.15) !important;
+            border-left: 3px solid #22c55e;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        .diff-line-removed {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-left: 3px solid #ef4444;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .diff-line-modified {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border-left: 3px solid #f59e0b;
+            padding-left: 1rem !important;
+            margin: 2px 0;
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .diff-line-added {
+            background: rgba(34, 197, 94, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-removed {
+            background: rgba(239, 68, 68, 0.2) !important;
+        }
+
+        [data-theme="dark"] .diff-line-modified {
+            background: rgba(245, 158, 11, 0.2) !important;
+        }
+
+        /* Enhanced Table Styling */
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 2rem 0;
+            background: var(--pico-card-background-color);
+            border-radius: var(--pico-border-radius);
+            overflow: hidden;
+            box-shadow: var(--pico-card-box-shadow);
+        }
+
+        table th, table td { 
+            border: 1px solid var(--pico-muted-border-color);
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table td {
+            background-color: var(--pico-card-background-color);
+        }
+
+        table th { 
+            background: var(--pico-contrast);
+            color: var(--pico-contrast-inverse);
+            font-weight: 600;
+            border-bottom: 2px solid var(--pico-muted-border-color);
+            position: relative;
+        }
+
+        /* High contrast table headers for both themes */
+        [data-theme="dark"] table th {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #404040;
+        }
+
+        [data-theme="light"] table th {
+            background: #f8f9fa;
+            color: #212529;
+            border-color: #dee2e6;
+        }
+
+        table caption { 
+            caption-side: top; 
+            padding: 1rem; 
+            font-weight: 600; 
+            text-align: left;
+            color: var(--pico-muted-color);
+        }
+
+        /* Diff Styling - Light and Dark Mode Aware */
+        .diff-added { 
+            background: var(--pico-ins-color) !important; 
+            color: var(--pico-contrast-color); 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--pico-del-color) !important; 
+            color: var(--pico-contrast-color); 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--pico-mark-background-color) !important;
+            color: var(--pico-mark-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Custom theme-aware variables */
+        :root {
+            --diff-added-bg: #d4f6d4;
+            --diff-added-color: #0d5016;
+            --diff-removed-bg: #f8d7da;
+            --diff-removed-color: #721c24;
+            --diff-modified-bg: #fff3cd;
+            --diff-modified-color: #856404;
+        }
+
+        [data-theme="dark"] {
+            --diff-added-bg: #1a3d1a;
+            --diff-added-color: #90ee90;
+            --diff-removed-bg: #3d1a1a;
+            --diff-removed-color: #ffb3b3;
+            --diff-modified-bg: #3d3d1a;
+            --diff-modified-color: #ffeb99;
+        }
+
+        .diff-added { 
+            background: var(--diff-added-bg) !important; 
+            color: var(--diff-added-color) !important; 
+            border: 2px solid #28a745 !important;
+        }
+
+        .diff-removed { 
+            background: var(--diff-removed-bg) !important; 
+            color: var(--diff-removed-color) !important; 
+            text-decoration: line-through; 
+            border: 2px solid #dc3545 !important;
+        }
+
+        .diff-modified {
+            background: var(--diff-modified-bg) !important;
+            color: var(--diff-modified-color) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        /* Improved dark mode colors */
+        [data-theme="dark"] {
+            --pico-muted-color: #b3b3b3;
+            --pico-color: #e0e0e0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .top-bar .title {
+                font-size: 0.9rem;
+            }
+            
+            .top-bar .controls {
+                gap: 0.5rem;
+            }
+            
+            .top-bar .controls label {
+                font-size: 0.8rem;
+            }
+            
+            .change-indicator {
+                right: 10px;
+                width: 8px;
+            }
+        }
+
+        /* Dark mode enhancements */
+        @media (prefers-color-scheme: dark) {
+            .change-indicator {
+                background: rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/diff@5.1.0/dist/diff.min.js"></script>
+</head>
+<body>
+    <!-- Floating Top Bar -->
+    <header class="top-bar" id="topBar">
+        <div class="nav-buttons">
+            <button onclick="goBack()">← Back</button>
+            <button onclick="goToIndex()">📋 Index</button>
+        </div>
+        
+        <h1 class="title">Hr Fs Billing Accounts Receivables Cz - Systémové funkce</h1>
+        
+        <div class="controls">
+            <label>
+                <input type="checkbox" id="showChanges" onchange="toggleDiff()" role="switch">
+                Show changes
+            </label>
+            
+            <label>
+                Version:
+                <select id="versionSelect" onchange="loadVersionForComparison()">
+                    <option value="v00_03_2025_08_26" >v00_03_2025_08_26</option>
+
+                </select>
+            </label>
+            
+            <label>
+                Width:
+                <select id="widthSelect" onchange="changeWidth()">
+                    <option value="standard">Standard</option>
+                    <option value="narrow">Narrow</option>
+                    <option value="wide">Wide</option>
+                    <option value="full">Full</option>
+                </select>
+            </label>
+            
+            <button id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.5rem;">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Section -->
+            <div class="sidebar-search">
+                <input type="text" id="navSearch" placeholder="Search headings..." autocomplete="off">
+            </div>
+            
+            <!-- Navigation Header -->
+            <div class="sidebar-header">
+                <h4>Contents</h4>
+            </div>
+            
+            <!-- Scrollable Navigation Area -->
+            <div class="sidebar-nav">
+                <nav>
+                    <ul id="sectionNav">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                    <div id="navNoResults" class="nav-no-results" style="display: none;">
+                        No matching headings found
+                    </div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content standard" id="mainContent">
+            <h1 id="systémové-funkce">Systémové funkce</h1>
+
+
+<p> Sloupec <strong>Realizace</strong> určuje způsob implementace
+příslušného UC:</p>
+
+
+<ul>
+<li><p>New – nový UC jen pro daný projekt</p></li>
+<li><p>Upd – UC upravený (customizovaný) pro daný projekt</p></li>
+<li><p>AsIs – UC beze změny</p></li>
+<li><p>N/A – nebude používán</p></li>
+</ul>
+
+
+<table>
+<caption><p>Tabulka : Seznam systémových funkcí</p></caption>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 52%"/>
+<col style="width: 9%"/>
+<col style="width: 13%"/>
+</colgroup>
+<thead>
+<tr>
+<th><strong>Funkční oblast</strong></th>
+<th><strong>Případ užití</strong></th>
+<th><strong>Realizace</strong></th>
+<th><strong>Aktér</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="22">Fakturace</td>
+<td>Vytvoř pravidelné faktury za mýtné (SYS.BAR.0.1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř pravidelné faktury za mýtné (SYS.BAR.0.1.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř pravidelné faktury za mýtné (SYS.BAR.0.1.VO2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř pravidelné faktury za mýtné (SYS.BAR.0.1.HR)</td>
+<td><em>Upd</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř pravidelné faktury za služby (SYS.BAR.0.2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř pravidelné výzvy na úhradu za platby tankovací kartou
+(SYS.BAR.0.3)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř jednorázovou fakturu za služby (SYS.BAR.0.4.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř jednorázovou fakturu za služby (SYS.BAR.0.4.HR)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Naúčtuj transakční poplatek za mýtné (SYS.BAR.0.5)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř fakturační dávku (SYS.BAR.0.6)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř fakturační dávku (SYS.BAR.0.6.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř fakturační dávku (SYS.BAR.0.6.VO2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř fakturační dávku (SYS.BAR.0.6.HR)</td>
+<td><em>Upd</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Naúčtuj jednorázový poplatek (SYS.BAR.0.7)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř jednorázový dobropis za služby (SYS.BAR.0.8)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř jednorázový dobropis za služby (SYS.BAR.0.8.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zagreguj platby tankovací kartou do FCI RfP (SYS.BAR.0.9).</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Importuj EETS EMS faktury (SYS.BAR.0.10.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Importuj jednorázovou ENF fakturu (SYS.BAR.0.11.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zagreguj oceněné události do fakturační dávky (SYS.BAR.0.12.HR)</td>
+<td><em>New</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř výzvy na úhradu za přestupky (SYS.BAR.0.13.HR)</td>
+<td><em>New</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř jednorázovou fakturu za mýto (SYS.BAR.0.14.HR)</td>
+<td><em>New</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td rowspan="13">Zpracování mýtných transakcí</td>
+<td>Zpracuj billing details (SYS.BAR.1.1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zpracuj billing details (SYS.BAR.1.1.VO2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř souhrn oceněných událostí pro VTK (SYS.BAR.1.2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř souhrn fakturačních detailů pro PL (SYS.BAR.1.3)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř platební oznámení pro PL (SYS.BAR.1.4)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zpracuj nárok na platbu pro BG (SYS.BAR.1.5)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř souhrn mýtných transakcí pro VTK (TT) (SYS.BAR.1.6)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zpracuj oceněnou událost zpoplatnění (SYS.BAR.1.7.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Ulož oceněnou mýtnou transakci (SYS.BAR.1.8.HR)</td>
+<td><em>New</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř billing details (SYS.BAR.1.9.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř billing details (SYS.BAR.1.9.HR)</td>
+<td><em>Upd</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zaplať mýtnou transakci tokenem (SYS.BAR.1.10.HR)</td>
+<td><em>New</em></td>
+<td><em>Systém</em></td>
+</tr>
+<tr>
+<td>Vytvoř Přestupek (SYS.BAR.1.11.HR)</td>
+<td><em>New</em></td>
+<td><em>Systém</em></td>
+</tr>
+<tr>
+<td rowspan="16">Operace s platbami</td>
+<td>Vytvoř platbu bankovním převodem (SYS.BAR.2.1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Proveď párování (SYS.BAR.2.2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zúčtuj závazky a pohledávky (SYS.BAR.2.3)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zúčtuj závazky a pohledávky (SYS.BAR.2.3.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td><mark>Vrať depozit na tankovací kartu (SYS.BAR.2.4)</mark></td>
+<td><em>N/A</em></td>
+<td><mark>Systém</mark></td>
+</tr>
+<tr>
+<td><mark>Vytvoř souhrn debetních plateb pro VTK
+(SYS.BAR.2.5)</mark></td>
+<td><em>N/A</em></td>
+<td><mark>Systém</mark></td>
+</tr>
+<tr>
+<td>Rezervuj depozit z předplaceného kreditu (SYS.BAR.2.6)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zruš rezervaci depozitu z předplaceného kreditu (SYS.BAR.2.7)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zúčtuj závazky a pohledávky pro EETS Provider (SYS.BAR.2.8.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zpracuj bankovní výpis (SYS.BAR.2.9.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Rozpoznej položky bankovního výpisu (SYS.BAR.2.10.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vrať platbu (SYS.BAR.2.11.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td><mark>Vrať automaticky platbu (SYS.BAR.2.12.VO1)</mark></td>
+<td><em><mark>N/A</mark></em></td>
+<td><mark>Systém</mark></td>
+</tr>
+<tr>
+<td>Vytvoř položku platebního příkazu (SYS.BAR.2.13.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Aplikuj centové vyrovnání (SYS.BAR.2.14.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Zaplať událost online přes platební bránu (SYS.BAR.2.15.HR)</td>
+<td><em>New</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td rowspan="4">Pomocné operace</td>
+<td>Stáhni kurzovní lístek Erste Bank (SYS.BAR.3.0)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Stáhni kurzovní lístek Tatrabanky (SYS.BAR.3.1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Spočítej minimální částku top-up (SYS.BAR.3.2)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td>Vytvoř finanční transakci (SYS.BAR.3.3.VO1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Správa slev</td>
+<td>Importuj nárok na slevu v doméně CZ (SYS.BAR.4.1)</td>
+<td><em>N/A</em></td>
+<td>Systém</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2 id="fakturace">Fakturace</h2>
+
+
+<h3 id="vytvoř-pravidelné-faktury-za-mýtné-sys.bar.0.1.hr">Vytvoř
+pravidelné faktury za mýtné (SYS.BAR.0.1.HR)</h3>
+
+
+<h4 id="cíl-2">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je vygenerování pravidelných faktur za
+mýtné.</p>
+
+
+<h4 id="spuštění-případu-2">Spuštění případu</h4>
+
+
+<p>Případ je spuštěn systémovou úlohou BE_CloseBillSessionsBySystem</p>
+
+
+<h4 id="popis">Popis</h4>
+
+
+<p>Normální typ fakturační dávky obsahující mýto</p>
+
+
+<p>Systém dohledá všechny Bill session s:</p>
+
+
+<ul>
+<li><p>Bill session status = Open,</p></li>
+<li><p>Bill session end date &lt; aktuální datum,</p></li>
+<li><p>Bill session aggregation type = <mark>Pre-paid</mark>, Post-paid
+card, <mark>Post-paid invoice,</mark> Exemption partner, <mark>Fleet
+card issuer</mark> a EETS Provider,</p></li>
+<li><p>Bill session content type = Toll,</p></li>
+<li><p>Bill session type = Normal</p></li>
+</ul>
+
+
+<p>a pro každou Bill session vykoná nasledující postup:</p>
+
+
+<p>Systém změní <strong>Bill session status na Closing</strong> a
+postupně provádí následující fakturační kroky:</p>
+
+
+<ul>
+<li><p>Systém vytvoří daňový bill item pro každou sazbu daně vyskytující
+se v bill items patřící do dané bill session a k danému bill:</p>
+<ul>
+<li><p>Bill item category = Tax</p></li>
+<li><p>Bill item type =</p>
+<ul>
+<li><p>Corrective bill item credit, pokud součet bill item s danou
+sazbou daně byl &lt; 0,</p></li>
+<li><p>jinak Regular bill item</p></li>
+</ul></li>
+<li><p>Price amount = celková daň za bill itemy s danou tax rate (Tax
+base * Tax rate a následné zaokrouhlení podle BillRounding pro danou
+měnu)</p></li>
+<li><p>Unit price = null</p></li>
+<li><p>Number of units = null</p></li>
+<li><p>Metric unit = null</p></li>
+<li><p>Tax rate = tax rate pro kterou se bill item vytváří</p></li>
+<li><p>Tax base = celková částka bez daně s danou tax rate (suma Price
+amount příslušných nedaňových bill items s ohledem na jejich Bill item
+type a následné zaokrouhlení podle BillRounding)</p></li>
+</ul></li>
+<li></li>
+<li><p>Systém zaokrouhlí bill item.price amount podle
+BillRounding.</p></li>
+<li><p>Systém pro každou daňovou bill item zjistí, zda není potřeba
+vytvořit bill item pro Rounding adjustment:</p>
+<ul>
+<li><p>pokud rozdíl mezi (Tax base daňové bill itemy) a (absolutní
+hodnoty součtu Price amount nedaňových bill item se shodnou tax rate a s
+ohledem na jejich Bill item type) = 0, rounding adjustment není potřeba
+pro danou daňovou bill item.</p></li>
+<li><p>jinak Systém vytvoří korekční bill item s parametry:</p>
+<ul>
+<li><p>Bill item category = Rounding adjustment</p></li>
+<li><p>Product type = null</p></li>
+<li><p>Bill item type =</p></li>
+</ul>
+<ul>
+<li><p>Pokud součet Tax base všech daňových Bill item a Price amount
+všech daňových Bill items &gt;= 0,</p>
+<ul>
+<li><p>a pokud vypočtený rozdíl je menší než nula, pak Corrective bill
+item – credit,</p></li>
+<li><p>jinak Corrective bill item – debit</p></li>
+</ul></li>
+<li><p>Pokud součet Tax base všech daňových Bill item a Price amount
+všech daňových Bill items &lt; 0,</p>
+<ul>
+<li><p>A pokud vypočtený rozdíl je větší než nula, pak Corrective bill
+item – credit,</p></li>
+<li><p>jinak Corrective bill item – debit</p>
+<ul>
+<li><p>Unit price = Price amount</p></li>
+<li><p>Unit price definition method = None</p></li>
+<li><p>Number of units = 1</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = null</p></li>
+<li><p>Price amount = absolutní hodnota vypočteného rozdílu</p></li>
+<li><p>Price amount VAT = Price amount</p></li>
+<li><p>Billing service = Systém zjistí billing service z PCRE na základě
+Billing service.abbreviation = ADJ-ROUNDING</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Systém vypočítá základ daně faktury (Bill amount) tak, že sečte
+Tax base všech daňových Bill item.</p></li>
+<li><p>Systém vypočítá daň faktury (Tax amount) tak, že sečte Price
+amount všech daňových Bill items.</p></li>
+<li><p>Systém vypočítá celkovou částku faktury (Total amount) tak, že
+sečte Bill amount a Tax amount.</p></li>
+<li><p>Pokud vypočtená hodnota Total amount je &lt; 0, Systém nastaví
+bill.Bill issue type = Corrective bill – credit, jinak na bill.Bill
+issue type = Regular bill.</p></li>
+<li><p>Pokud vypočtená hodnota Total amount je = 0, Systém nastaví
+bill.Bill payment status = Payment not needed.</p></li>
+<li><p>Do bill.Total amount, bill.Bill amount a bill.Tax amount se uloží
+absolutní hodnota vypočtených částek.</p></li>
+<li><p>Systém updatuje další bill atributy:</p>
+<ul>
+<li><p>Bill number = použijí se pravidla Číslování faktur na základě
+Bill issue type</p></li>
+<li><p>Fiscal verification number = vygeneruje se Fiskální verifikační
+číslo ze sekvence pro číslování faktur (BNF77) s Business Premises BO,
+určeným podle user profile</p></li>
+<li><p>ZKI = vyplní se Ochranný kód vystavitele faktury (Issuer's
+Protection Code)</p></li>
+<li><p>Bill type =</p>
+<ul>
+<li><p>Customer bill pokud Bill session aggregation type =
+<mark>Pre-paid,</mark> Post-paid card, <mark>Postpaid
+invoice</mark>,</p></li>
+<li><p>EETS Provider bill, pokud Bill session aggregation type = EETS
+Provider</p></li>
+<li><p>Exemption partner bill, pokud Bill session aggregation type =
+Exemption partner</p></li>
+<li><p><mark>Fleet card issuer bill, pokud Bill session aggregation type
+= Fleet card issuer</mark></p></li>
+</ul></li>
+<li><p>Date of issue = systémové datum</p></li>
+<li><p>Date of beginning = Bill session.Bill period start</p></li>
+<li><p>Date of end = Bill session.Bill period end</p></li>
+<li><p>Matched amount = 0</p></li>
+</ul></li>
+<li></li>
+<li><p><mark>Systém vypočítá termíny splatnosti (Bill Due
+date)</mark></p>
+<ul>
+<li><p><mark>pro fakturu a vrubopis tak, že k Bill Date of issue přičte
+hodnotu Maturity period z příslušného Účtu, případně</mark>
+<mark>příslušné specializace Business partnera.</mark></p></li>
+<li><p><mark>pro EETS dobropis tak, že k Bill Date of issue přičte
+hodnotu Maturity period for credit note z příslušného Poskytovatele
+mýtných služeb,</mark></p></li>
+<li><p><mark>pro jiný dobropis tak, že k Bill Date of issue přičte
+hodnotu z konfiguračního klíče BE_Maturity period for customer credit
+note.</mark></p></li>
+</ul></li>
+<li></li>
+<li><p>Systém vytvoří statistiku fakturační dávky.</p></li>
+</ul>
+
+
+<p>Systém nastaví Bill status na <strong>Waiting for print</strong> a
+postupně provádí následující fakturační kroky:</p>
+
+
+<ul>
+<li><p>Systém informace o faktuře v ePorezna formátu (XML) odešle do
+ePorezna na fiskalizaci (Rozhraní ePorezna (fiskalizace)
+(INT.BAR.31.HR). </p></li>
+<li><p>Systém propíše Unique invoice identifier (JIR) z ePorezna
+odpovědi do Bill.JIR atributu.</p></li>
+<li><p><mark>Systém zjistí</mark> <mark>preferovaný</mark> <mark>jazyk
+faktury Účtu nebo</mark> <mark>příslušné specializace Business
+partnera</mark> <mark>(např.</mark> <mark>Poskytovatele EETS</mark>
+<mark>nebo FCI nebo Exemption partnera)</mark> <mark>(tj. ze
+Account.Preferred document language nebo</mark> <mark>Business
+partner.Preferred document language).</mark></p></li>
+<li><p>Systém vygeneruje podle bill type, bill issue type a bill
+category všechny dokumenty faktur, vrubopisů případně dobropisů
+s ohledem <mark>na zjištěný preferovaný jazyk</mark> v pdf formátu za
+využití systémoveé funkce Vytvoř a ulož dokument (SYS.DFRP.1.1):</p>
+<ul>
+<li><p>Faktura za mýtné (DOC.BE.10.HR)</p></li>
+<li><p>Vrubopis za mýtné (DOC.BE.13.HR)</p></li>
+<li><p>Dobropis za mýtné (DOC.BE.14.HR),</p></li>
+</ul></li>
+<li><p>Systém updatuje Bill.Bill document = identifikátor vygenerovaného
+PDF dokumentu faktury.</p></li>
+<li><p>Systém pro <mark>každý</mark> Customer bill za mýto připraví a
+vygeneruje souhrnný detailní výpis (Detailní výpis mýtných transakcí
+k faktuře (DOC.BE.11.HR)) jako povinnou součást vytvořené
+faktury.</p></li>
+<li><p>Systém zjistí, zda se má faktura vygenerovat také v xml formátu
+jako elektronická faktura (tj. pokud CM.Account.Preferred electronic
+invoice format = FINA, nebo ECM.EETS Provider.Preferred electronic
+invoice format = FINA, nebo CM.Exemption partner.Preferred electronic
+invoice format = FINA).</p></li>
+<li><p>V případě požadovaného elektronického formátu (XML) faktury:</p>
+<ul>
+<li><p>Systém navíc vygeneruje eFakturu (DOC.BE.21.HR). Systém dokument
+uloží s využitím případu užití Ulož externí dokument
+(SYS.DFRP.1.4).</p></li>
+<li><p>Systém updatuje Bill.E-Bill document = identifikátor vytvořeného
+XML dokumentu faktury.</p></li>
+</ul></li>
+<li><p>Systém odešle všechny pdf a případně i XML verze faktur,
+vrubopisů, dobropisů a info o Detailním výpisu v csv formátu na
+zákazníkův/EETS Provider/Exemption partner email (pokud je vyplněn)
+společně s notifikací Oznámení o vystavení faktury
+(NTF.DF.01.HR).</p></li>
+<li><p>Systém případně odešle XML verzi faktury přes eFINA přes Rozhraní
+eFINA (elektronická faktura) (INT.BAR.32.HR).</p></li>
+<li><p>Systém změní stav Bill.Bill issue status na Issued.</p></li>
+</ul>
+
+
+<p>Systém dokončí proces vytváření pravidelných faktur a nastaví stav
+<strong>Bill session na Closed,</strong> pokud se všechny Bills dostaly
+do stavu Issued. Systém postupně provádí následující fakturační
+kroky:</p>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="alternativní-postupy-2">Alternativní postupy</h4>
+
+
+<p>Fakturační dávka opožděných událostí</p>
+
+
+<p>Systém zpracuje opožděné mýtné události, které vznikly v již
+vyfakturovaném období, které přišly do Systému až po uzávěrce fakturační
+dávky, do které patří podle data mýtné transakce.</p>
+
+
+<p>Systém vybere bill session type = Delayed (Systém automaticky spustí
+proces uzavírání pravidelné fakturační dávky typu Delayed pouze u
+zpracovávání normálního typu pravidelné fakturační dávky).</p>
+
+
+<p>Postup pokračuje kroky jako u normálního typu fakturační dávky s tím
+rozdílem, že:</p>
+
+
+<ul>
+<li><p>Pokud při vytváření tax bill itemy je součet bill item s danou
+sazbou daně</p>
+<ul>
+<li><p>&lt; 0, pak Bill item type = Corrective bill item
+credit,</p></li>
+<li><p>&gt;=0 a zároveň neexistují Corrective bill items debit a součet
+Corrective bill items credit je 0, pak Bill item type = Regular bill
+item,</p></li>
+<li><p>jinak Bill item type = Corrective bill item debit</p></li>
+</ul></li>
+<li><p>Pokud vypočtená hodnota bill.Total amount je &lt; 0, Systém
+nastaví bill.Bill issue type = Corrective bill – credit, jinak na
+bill.Bill issue type = Corrective bill – debit.</p></li>
+<li><p>Detailní výpis mýtných transakcí se vytvoří v případě opožděných
+mýtných transakcí jen v důsledku vydání vrubopisu) pro Customer
+bills.</p></li>
+</ul>
+
+
+<p>Fakturační dávka znovuoceněných událostí</p>
+
+
+<p>Systém zpracuje opětovně oceněné mýtné události.</p>
+
+
+<p>Systém vybere bill session type = Rerated (Systém automaticky spustí
+proces uzavírání pravidelné fakturační dávky typu Rerated pouze u
+zpracovávání normálního typu pravidelné fakturační dávky).</p>
+
+
+<p>Postup pokračuje kroky jako u normálního typu fakturační dávky s tím
+rozdílem, že:</p>
+
+
+<ul>
+<li><p>Pokud při vytváření tax bill itemy je součet bill item s danou
+sazbou daně</p>
+<ul>
+<li><p>&lt; 0, pak Bill item type = Corrective bill item
+credit,</p></li>
+<li><p>&gt;= 0, pak Bill item type = Corrective bill item debit</p></li>
+</ul></li>
+<li><p>Pokud vypočtená hodnota bill.Total amount je &lt; 0, Systém
+nastaví bill.Bill issue type = Corrective bill – credit, jinak na
+bill.Bill issue type = Corrective bill – debit. Do bill.Total amount se
+uloží absolutní hodnota vypočtené částky.</p></li>
+<li><p>Detailní výpis mýtných transakcí se nevytvoří.</p></li>
+<li></li>
+</ul>
+
+
+<h4 id="chybové-postupy-2">Chybové postupy</h4>
+
+
+<p>Bill - Print failed</p>
+
+
+<p>Pokud se nepodařilo vygenerovat všechny dokumenty billu (tj.
+nedokončil se některý z následujících kroků), Systém u takovýchto faktur
+nastaví jejich stav Bill.Bill issue status na Print failed:</p>
+
+
+<ul>
+<li><p>ePorezna package – nepovedlo se mapování / výroba
+xml/json</p></li>
+<li><p>odeslání do ePorezna – skončilo jako business error</p></li>
+<li><p>tvorba document xml -chyba v načítání dat z CM nebo chyba při
+tvorbě XML</p></li>
+<li><p>zaslání xml do DF: GenerateDocument – skončilo s error
+result</p></li>
+<li><p>tvorba eBill - chyba načítání dat z CM</p></li>
+<li><p>uložení eBill do DF: StoreExternalDocument - skončilo s error
+result</p></li>
+<li><p>detailní výpis - chyba načítání dat z CM nebo chyba při tvorbě
+XML</p></li>
+<li><p>uložení detailního výpisu do DF: StoreExternalDocument - skončilo
+s error result</p></li>
+<li><p>odeslání faktur přes DF: SendDocument - skončilo s error
+result</p></li>
+<li><p>odeslání eBill z DF: SendToEfina - skončilo s error
+result</p></li>
+</ul>
+
+
+<p>Bill session - Closed with error</p>
+
+
+<p>Systém dokončí proces vytváření pravidelných faktur a nastaví stav
+<strong>Bill session na Closed with error</strong>, pokud některý z
+Bills se dostal do stavu Print failed (tzn. nejsou všechny ve stavu
+Issued).</p>
+
+
+<p>Na základě manuálně spuštěného dokončovacího jobu, Systém pro každou
+Bill session (tj. normal, delayed, rerated) ve stavu Closed with error
+se pokusí pro Bills ve stavu Print failed znovu vygenerovat potřebné
+dokumenty.</p>
+
+
+<p>Pokud bylo generování dokumentů úspěšné, Systém nastaví Bill.Bill
+issue status na Issued, jinak ponechá stav Print failed.</p>
+
+
+<p>Po zprocesování všech problematických Bills, Systém nastaví stav Bill
+session na Closed, pokud všechny Bill jsou již Issued, jinak ponechá
+stav Closed with error a proces se opakuje.</p>
+
+
+<h4 id="poznámky-1">Poznámky</h4>
+
+
+<p>Pro Customer bills Detailní výpis mýtných transakcí se vytvoří pouze
+v případě, že existuje alespoň jeden oceněný záznam pro daný účet.</p>
+
+
+<p>Pro Customer bills Detailní výpis mýtných transakcí se dále vytvoří
+v případě opožděných mýtných událostí (v důsledku vydání vrubopisu).</p>
+
+
+<h3 id="vytvoř-jednorázovou-fakturu-za-služby-sys.bar.0.4.hr">Vytvoř
+jednorázovou fakturu za služby (SYS.BAR.0.4.HR)</h3>
+
+
+<h4 id="cíl-3">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je vygenerování jednorázové faktury za
+naúčtované jednorázové poplatky nebo za provedený Top-up.</p>
+
+
+<h4 id="spuštění-případu-3">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí případů užití:</p>
+
+
+<ul>
+<li><p>Top-up</p>
+<ul>
+<li><p>Zaplať předplacený kredit – Pre-paid in single domain
+(UC.BAR.0.1.HR)</p></li>
+</ul></li>
+<li><p><mark>OBU,</mark> <mark>Products</mark></p>
+<ul>
+<li><p><mark>TBD</mark></p></li>
+</ul></li>
+<li><p><mark>Záporný kredit</mark></p>
+<ul>
+<li><p><mark>Ukonči předplacený účet (UC.CM.4.15)</mark></p></li>
+</ul></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-2">Podmínky spuštění</h4>
+
+
+<p>Pro daný Account, pro které je potřeba vystavit fakturu, je na
+vstupu:</p>
+
+
+<ul>
+<li><p>identifikace Accountu</p></li>
+<li><p>oceněná událost (včetné počtu jednotek),</p></li>
+<li><p>Bill issuer,</p></li>
+<li><p>info o POS (pokud je to relevantní)</p></li>
+<li><p>informace o platbě (pokud je informace o platbě prázdná, jde o
+vystavení Proforma faktury)</p></li>
+</ul>
+
+
+<ul>
+<li><p>pokud se jedná o Top-up, je známa částka platby</p></li>
+<li><p>pokud se jedná o prodej OBU, jsou <mark>známy</mark> <mark>čísla
+prodaných OBU</mark> <mark>(OBU Serial number).</mark></p></li>
+</ul>
+
+
+<p>Poznámka: Pro FCI, EETS Provider a Exemption partner není aktuálně UC
+potřeba realizovat.</p>
+
+
+<h4 id="normální-postup-2">Normální postup</h4>
+
+
+<p>Systém zjistí BIBA:</p>
+
+
+<ul>
+<li><p>pro Top-up z Payment.BIBA (tj. na základě Bill issuer a Reason =
+Top-up)</p></li>
+<li><p>jinak na základě Bill issuer a Reason = Services.</p></li>
+</ul>
+
+
+<p>Systém, pokud jde o Top-up, vytvoří Rated Service Event pro
+top-up:</p>
+
+
+<ul>
+<li><p>Event time = sysdate</p></li>
+<li><p>Product type = PCRE.product type (Top-Up)</p></li>
+<li><p>Type = Rating</p></li>
+<li><p>Basic unit price = Price amount</p></li>
+<li><p>Basic unit price definition method = PCRE.product type.unit price
+definition method (none)</p></li>
+<li><p>Unit price = Price amount</p></li>
+<li><p>Unit price VAT = Price amount VAT</p></li>
+<li><p>Number of units = 1</p></li>
+<li><p>Metric unit = piece</p></li>
+<li><p>Tax rate = PCRE.tax rate rate</p></li>
+<li><p>Price amount = částka top-up platby/(1+tax rate)</p></li>
+<li><p>Price amount VAT = částka platby</p></li>
+<li><p>Billing service = PCRE.billing service</p></li>
+<li><p>Number of units corrected = null</p></li>
+<li><p>Cancellable = True</p></li>
+<li><p>Subject type = Account, pokud na vstupu je identifikace
+Account</p></li>
+<li><p>Subject number = ze vstupu</p></li>
+<li><p>Bill issuer = ze vstupu</p></li>
+<li><p><mark>FCI partner = FCI karty</mark> <mark>v případě
+platby</mark> <mark>tankovací</mark> <mark>kartou</mark></p></li>
+<li><p><mark>Fleet Card Number = Číslo tankovací karty v případě
+platby</mark> <mark>tankovací</mark> <mark>kartou</mark></p></li>
+<li><p><mark>Fleet Card Id = Id tankovací karty v případě platby</mark>
+<mark>tankovací</mark> <mark>kartou</mark></p></li>
+</ul>
+
+
+<p>Pokud nejde o Top-up, Systém na základě každé oceněné události ze
+vstupu naúčtuje jednorázový poplatek za použití systémové funkce Naúčtuj
+jednorázový poplatek (SYS.BAR.0.7.HR).</p>
+
+
+<p>Systém seskupí oceněné události podle atributů Rated service
+events:</p>
+
+
+<ul>
+<li><p>Subject number (tj. Account nebo null),</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Product type,</p></li>
+<li><p>Basic unit price definition method,</p></li>
+<li><p>Card number (pokud je na vstupu)</p></li>
+<li><p>Discount rate.</p></li>
+</ul>
+
+
+<p>a pro každou kombinaci vytvoří Bill Item s parametry:</p>
+
+
+<ul>
+<li><p>Bill item category =</p>
+<ul>
+<li><p>Top-up event, pokud Product type = Top-up</p></li>
+<li><p>OBU event, pokud Product type = OBU</p></li>
+<li><p>jinak Service event</p></li>
+</ul></li>
+<li><p>Bill item type = Regular bill item</p></li>
+<li><p>Unit price = Unit price z RSE</p></li>
+<li><p>Unit price VAT = Unit price VAT z RSE</p></li>
+<li><p>Number of units = součet z Number of units RSE</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = Tax rate z RSE</p></li>
+<li><p>Price amount = částka poplatků bez daně,</p></li>
+<li><p>Price amount VAT = částka poplatků s daní</p></li>
+<li><p>Billing service = Billing service z RSE</p></li>
+</ul>
+
+
+<p>Systém pro každou sazbu tax rate vytvoří tax bill item:</p>
+
+
+<ul>
+<li><p>Bill item category = Tax</p></li>
+<li><p>Bill item type = Regular bill item</p></li>
+<li><p>Number of units = null</p></li>
+<li><p>Metric unit = null</p></li>
+<li><p>Tax rate = sazba daně (v procentech)</p></li>
+<li><p>Price amount = celková daň za bill itemy s danou tax rate (Tax
+base * Tax rate a zaokrouhlení na dvě desetinná místa)</p></li>
+<li><p>Tax base = celková částka bez daně s danou tax rate (suma Price
+amount příslušných nedaňových bill items a zaokrouhlení na dvě desetinná
+místa)</p></li>
+</ul>
+
+
+<p>Systém zjistí pro každou sazbu daně, zda není potřeba Rounding
+adjustment:</p>
+
+
+<ul>
+<li><p>Pokud rozdíl, daňové bill item.tax base a absolutní hodnoty
+součtu nedaňových bill item.price amount, není roven nule, Rounding
+adjustment bill item se vytvoří s výsledkem rozdílu jako bill item.price
+amount</p></li>
+<li><p>Pokud rozdíl, (součtu daňové bill item.tax base a daňové bill
+item.price amount) a součtu nedaňových bill item.price amount VAT, není
+roven nule, Rounding adjustment bill iem se vytvoří, s výsledkem rozdílu
+jako bill item.price amount VAT</p>
+<ul>
+<li><p>Systém vytvoří korekční bill item s parametry:</p></li>
+<li><p>Bill item category = Rounding adjustment</p></li>
+<li><p>Product type = null</p></li>
+<li><p>Bill item type =</p>
+<ul>
+<li><p>pokud vypočtený rozdíl je větší než 0, pak Corrective bill item –
+credit,</p></li>
+<li><p>jinak Corrective bill item – debit</p></li>
+</ul></li>
+<li><p>Unit price = Price amount</p></li>
+<li><p>Unit price VAT = Price amount VAT</p></li>
+<li><p>Number of units = 1</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = null</p></li>
+<li><p>Price amount = podle výsledku výpočtu, buď absolutní hodnota
+rozdílu, jinak null</p></li>
+<li><p>Price amount VAT = podle výsledku výpočtu, buď absolutní hodnota
+rozdílu, jinak null</p></li>
+<li><p>Billing service = Systém zjistí billing service z PCRE na základě
+Billing service.abbreviation = ADJ-ROUNDING</p></li>
+</ul></li>
+</ul>
+
+
+<p>Systém vytvoří vytvoří Bill s parametry:</p>
+
+
+<ul>
+<li><p>Bill number = Unikátní číslo faktury podle schématu z Číslování
+faktur v závislosti na Bill type, Bill issue type, Bill category a Bill
+issuer.</p></li>
+<li><p>Fiscal verification number = vygeneruje se Fiskální verifikační
+číslo ze sekvence pro číslování faktur (BNF77) s Business Premises BO,
+určeným podle user profile</p></li>
+<li><p>ZKI = vyplní se Ochranný kód vystavitele faktury (Issuer's
+Protection Code)</p></li>
+<li><p>Bill type =</p>
+<ul>
+<li><p>Pokud jde o subject type = Account, pak Customer bill</p></li>
+<li></li>
+<li><p><mark>pokud jde o Fleet card issuer, pak FCI bill</mark></p></li>
+<li><p><mark>pokud jde o Exemption partner, pak Exemption partner
+bill</mark></p></li>
+<li><p><mark>pokud jde o</mark> <mark>subjecte type =</mark> <mark>EETS
+Provider, pak EETS Provider bill</mark></p></li>
+</ul></li>
+<li><p>Bill category =</p>
+<ul>
+<li><p>OBU, pokud Bill item category = OBU event,</p></li>
+<li><p>Services, pokud Bill item category = Service Event,</p></li>
+<li><p>Top-up, pokud Bill item category = Top-up event.</p></li>
+</ul></li>
+<li><p>Bill issue type =</p>
+<ul>
+<li><p>Proforma bill, pokud neexistuje platba pro danou
+operaci,</p></li>
+<li><p>Advance bill, pokud Bill category = Top-up,</p></li>
+<li><p>else Regular bill.</p></li>
+</ul></li>
+<li><p>Bill recurrence type = One-time bill</p></li>
+<li><p>Bill issue status = Issued</p></li>
+<li><p>Bill payment status = Unpaid</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Bill amount = součet daňových bill items.tax base</p></li>
+<li><p>Tax amount = součet daňových bill items.price amount</p></li>
+<li><p>Total amount = součet Bill amount a Tax amount</p></li>
+<li><p>Date of issue = aktuální datum</p></li>
+<li><p>Due date = se vypočte tak, že k Bill Date of issue se přičte
+hodnota Maturity period z příslušného Účtu, <mark>případně</mark>
+<mark>z</mark> <mark>Provider EETS, případně</mark> <mark>z</mark>
+<mark>Exemption partner, případně</mark> <mark>z</mark>
+<mark>FCI</mark>.</p></li>
+<li><p>Date of beginning = aktuální datum</p></li>
+<li><p>Date of end = aktuální datum</p></li>
+<li><p>Matched amount = 0</p></li>
+<li><p>Subject type = Subject type z RSE</p></li>
+<li><p>Subject number = Subject number z RSE</p></li>
+<li><p>Bill issuer bank account = zjištěné číslo bankovního účtu Bill
+issuera (BIBA)</p></li>
+<li><p>Bill issuer = Bill issuer ze vstupu</p></li>
+</ul>
+
+
+<p>Pokud se nejedná o Proforma bill, Systém informace o faktuře v XML
+formátu odešle do ePorezna na fiskalizaci (Rozhraní ePorezna
+(fiskalizace) (INT.BAR.31.HR). </p>
+
+
+<p>Systém propíše Unique Invoice Identifier (JIR) z ePorezna odpovědi do
+Bill.JIR atributu.</p>
+
+
+<p><mark>Systém zjistí jazyk faktury Účtu nebo Poskytovatele EETS (tj.
+ze Account.Preferred document language nebo EETS Provider.Preferred
+document language).</mark></p>
+
+
+<p>Pokud se případ užití spustil na POS (MEV, Kiosk, POS),</p>
+
+
+<p>Systém zjistí, zda se má dokument generovat ve variantě (DOC.BE.x)
+v případě A4 formátu nebo (DOC.BE.x<strong>B</strong>) v případě thermo
+tisku na POS (podle POS.Printer type).</p>
+
+
+<p>Systém, s ohledem na <mark>zjištěný preferovaný jazyk,</mark> na
+zjištěnou variantu dokumentu, vygeneruje dokument faktury v pdf
+formátu:</p>
+
+
+<ul>
+<li><p>Pokud jde o bill category = Top-up, pak Zálohová faktura za
+top-up (DOC.BE.1.HR) v případě A4 formátu, nebo (DOC.BE.1B.HR) v případě
+thermo tisku</p></li>
+<li><p>pokud jde o bill issue type = Proforma bill, pak Proforma faktura
+(DOC.BE.24.HR),</p></li>
+<li><p>jinak (Faktura za služby (DOC.BE.16.HR),</p></li>
+</ul>
+
+
+<p>s využitím případu užití Vytvoř a ulož dokument (SYS.DFRP.1.1).</p>
+
+
+<p>Systém zjistí, zda se má faktura vygenerovat také v xml formátu jako
+elektronická faktura (tj. pokud CM.Account.Preferred electronic invoice
+format = FINA, <mark>nebo ECM.EETS Provider.Preferred electronic invoice
+format = FINA, nebo CM.Exemption partner.Preferred electronic invoice
+format = FINA)</mark>.</p>
+
+
+<p>V případě požadovaného XML formátu, Systém navíc vygeneruje eFakturu
+(DOC.BE.21.HR). Systém dokument uloží s využitím případu užití Ulož
+externí dokument (SYS.DFRP.1.4).</p>
+
+
+<p>Systém updatuje na Bill.Bill document = identifikátor vygenerovaného
+PDF dokumentu faktury.</p>
+
+
+<p>Systém případně updatuje Bill.E-Bill document = identifikátor
+vytvořeného XML dokumentu faktury.</p>
+
+
+<p><mark>Pokud vygenerování faktury proběhlo na žádost DU, Systém odešle
+do DU identifikaci vzniklé faktury.</mark></p>
+
+
+<p>Pokud vygenerování faktury proběhlo pro POS (MEV, Kiosk, POS), Systém
+dokument nabídne ke stažení.</p>
+
+
+<p>Systém odešle pdf a případně XML verzi faktury na zákazníkův email
+<mark>případně email Poskytovatele mýtných služeb</mark> společně
+s notifikací:</p>
+
+
+<ul>
+<li><p>Oznámení o vystavení faktury za předplacení kreditu
+(NTF.BAR.01.HR), pokud jde o Top-up</p></li>
+<li><p>jinak Oznámení o vystavení faktury (NTF.BAR.21.HR).</p></li>
+</ul>
+
+
+<p>Systém případně odešle XML verzi faktury přes eFINA přes Rozhraní
+eFINA (elektronická faktura) (INT.BAR.32.HR).</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-3">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-3">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-2">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="vytvoř-fakturační-dávku-sys.bar.0.6.hr">Vytvoř fakturační dávku
+(SYS.BAR.0.6.HR) </h3>
+
+
+<h4 id="cíl-4">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je otevření nové Bill session.</p>
+
+
+<p>Budou se vytvářet Bill sessions podle nastavených Bill cycles platné
+pro jednotlivé Bill session aggregation typy, Bill session content typy
+a normální Bill session type.</p>
+
+
+<h4 id="spuštění-případu-4">Spuštění případu</h4>
+
+
+<p>Na základě naplánované operace BEm.CreateBillSessions.</p>
+
+
+<h4 id="podmínky-spuštění-3">Podmínky spuštění</h4>
+
+
+<h4 id="popis-1">Popis</h4>
+
+
+<p>Systém vytvoří novou Bill Session na základě hodnot bill session
+aggregation type, Bill session content type a Bill cycle:</p>
+
+
+<ul>
+<li><p>Bill session number = Číslo fakturační dávky ve formátu
+RRMMDDXXXX</p></li>
+<li><p>Bill session aggregation type = Post-paid card, <mark>Post-paid
+invoice</mark>, EETS Provider, Exemption partner, <mark>Fleet card
+issuer, Pre-paid</mark></p></li>
+<li><p>Bill session content type = Toll</p></li>
+<li><p>Bill session type = Normal</p></li>
+<li><p>Bill session status = Open</p></li>
+<li><p>Bill period start = navazující na Bill period end předchozí Bill
+session</p></li>
+<li><p>Bill period end = Bill period start posunutý o Bill
+cycle</p></li>
+<li><p>Bill cycle = Month, 15-days</p></li>
+<li></li>
+</ul>
+
+
+<p>Nastavení při instalaci:</p>
+
+
+<p>pro EETS Provider a Toll</p>
+
+
+<ul>
+<li><p>Bill session aggregation type = EETS Provider</p></li>
+<li><p>Bill session content type = Toll</p></li>
+<li><p>Bill cycle = 15-days, Month (agregace podle hodnoty atributu Bill
+cycle na EETS Provider)</p></li>
+</ul>
+
+
+<p><mark>pro Post-paid Invoice a</mark> <mark>Toll</mark></p>
+
+
+<ul>
+<li><p><mark>Bill session aggregation type = Post-paid
+Invoice</mark></p></li>
+<li><p><mark>Bill session content type = Toll</mark></p></li>
+<li><p><mark>Bill cycle = Month (agregace podle hodnoty atributu Bill
+cycle na Account)</mark></p></li>
+</ul>
+
+
+<p>pro Post-paid Card a Toll</p>
+
+
+<ul>
+<li><p>Bill session aggregation type = Post-paid Card</p></li>
+<li><p>Bill session content type = Toll</p></li>
+<li><p>Bill cycle = Month (agregace podle hodnoty atributu Bill cycle na
+Account)</p></li>
+</ul>
+
+
+<p>pro Exemption partner a Toll</p>
+
+
+<ul>
+<li><p>Bill session aggregation type = Exemption partner</p></li>
+<li><p>Bill session content type = Toll</p></li>
+<li><p>Bill cycle = 15-days, Month (agregace podle hodnoty atributu Bill
+cycle na VCM.Exemption partner)</p></li>
+</ul>
+
+
+<p><mark>pro FC payments</mark></p>
+
+
+<ul>
+<li><p><mark>Bill session content type = FC payments (agregace podle
+typu bill itemy)</mark></p></li>
+<li><p><mark>Bill cycle = 15-days, Month (agregace podle hodnoty
+atributu Bill cycle na FCI)</mark></p></li>
+</ul>
+
+
+<p><mark>pro</mark> <mark>Fleet card issuer a</mark>
+<mark>Toll</mark></p>
+
+
+<ul>
+<li><p><mark>Bill session aggregation type = Exemption
+partner</mark></p></li>
+<li><p><mark>Bill session content type = Toll</mark></p></li>
+<li><p><mark>Bill cycle = 15-days, Month (agregace podle hodnoty
+atributu Bill cycle na VCM.Exemption partner)</mark></p></li>
+</ul>
+
+
+<p><mark>pro Pre-paid</mark> <mark>a</mark> <mark>Toll</mark></p>
+
+
+<ul>
+<li><p><mark>Bill session aggregation type =</mark>
+<mark>Pre-paid</mark></p></li>
+<li><p><mark>Bill session content type = Toll</mark></p></li>
+<li><p><mark>Bill cycle = Month (agregace podle hodnoty atributu Bill
+cycle na Account)</mark></p></li>
+</ul>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-4">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-4">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-3">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="naúčtuj-jednorázový-poplatek-sys.bar.0.7.hr">Naúčtuj jednorázový
+poplatek (SYS.BAR.0.7.HR)</h3>
+
+
+<h4 id="cíl-5">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je vygenerování jednorázového poplatku na
+žádost různých procesů.</p>
+
+
+<h4 id="spuštění-případu-5">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí případů užití:</p>
+
+
+<ul>
+<li><p>UCs vyžadující Administrativní poplatek za Přestupek
+(Offence)</p>
+<ul>
+<li><p>Vytvoř výzvy na úhradu za přestupky (SYS.BAR.0.13.HR)</p></li>
+<li><p>Vytvoř jednorázovou fakturu za mýto (SYS.BAR.14.HR)</p></li>
+</ul></li>
+<li><p><mark>UC vyžadující Poplatek za odeslání OBU poštou</mark></p>
+<ul>
+<li><p><mark>Zjisti počty zásilek pro naúčtování poplatků za zaslání OBU
+(SYS.CM.7.38)</mark></p></li>
+<li></li>
+</ul></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-4">Podmínky spuštění</h4>
+
+
+<p>Je znám Bill issuer, typ poplatku <mark>nebo poplatků</mark>, který
+je potřeba vygenerovat (tj. Product type a odpovídající hodnotu Event
+attribute type), počet jednotek a subjekt (případně subjekt type):</p>
+
+
+<ul>
+<li><p>Administrative fee za Offence:</p>
+<ul>
+<li><p>Product type = DF (Dunning fee) + hodnota event atributu type =
+Chargeable service ze vstupu (i.e. Offence fee<mark>, MEV
+fee</mark>),</p></li>
+<li><p>Počet jednotek</p></li>
+<li><p>Info o subjektu</p></li>
+<li><p>Bill issuer</p></li>
+</ul></li>
+<li><p><mark>OBU:</mark></p>
+<ul>
+<li><p><mark>Product type =</mark> <mark>OBU</mark> <mark>+ pro event
+atribut type</mark> <mark>= Chargeable service, jeho hodnota =
+OBU</mark> <mark>fee,</mark></p></li>
+<li><p><mark>Počet jednotek</mark></p></li>
+<li><p><mark>Info o subjektu</mark></p></li>
+<li><p><mark>případně info o Fleet card, pokud jde o platbu</mark>
+<mark>fleet card</mark></p></li>
+<li><p><mark>Bill issuer</mark></p></li>
+</ul></li>
+<li><p><mark>OBU sending:</mark></p>
+<ul>
+<li><p><mark>Product type =</mark> <mark>OBU nebo ?Chargeable services +
+pro event atribut type</mark> <mark>= Chargeable service, jeho hodnota =
+OBU</mark> <mark>sending</mark> <mark>fee,</mark></p></li>
+<li><p><mark>je znám vypočítaný počet zásilek</mark></p></li>
+<li><p><mark>Info o subjektu</mark></p></li>
+<li><p><mark>případně info o Fleet card, pokud jde o platbu fleet
+card</mark></p></li>
+<li><p><mark>Bill issuer</mark></p></li>
+</ul></li>
+</ul>
+
+
+<p>Poplatky v jednom volání mohou vycházet jen z jednoho Product
+type.</p>
+
+
+<p>Poznámka: Pro FCI, EETS Provider a Exemption partner není aktuálně UC
+potřeba realizovat.</p>
+
+
+<h4 id="normální-postup-3">Normální postup</h4>
+
+
+<p><mark>Systém</mark> <mark>zjistí BIBA na základě Bill issuera ze
+vstupu</mark> <mark>a Reason = Services.</mark></p>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<p>Administrativní poplatek za Offence</p>
+
+
+<p>Systém pro požadovaný typ poplatku, zjistí jeho částku na základě
+kombinace atributů</p>
+
+
+<ul>
+<li><p>Bill issuer, <mark>Bill issuer currency, Bill issuer VAT
+registration country,</mark></p></li>
+<li><p><mark>VAT registration country zákazníka, VAT registration
+country zákazníka</mark>,</p></li>
+<li><p>Product type = Dunning fee + hodnota event atributu typu =
+Chargeable service ze vstupu (i.e. Offence fee nebo MEV fee),</p></li>
+</ul>
+
+
+<p>za použití systémové funkce Oceň produkt (SYS.PCRE.1.4.HR).</p>
+
+
+<p>Postup pokračuje krokem <strong>Společný postup pro všechny
+poplatky</strong> s Number of units = počet Offences daného Bill
+issuer.</p>
+
+
+<p><mark>Poplatek za zaslání OBU</mark></p>
+
+
+<p><mark>Systém pro požadovaný typ poplatku, zjistí jeho částku na
+základě kombinace atributů</mark></p>
+
+
+<ul>
+<li><p><mark>Bill issuer, Bill issuer currency, Bill issuer VAT
+registration country,</mark></p></li>
+<li><p><mark>VAT registration country zákazníka, VAT registration
+country zákazníka,</mark></p></li>
+<li><p><mark>Product type =</mark> <mark>Chargeable service</mark>
+<mark>+ hodnota event atributu typu = Chargeable service ze vstupu
+(i.e.</mark> <mark>OBU sending fee),</mark></p></li>
+</ul>
+
+
+<p><mark>za použití případu užití Oceň produkt
+(SYS.PCRE.1.4).</mark></p>
+
+
+<p><mark>Postup pokračuje krokem <strong>Společný postup pro všechny
+poplatky</strong></mark> <mark>s</mark> <mark>Number of units =
+spočítaný počet zásilek.</mark></p>
+
+
+<p>Společný postup pro všechny poplatky</p>
+
+
+<p>Pokud je poplatek = 0 a konfigurační klíč
+BE_AggregateZeroServiceTransactions = no, postup pro daný poplatek končí
+(nevytvoří se RSE a bill item pro tento poplatek).</p>
+
+
+<p>Systém vytvoří Rated service event pro každý typ poplatku ze
+vstupu:</p>
+
+
+<ul>
+<li><p>Event time = sysdate</p></li>
+<li><p>Type = Rating</p></li>
+<li><p>Product type = ze vstupu (PCRE.Product type)</p></li>
+<li><p>Basic unit price = z PCRE Basic unit price</p></li>
+<li><p>Unit price = z PCRE Unit price</p></li>
+<li><p>Unit price VAT= z PCRE Unit price VAT</p></li>
+<li><p>Basic unit price definition method = z PCRE.product type.basic
+unit price definition method</p></li>
+<li><p>Number of units = počet jednotek ze vstupu</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = z PCRE.tax rate</p></li>
+<li><p>Price amount = částka poplatku bez daně = z PCRE Price amount *
+Number of units</p></li>
+<li><p>Price amount VAT = částka poplatku s daní = z PCRE Price amount
+VAT * Number of units</p></li>
+<li><p>Billing service = z PCRE.billing service</p></li>
+<li><p>Subject type =</p>
+<ul>
+<li><p>Account, pokud na vstupu Account info,</p></li>
+<li><p>jinak No subject</p></li>
+</ul></li>
+<li><p>Subject number =</p>
+<ul>
+<li><p>ze vstupu VCM.account, pokud Subject type = Account,</p></li>
+<li><p>jinak Null</p></li>
+</ul></li>
+<li><p>Cancellable = true</p></li>
+<li><p>Number of units corrected = 0</p></li>
+<li><p>FCI partner = FCI karty v případě platby tankovací
+kartou</p></li>
+<li><p>Fleet Card Number = Číslo tankovací karty v případě platby
+tankovací kartou</p></li>
+<li><p>Fleet Card Id = Id tankovací karty v případě platby tankovací
+kartou</p></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="alternativní-postupy-5">Alternativní postupy</h4>
+
+
+<p>Žádné</p>
+
+
+<h4 id="chybové-postupy-5">Chybové postupy</h4>
+
+
+<p>Žádné</p>
+
+
+<h4 id="poznámky-4">Poznámky</h4>
+
+
+<p>Žádné</p>
+
+
+<h3 id="zagreguj-oceněné-události-do-fakturační-dávky-sys.bar.0.12.hr">Zagreguj
+oceněné události do fakturační dávky (SYS.BAR.0.12.HR) </h3>
+
+
+<h4 id="cíl-6">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je zagregovat vytvořené Oceněné mýtné
+události (Rated Toll Events) do Fakturační dávky (Bill Sesssion).</p>
+
+
+<h4 id="spuštění-případu-6">Spuštění případu</h4>
+
+
+<blockquote>
+<p>Je vloženou součástí případu užití:</p>
+</blockquote>
+
+
+<ul>
+<li><p>Ulož oceněnou mýtnou transakci (SYS.BAR.1.8.HR)</p></li>
+<li><p>Zaplať mýtnou transakci tokenem (SYS.BAR.1.10.HR)</p></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-5">Podmínky spuštění</h4>
+
+
+<p>Jde o Toll Transaction s Registration type = EETS, Exempted, Exempted
+not compliant nebo Exempted trip, nebo jde o Post-paid card registration
+type po úspěšné platbě kartou</p>
+
+
+<p>Rated toll event ještě není agregován do Bill session.</p>
+
+
+<h4 id="popis-2">Popis</h4>
+
+
+<p>Systém na základě nastavení VCM.Exemption partner, VCM.Account nebo
+ECM.EETS Provider, vyhledá Bill session, která odpovídá podmínkám:</p>
+
+
+<ul>
+<li><p>Pro Subject type = Account a Registration type = Post-paid
+invoice:</p>
+<ul>
+<li><p>Toll transaction.event time spadá do intervalu Bill
+session</p></li>
+<li><p>Bill session.bill session aggregation type = Post-paid
+invoice</p></li>
+<li><p>VCM.Account.bill cycle platný v době event time = Bill
+session.bill cycle</p></li>
+<li><p>Bill session content type = Toll</p></li>
+</ul></li>
+<li><p>Pro Subject type = Account a Registration type = Post-paid card
+(po úspěšné platbě):</p>
+<ul>
+<li><p>Toll transaction.event time spadá do intervalu Bill
+session</p></li>
+<li><p>Bill session.bill session aggregation type = Post-paid
+card</p></li>
+<li><p>VCM.Account.bill cycle platný v době event time = Bill
+session.bill cycle</p></li>
+<li><p>Bill session content type = Toll</p></li>
+</ul></li>
+<li><p>Pro Subject type = EETS Provider:</p>
+<ul>
+<li><p>Toll transaction.event time spadá do intervalu Bill
+session</p></li>
+<li><p>Bill session.bill session aggregation type = EETS
+Provider</p></li>
+<li><p>ECM.EETS Provider.bill cycle platný v době event time = Bill
+session.bill cycle</p></li>
+<li><p>Bill session content type= Toll</p></li>
+</ul></li>
+<li><p>Pro Subject type = Exemption partner:</p>
+<ul>
+<li><p>Toll transaction.event time spadá do intervalu Bill
+session</p></li>
+<li><p>Bill session.bill session aggregation type = Exemption
+partner</p></li>
+<li><p>VCM.Exemption partner.bill cycle platný v době event time = Bill
+session.bill cycle</p></li>
+<li><p>Bill session content type= Toll</p></li>
+</ul></li>
+<li></li>
+</ul>
+
+
+<p>Pokud Bill session neexistuje, Systém odpovídající session s content
+type = Toll vytvoří a nastaví její platnost (např. podle původní bill
+session, do které opoždená nebo opravná položka patřila) tak aby :</p>
+
+
+<ul>
+<li><p>Pro opožděné oceněné mýtné události (události vzniklé v již
+vyfakturovaném období, které přišly do Systému až po uzávěrce fakturační
+dávky do které patří podle data mýtné transakce) Systém vytvoří novou
+pravidelnou fakturační dávku s typem = Delayed.</p></li>
+<li><p>Opětovně oceněné nebo rušené mýtné události (rerating chybně
+oceněných událostí), Systém vytvoří novou pravidelnou fakturační dávku s
+typem = Rerated.</p></li>
+</ul>
+
+
+<p>Systém updatuje atributy na Toll Transaction:</p>
+
+
+<ul>
+<li><p>Agregation time = sysdate time</p></li>
+</ul>
+
+
+<p>Systém přiřadí oceněné mýtné události k Bill ve stavu Bill issue
+status = In progress podle:</p>
+
+
+<ul>
+<li><p>Bill issuer,</p></li>
+<li><p>Account nebo EETS Provider nebo Exemption partner,</p></li>
+<li><p>a Bill Session.</p></li>
+</ul>
+
+
+<p>Pokud Bill neexistuje, Systém vytvoří nový Bill:</p>
+
+
+<ul>
+<li><p>Bill type =</p>
+<ul>
+<li><p>Customer bill, pokud Bill session.bill session aggregation type =
+Post-paid card nebo Post-paid invoice</p></li>
+<li><p>EETS Provider bill, pokud Subjekt type = EETS Provider</p></li>
+<li><p>Exemption partner bill, pokud Subjekt type = Exemption
+partner</p></li>
+</ul></li>
+<li><p>Bill recurrence type = Periodical bill</p></li>
+<li><p>Bill category = Toll</p></li>
+<li><p>Bill issue status = In progress</p></li>
+<li><p>Bill payment status =</p>
+<ul>
+<li><p>Payment not needed, pokud jde o Bill session.bill session
+aggregation type = Post-paid card (tj. po úspěšné platbě kartou
+(SYS.BAR.1.10.HR)</p></li>
+<li><p>jinak Unpaid</p></li>
+</ul></li>
+<li><p>Subject type = Toll transaction.Subject type</p></li>
+<li><p>Subject number = Toll transaction.Subject type</p></li>
+<li><p>Bill issuer bank account = null</p></li>
+<li><p>Bill issuer = Toll transaction.Bill issuer</p></li>
+</ul>
+
+
+<p>Systém seskupí oceněné mýtné události podle:</p>
+
+
+<ul>
+<li><p>Subject number (tj. Account nebo Exemption partner nebo EETS
+Provider),</p></li>
+<li><p>Bill id</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Discount rate,</p></li>
+<li><p>Card number (jen pro Bill session.bill session aggregation type =
+Post-paid card),</p></li>
+<li><p>Charge type,</p></li>
+<li><p>a Bill Session.</p></li>
+</ul>
+
+
+<p>Systém pro každou skupinu z předchozího kroku aktualizuje
+odpovídající Bill item:</p>
+
+
+<ul>
+<li><p>Price amount navýší o sumu všech Price amount z jednotlivých
+seskupených Rated toll event,</p></li>
+<li><p>Price amount VAT navýší o sumu všech Price amount VAT
+z jednotlivých seskupených Rated toll event,</p></li>
+<li><p>Discount amount navýší o sumu všech Discount amount
+z jednotlivých seskupených Rated toll event</p></li>
+<li><p>Discount amount VAT navýší o sumu všech Discount amount
+z jednotlivých seskupených Rated toll event</p></li>
+<li><p>Number of units navýší o sumu všech Number of units
+z jednotlivých seskupených Rated Toll Events.</p></li>
+</ul>
+
+
+<ul>
+<li><p>Pokud Bill item neexistuje, Systém ho vytvoří:</p>
+<ul>
+<li><p>Bill item category = Toll event.</p></li>
+<li><p>Product type = podle hodnoty z PCRE</p></li>
+<li><p>Bill item type = podle Toll transaction type, pokud</p>
+<ul>
+<li><p>je Toll transaction type = Rating</p>
+<ul>
+<li><p>a pokud je v aktuální session, pak Regular bill item,</p></li>
+<li><p>a pokud není v aktuální session a Price amount &gt;=0, pak
+Corrective bill item – credit,</p></li>
+<li><p>a pokud není v aktuální session a Price amount &lt; 0, pak
+Corrective bill item – debit</p></li>
+</ul></li>
+<li><p>je Toll transaction type = Cancelling, pak Corrective bill item –
+credit</p></li>
+<li><p>je Toll transaction type = ReRating a pokud Price amount &gt;=0,
+pak Corrective bill item - debit, jinak Corrective bill item –
+credit</p></li>
+</ul></li>
+<li><p>Price amount = podle RTE.price amount</p></li>
+<li><p>Price amount VAT = podle RTE.price amount VAT</p></li>
+<li><p>Unit price = podle RTE.unit price</p></li>
+<li><p>Unit price VAT = podle RTE.unit price VAT</p></li>
+<li><p>Number of units = podle RTE.number of units</p></li>
+<li><p>Metric unit = podle RTE.metric unit</p></li>
+<li><p>Discount amount = podle RTE.discount amount</p></li>
+<li><p>Discount amount VAT= podle RTE.discount amount VAT</p></li>
+<li><p>Discount rate = podle RTE.discount rate</p></li>
+<li><p>Tax rate = podle RTE.tax rate</p></li>
+<li><p>Billing service = podle RTE.billing service</p></li>
+</ul></li>
+</ul>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-6">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-6">Chybové postupy</h4>
+
+
+<p>Pokud Systém nenašel Bill session a nejde o opoždenou nebo opětovně
+oceněnou nebo rušenou mýtnou událost, Systém <mark>zaloguje chybu
+a</mark> nastaví stav Toll transaction na Rejected.</p>
+
+
+<h4 id="poznámky-5">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="vytvoř-výzvy-na-úhradu-za-přestupky-sys.bar.0.13.hr">Vytvoř
+výzvy na úhradu za přestupky (SYS.BAR.0.13.HR)</h3>
+
+
+<h4 id="cíl-7">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je vygenerování výzev na úhradu za mýtné
+transakce, od jejichž zprocesování uběhlo déle než určitá doba.</p>
+
+
+<h4 id="spuštění-případu-7">Spuštění případu</h4>
+
+
+<p>V pravidelných intervalech na základě naplánované operace
+BEm.OffenceRfP.</p>
+
+
+<h4 id="podmínky-spuštění-6">Podmínky spuštění</h4>
+
+
+<p>Nejsou.</p>
+
+
+<h4 id="normální-postup-4">Normální postup</h4>
+
+
+<p>Systém vyhledá přestupky, od jejichž přepnutí do stavu Offence uběhlo
+déle než je časové období nakonfigurované v daném konfiguračním klíči
+(tj. (Unpaid Toll Transactions, které jsou ve stavu Offence, kdy rozdíl
+dnů mezi Sysdate a UTT.Offence time &gt;=
+BE_DaysPriorOffencesRfPCreation).</p>
+
+
+<p>Systém seskupí nalezené nezaplacené mýtné transakce podle:</p>
+
+
+<ul>
+<li><p>Registration number,</p></li>
+<li><p>Registration country,</p></li>
+<li><p>Account (pokud je znám, jinak null).</p></li>
+</ul>
+
+
+<p>V případě, že je skupina UTT bez účtu (tj. patří neregistrovanému
+provozovateli vozidla; tj. Subject type = Not registered), nebo že je
+skupina UTT s účtem, ale patřící anonymnímu zákazníku (tj.
+VCM.Customer.anonymous registration = true), Systém se pokusí získat
+kontaktní adresu provozovatele vozidla z veřejných rejstříků na základě
+registrační značky vozidla a země registrace, za použití systémové
+funkce Získej data z EUCARIS (SYS.TDP.9.1):</p>
+
+
+<ul>
+<li><p>V případě, že nebyla nalezena žádná kontaktní adresa, Systém
+takovéto nezaplacené mýtné transakce odfiltruje a tento proces
+generování Offence RfP pro ně, pro tento běh, končí.</p></li>
+<li><p>V případě, že byla nalezena kontaktní adresa, Systém ji použije
+pro vygenerování Offence RfP jako fakturační adresu.</p></li>
+</ul>
+
+
+<p>Systém rozdělí seskupené UTT podle Bill isser a zjistí počet
+přestupků.</p>
+
+
+<p>Systém vygeneruje RfP (HR business nazývá Formal Notice) pro každou
+skupinu Unpaid Toll Transactions (tj. pokud má účet vozidlo se 3
+neuhrazenými mýtnými transakcemi, z nichž každá patří jinému Bill
+issuer, vygenerují se 3 Offence RfPs – jedno pro každého Bill issuer,
+přičemž každé obsahuje odpovídající UTT a odpovídající administrativní
+poplatek):</p>
+
+
+<ul>
+<li><p>Systém zjistí BIBA na základě Bill issuer a Reason =
+Offence.</p></li>
+<li><p>Systém naúčtuje administrativní poplatek za každou nezaplacenou
+mýtnou transakci Bill issuera, za použití systémové funkce užití Naúčtuj
+jednorázový poplatek (SYS.BAR.0.7.HR).</p></li>
+<li><p>Systém seskupí oceněné události za administrativní poplatek podle
+atributů Rated Service Events:</p>
+<ul>
+<li><p>Subject number (tj. Account nebo null),</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Product type,</p></li>
+<li><p>Basic unit price definition method,</p></li>
+<li><p>Discount rate.</p></li>
+</ul></li>
+<li><p>A pro každou kombinaci vytvoří Bill Item s parametry:</p>
+<ul>
+<li><p>Bill item category = Dunning fee</p></li>
+<li><p>Bill item type = Regular bill item</p></li>
+<li><p>Unit price = Unit price z RSE</p></li>
+<li><p>Unit price VAT = Unit price VAT z RSE</p></li>
+<li><p>Number of units = součet z Number of units RSE</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = Tax rate z RSE</p></li>
+<li><p>Price amount = částka poplatků bez daně, tj. součet z Price
+amount z RSE</p></li>
+<li><p>Price amount VAT = částka poplatků s daní, tj. součet z Price
+amount VAT z RSE</p></li>
+<li><p>Billing service = Billing service z RSE</p></li>
+</ul></li>
+<li><p>Systém pro každou skupinu Unpaid Toll Transactions a jejich Rated
+Toll Events vytvoří Bill Items:</p>
+<ul>
+<li><p>Systém seskupí oceněné mýtné události podle:</p>
+<ul>
+<li><p>Subject number (tj. Account nebo null),</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Discount rate,</p></li>
+<li><p>Basic unit price definition method,</p></li>
+<li><p>Charge type,</p></li>
+</ul></li>
+<li><p>Systém pro každou skupinu vytvoří Bill item s atributy:</p>
+<ul>
+<li><p>Bill item category = Toll event</p></li>
+<li><p>Product type = Toll</p></li>
+<li><p>Bill item type = Regular</p></li>
+<li><p>Price amount = součet seskupených RTE.price amount</p></li>
+<li><p>Price amount VAT = součet seskupených RTE.price amount
+VAT</p></li>
+<li><p>Unit price = podle RTE.unit price</p></li>
+<li><p>Unit price VAT = podle RTE.unit price VAT</p></li>
+<li><p>Number of units = součet seskupených RTE.number of units</p></li>
+<li><p>Metric unit = podle RTE.metric unit</p></li>
+<li><p>Discount amount = součet seskupených RTE.discount amount</p></li>
+<li><p>Discount amount VAT= součet seskupených RTE.discount amount
+VAT</p></li>
+<li><p>Discount rate = podle RTE.discount rate</p></li>
+<li><p>Tax rate = podle RTE.tax rate</p></li>
+<li><p>Billing service = podle RTE.billing service</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+<p>Systém vytvoří vytvoří Bill s parametry:</p>
+
+
+<ul>
+<li><p>Bill number = Unikátní číslo faktury podle schématu z Číslování
+faktur v závislosti na Bill type, Bill issue type, Bill category a Bill
+issuer.</p></li>
+<li><p>Bill type = Request for payment (Offence RfP)</p></li>
+<li><p>Bill issue type = Regular bill</p></li>
+<li><p>Bill recurrence type = One-time bill</p></li>
+<li><p>Bill category = Offence</p></li>
+<li><p>Bill issue status = Issued</p></li>
+<li><p>Bill payment status = Unpaid</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Bill amount = součet bill items.price amount VAT</p></li>
+<li><p>Tax amount = null</p></li>
+<li><p>Total amount = součet bill items.price amount VAT</p></li>
+<li><p>Date of issue = aktuální datum</p></li>
+<li><p>Due date = sysdate</p></li>
+<li><p><mark>Date of beginning = aktuální datum</mark></p></li>
+<li><p><mark>Date of end = aktuální datum</mark></p></li>
+<li><p>Matched amount = 0</p></li>
+<li><p>Subject type = Toll transaction.Subject type</p></li>
+<li><p>Subject number = Toll transaction.Subject number</p></li>
+<li><p>Bill issuer bank account = zjištěná BIBA</p></li>
+<li><p>Bill issuer = Toll transaction.Bill issuer</p></li>
+</ul>
+
+
+<p><mark>Systém zjistí jazyk faktury Účtu (tj. ze Account.Preferred
+document language nebo EETS Provider.Preferred document
+language).</mark></p>
+
+
+<p>Systém, s ohledem na <mark>zjištěný preferovaný jazyk,</mark>
+vygeneruje dokument faktury v pdf formátu Výzva k úhradě za přestupky
+(DOC.BE.22.HR), s využitím případu užití Vytvoř a ulož dokument
+(SYS.DFRP.1.1).</p>
+
+
+<p>Systém updatuje na Bill.Bill document = identifikátor vygenerovaného
+PDF dokumentu faktury.</p>
+
+
+<p>Systém změní stav Unpaid Toll Transactions, které byly zahrnuty do
+Formálního oznámení, na „RfP generated“ (nebudou se již samostatně
+zobrazovat na Offence portálu jako samostatné Offences.</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-7">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-7">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-6">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="vytvoř-jednorázovou-fakturu-za-mýto-sys.bar.0.14.hr">Vytvoř
+jednorázovou fakturu za mýto (SYS.BAR.0.14.HR)</h3>
+
+
+<h4 id="cíl-8">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je vygenerování jednorázové faktury za
+zaplacené Přestupky nebo Výzvy za zaplacení za přestupky.</p>
+
+
+<h4 id="spuštění-případu-8">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí případů užití:</p>
+
+
+<ul>
+<li><p>Offence</p>
+<ul>
+<li><p>Uhraď přestupek (UC.BAR.0.20.HR)</p></li>
+</ul></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-7">Podmínky spuštění</h4>
+
+
+<p>Je znám výčet zaplacených Toll Transactions, jejich Rated Toll Events
+a případně výčet Request for Payments (a tudíž výčet jejich zaplacených
+Toll Transactions a jejich Rated Toll Events).</p>
+
+
+<p>Je znám Account nebo Registrační značka vozidla, případně POS a
+informace o platbě.</p>
+
+
+<h4 id="normální-postup-5">Normální postup</h4>
+
+
+<p>Systém zjistí BIBA na základě Bill issuer a Reason = Offence.</p>
+
+
+<p>Systém dohledá Rated Toll Events zaplacených Toll Transactions a Toll
+Transactions ze zaplacených Offence RfPs:</p>
+
+
+<ul>
+<li><p>Systém vytvoří kopie Rated Toll Events z Offence RfPs a vyplní na
+nich referenci na původni RTE.</p></li>
+<li><p>Systém na původních Rated Toll Events nastaví příznak Replaced =
+true, aby bylo zřejmé že jejich vazba na Toll Transaction je již
+neplatná.</p></li>
+<li><p>Systém seskupí dohledané oceněné mýtné události ze zaplacených TT
+a zkopírované oceněné mýtné události podle:</p>
+<ul>
+<li><p>Subject number (tj. Account nebo null),</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Discount rate,</p></li>
+<li><p>Basic unit price definition method,</p></li>
+<li><p>Charge type.</p></li>
+</ul></li>
+<li><p>Systém pro každou skupinu vytvoří Bill item s atributy:</p>
+<ul>
+<li><p>Bill item category = Toll event</p></li>
+<li><p>Product type = Toll</p></li>
+<li><p>Bill item type = Regular</p></li>
+<li><p>Price amount = součet seskupených RTE.price amount</p></li>
+<li><p>Price amount VAT = součet seskupených RTE.price amount
+VAT</p></li>
+<li><p>Unit price = podle RTE.unit price</p></li>
+<li><p>Unit price VAT = podle RTE.unit price VAT</p></li>
+<li><p>Number of units = součet seskupených RTE.number of units</p></li>
+<li><p>Metric unit = podle RTE.metric unit</p></li>
+<li><p>Discount amount = součet seskupených RTE.discount amount</p></li>
+<li><p>Discount amount VAT= součet seskupených RTE.discount amount
+VAT</p></li>
+<li><p>Discount rate = podle RTE.discount rate</p></li>
+<li><p>Tax rate = podle RTE.tax rate</p></li>
+<li><p>Billing service = podle RTE.billing service</p></li>
+<li><p><mark>Card number = maskované číslo platební karty použité pro
+platbu (pokud je na vstupu)</mark></p></li>
+</ul></li>
+</ul>
+
+
+<p>Pokud jde o zaplacení Offence RfPs s naúčtovanými administrativními
+poplatky:</p>
+
+
+<ul>
+<li><p>Systém zkopíruje Rated Service Events z Offence RfPs a vyplní na
+nových RSE referenci na původni RSE.</p></li>
+<li><p>Systém seskupí oceněné události podle:</p>
+<ul>
+<li><p>Subject number (tj. Account nebo null),</p></li>
+<li><p>Billing service,</p></li>
+<li><p>Unit price VAT,</p></li>
+<li><p>Unit price,</p></li>
+<li><p>Tax rate,</p></li>
+<li><p>Product type,</p></li>
+<li><p>Basic unit price definition method,</p></li>
+<li><p>Discount rate,</p></li>
+</ul></li>
+<li><p>Systém pro každou skupinu vytvoří Bill item s atributy:</p>
+<ul>
+<li><p>Bill item category = Dunning fee.</p></li>
+<li><p>Product type = podle RSE</p></li>
+<li><p>Bill item type = Regular</p></li>
+<li><p>Price amount = součet seskupených RSE.price amount</p></li>
+<li><p>Price amount VAT = součet seskupených RSE.price amount
+VAT</p></li>
+<li><p>Unit price = podle RSE.unit price</p></li>
+<li><p>Unit price VAT = podle RSE.unit price VAT</p></li>
+<li><p>Number of units = součet seskupených RSE.number of units</p></li>
+<li><p>Metric unit = podle RSE.metric unit</p></li>
+<li><p>Discount amount = součet seskupených RSE.discount amount</p></li>
+<li><p>Discount amount VAT= součet seskupených RSE.discount amount
+VAT</p></li>
+<li><p>Discount rate = podle RSE.discount rate</p></li>
+<li><p>Tax rate = podle RSE.tax rate</p></li>
+<li><p>Billing service = podle RSE.billing service</p></li>
+<li><p><mark>Card number = maskované číslo platební karty použité pro
+platbu (pokud je na vstupu)</mark></p></li>
+</ul></li>
+</ul>
+
+
+<p>Systém pro každou tax rate vytvoří tax bill item:</p>
+
+
+<ul>
+<li><p>Bill item category = Tax</p></li>
+<li><p>Bill item type = Regular bill item</p></li>
+<li><p>Number of units = null</p></li>
+<li><p>Metric unit = null</p></li>
+<li><p>Tax rate = sazba daně (v procentech)</p></li>
+<li><p><mark>Price amount = celková daň za bill itemy s danou tax rate
+(Tax base * Tax rate a zaokrouhlení na dvě desetinná
+místa)</mark></p></li>
+<li><p><mark>Tax base = celková částka bez daně s danou tax rate (suma
+Price amount příslušných nedaňových bill items a zaokrouhlení na dvě
+desetinná místa)</mark></p></li>
+</ul>
+
+
+<p>Systém zjistí pro každou sazbu daně, zda není potřeba Rounding
+adjustment:</p>
+
+
+<ul>
+<li><p>Pokud rozdíl, daňové bill item.tax base a absolutní hodnoty
+součtu nedaňových bill item.price amount, není roven nule, Rounding
+adjustment bill iem se vytvoří s výsledkem rozdílu jako bill item.price
+amount</p></li>
+<li><p>Pokud rozdíl, (součtu daňové bill item.tax base a daňové bill
+item.price amount) a součtu nedaňových bill item.price amount VAT, není
+roven nule, Rounding adjustment bill iem se vytvoří, s výsledkem rozdílu
+jako bill item.price amount VAT</p>
+<ul>
+<li><p>Systém vytvoří korekční bill item s parametry:</p>
+<ul>
+<li><p>Bill item category = Rounding adjustment</p></li>
+<li><p>Product type = null</p></li>
+<li><p>Bill item type =</p>
+<ul>
+<li><p>pokud vypočtený rozdíl je větší než 0, pak Corrective bill item –
+credit,</p></li>
+<li><p>jinak Corrective bill item – debit</p></li>
+</ul></li>
+<li><p>Basic unit price = absolutní hodnota vypočteného rozdílu</p></li>
+<li><p>Basic unit price definition method = None</p></li>
+<li><p>Unit price = Price amount</p></li>
+<li><p>Unit price VAT = Price amount VAT</p></li>
+<li><p>Number of units = 1</p></li>
+<li><p>Metric unit = Piece</p></li>
+<li><p>Tax rate = null</p></li>
+<li><p>Price amount = podle výsledku výpočtu, buď absolutní hodnota
+rozdílu, jinak null</p></li>
+<li><p>Price amount VAT = podle výsledku výpočtu, buď absolutní hodnota
+rozdílu, jinak null</p></li>
+<li><p>Billing service = Systém zjistí billing service z PCRE na základě
+Billing service.abbreviation = ADJ-ROUNDING</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+<p>V případě, že se jedná o zaplacení skupiny UTT nebo Offence RfP,
+které všechny jsou bez účtu (tj. patří neregistrovanému provozovateli
+vozidla; tj. Subject type = Not registered), nebo patřící anonymnímu
+zákazníku (tj. VCM.Customer.anonymous registration = true), Systém se
+pokusí získat kontaktní adresu provozovatele vozidla z veřejných
+rejstříků na základě registrační značky vozidla a země registrace, za
+použití systémové funkce Získej data z EUCARIS (SYS.TDP.9.1):</p>
+
+
+<ul>
+<li><p>Pokud se podařily kontaktní údaje získat, použijí se pro
+generování dokumentu faktury.</p></li>
+<li><p>Pokud se nepodařily získat, Systém vygeneruje zjednodušenou
+fakturu bez kontaktních údajů.</p></li>
+</ul>
+
+
+<p>Systém vytvoří vytvoří Bill s parametry:</p>
+
+
+<ul>
+<li><p>Bill number = Unikátní číslo faktury podle schématu z Číslování
+faktur v závislosti na Bill type, Bill issue type, Bill category a Bill
+issuer.</p></li>
+<li><p>Fiscal verification number = vygeneruje se Fiskální verifikační
+číslo ze sekvence pro číslování faktur (BNF77) s Business Premises BO,
+určeným podle user profile</p></li>
+<li><p>ZKI = vyplní se Ochranný kód vystavitele faktury (Issuer's
+Protection Code)</p></li>
+<li><p>Bill type = Customer bill</p></li>
+<li><p>Bill issue type =</p>
+<ul>
+<li><p>Regular bill, pokud je známa adresa pro fakturaci</p></li>
+<li><p><mark>jinak Simplified bill</mark></p></li>
+</ul></li>
+<li><p>Bill recurrence type = One-time bill</p></li>
+<li><p>Bill category =</p>
+<ul>
+<li><p>Offence, pokud faktura obsahuje RTE a RSE,</p></li>
+<li><p>jinak Toll</p></li>
+</ul></li>
+<li><p>Bill issue status = Issued</p></li>
+<li><p>Bill payment status = Unpaid</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Bill amount = součet daňových bill items.tax base</p></li>
+<li><p>Tax amount = součet daňových bill items.price amount</p></li>
+<li><p>Total amount = součet Bill amount a Tax amount (mělo by se rovnat
+součtu plateb, použitých na úhradu)</p></li>
+<li><p>Date of issue = aktuální datum</p></li>
+<li><p>Due date = sysdate</p></li>
+<li><p><mark>Date of beginning = aktuální datum</mark></p></li>
+<li><p><mark>Date of end = aktuální datum</mark></p></li>
+<li><p>Matched amount = 0</p></li>
+<li><p>Subject type = Toll transaction.Subject type (pokud alespoň jedno
+TT má subject type Account, použije se jako subject faktury)</p></li>
+<li><p>Subject number = Toll transaction.Subject number (pokud alespoň
+jedno TT má subject type Account, použije se jako subject
+faktury)</p></li>
+<li><p>Bill issuer bank account = zjištěná BIBA</p></li>
+<li><p>Bill issuer = Toll transaction.Bill issuer</p></li>
+</ul>
+
+
+<p>Pokud jde o zaplacení RfPs</p>
+
+
+<p>:</p>
+
+
+<p>Systém přenastaví na zaplacených Výzvách na úhradu:</p>
+
+
+<ul>
+<li><p>Bill issue status = Replaced</p></li>
+<li><p>Replaced by bill = reference na novou fakturu.</p></li>
+</ul>
+
+
+<p>Systém informace o faktuře v XML formátu odešle do ePorezna na
+fiskalizaci (Rozhraní ePorezna (fiskalizace) (INT.BAR.31.HR). </p>
+
+
+<p>Systém propíše Unique Invoice Identifier (JIR) z ePorezna odpovědi do
+Bill.JIR atributu.</p>
+
+
+<p><mark>Systém zjistí jazyk faktury Účtu nebo Poskytovatele EETS (tj.
+ze Account.Preferred document language nebo EETS Provider.Preferred
+document language).</mark></p>
+
+
+<p>Pokud se případ užití spustil na POS (MEV, Kiosk, POS), Systém
+zjistí, zda se má dokument generovat ve variantě (DOC.BE.x) v případě A4
+formátu nebo (DOC.BE.x<strong>B</strong>) v případě thermo tisku na POS
+(podle POS.Printer type).</p>
+
+
+<p>Systém, s ohledem na <mark>zjištěný preferovaný jazyk,</mark> na
+zjištěnou variantu dokumentu, vygeneruje dokument faktury v pdf formátu
+Faktura za mýtné (DOC.BE.10.HR) v případě A4 formátu nebo
+(DOC.BE.10B.HR) v případě thermo tisku, s využitím případu užití Vytvoř
+a ulož dokument (SYS.DFRP.1.1).</p>
+
+
+<p>Systém zjistí, zda se má faktura vygenerovat také v xml formátu jako
+elektronická faktura (tj. pokud CM.Account.Preferred electronic invoice
+format = FINA).</p>
+
+
+<p>V případě požadovaného XML formátu, Systém navíc vygeneruje eFakturu
+(DOC.BE.21.HR). Systém dokument uloží s využitím případu užití Ulož
+externí dokument (SYS.DFRP.1.4).</p>
+
+
+<p>Systém updatuje na Bill.Bill document = identifikátor vygenerovaného
+PDF dokumentu faktury.</p>
+
+
+<p>Systém případně updatuje Bill.E-Bill document = identifikátor
+vytvořeného XML dokumentu faktury.</p>
+
+
+<p>Pokud vygenerování faktury proběhlo na POS (MEV, Kiosk, POS), Systém
+pdf dokument nabídne ke stažení.</p>
+
+
+<p>Systém odešle pdf a případně XML verzi faktury na zákazníkův email
+společně s  notifikací Oznámení o vystavení faktury (NTF.BAR.21.HR).</p>
+
+
+<p>Systém případně odešle XML verzi faktury přes eFINA přes Rozhraní
+eFINA (elektronická faktura) (INT.BAR.32.HR).</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-8">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-8">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-7">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h2 id="zpracování-mýtných-transakcí">Zpracování mýtných transakcí</h2>
+
+
+<h3 id="ulož-oceněnou-mýtnou-transakci-sys.bar.1.8.hr">Ulož oceněnou
+mýtnou transakci (SYS.BAR.1.8.HR) </h3>
+
+
+<h4 id="cíl-9">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je pro oceněný průjezd mýtnou trasou
+vytvořit mýtnou transakci (unpaid Toll Transaction nebo Toll
+Transaction), odpovídající oceněnou mýtnou událost (Rated toll event) a
+případně je zagregovat do Bill session.</p>
+
+
+<h4 id="spuštění-případu-9">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí následujících případů užití:</p>
+
+
+<ul>
+<li><p>Odešli oceněnou mýtnou transakci (SYS.VTP.2.5)</p></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-8">Podmínky spuštění</h4>
+
+
+<p>Toll Trip Record byl oceněn.</p>
+
+
+<p>Pro oceněný Toll Trip Record s Registration type &lt;&gt; Not
+registered, vždy na vstupu bude buď identifikace VCM.Account nebo
+ECM.EETS Provider nebo VCM.Exemption partner <mark>nebo VCM.Fleet card
+issuer</mark>.</p>
+
+
+<p>Poznámka: U Toll Trip Record s Exempted trip registration type, bude
+na vstupu buď jedna transakce nebo dvě transakce, pokud byla zjištěna
+jiná kategorie vozidla než na kterou se vztahuje osvobození. V případě
+dvou transakcí, obě budou odkazovat na jeden VTP.Toll Trip Record:</p>
+
+
+<ul>
+<li><p>vždy se pošle na uložení transakce s Exempted trip registration
+type,</p></li>
+<li><p>případně také transakce s registration type určenou podle vozidla
+(tj. EETS, Pre-paid, Post-paid invoice, Post-paid card, Not registered)
+na částku nad rámec částky osvobozeného průjezdu.</p></li>
+</ul>
+
+
+<h4 id="popis-3">Popis</h4>
+
+
+<p>Pre-paid registration type</p>
+
+
+<p>U Toll Trip Record s Pre-paid registration type, vždy na vstupu bude
+informace (Toll Trip Record.is covered by Pre-paid balance), zda byla
+celková částka za průjezd stržena z Pre-paid balance nebo bylo zjištěno,
+že zůstatek není dostatečný.</p>
+
+
+<p>Pokud byla celková částka za průjezd stržena z Pre-paid balance (tj.
+Toll Trip Record.is covered by Pre-paid balance = true), Systém vytvoří
+Toll transaction a odpovídající Rated toll event a postup končí.</p>
+
+
+<p>Pokud nebyla celková částka za průjezd stržena z Pre-paid balance,
+protože zůstatek nebyl dostatečný (tj. Toll Trip Record.is covered by
+Pre-paid balance =false),</p>
+
+
+<ul>
+<li><p>Systém vytvoří Unpaid Toll Transaction ve stavu Offence a
+odpovídající Rated Toll Event.</p></li>
+<li><p>Systém informuje zákazníka o neúspěšném zaplacení mýtné transakce
+pomocí notifikace (<strong>NTF.</strong>BAR<strong>.</strong>13.HR nebo
+<strong>NTF.</strong>BAR<strong>.</strong>14.HR) a postup
+končí.</p></li>
+<li><p>Systém přidá vozidlo na Alert list</p></li>
+<li><p><mark>Agregace/DI to ERP?</mark></p></li>
+</ul>
+
+
+<p>Post-paid card registration type</p>
+
+
+<p>Systém vytvoří Unpaid Toll Transaction ve stavu Ready for processing,
+odpovídající Rated Toll Event a odpovídající Card Payment Request, a
+postup končí.</p>
+
+
+<p>Poznámka: Následně proces pokračuje zaplacením mýtné transakce za
+užití systémové funkce Zaplať mýtnou transakci (SYS.BAR.1.10.HR)</p>
+
+
+<p>Post-paid invoice registration type</p>
+
+
+<p>Systém vytvoří Toll transaction a odpovídající Rated toll event.</p>
+
+
+<p>Systém zagreguje Rated toll event do Bill session pro Post-paid, kdy
+Bill bude s Bill payment status = Unpaid za použití systémové funkce
+Zagreguj oceněné události do fakturační dávky (SYS.BAR.0.12.HR) a postup
+končí.</p>
+
+
+<p>EETS registration type</p>
+
+
+<p>Systém vytvoří Toll transaction a odpovídající Rated toll event.</p>
+
+
+<p>Systém zagreguje Rated toll event do Bill session pro EETS za použití
+systémové funkce Zagreguj oceněné události do fakturační dávky
+(SYS.BAR.0.12.HR) a postup končí.</p>
+
+
+<p>Poznámka: Následně proces pokračuje vytvořením Billing details za
+užití systémové funkce Vytvoř billing details (SYS.BAR.1.9.HR).</p>
+
+
+<p>Not registered registration type</p>
+
+
+<p>Systém vytvoří Unpaid Toll Transaction ve stavu Offence a
+odpovídající Rated Toll Event a postup končí.</p>
+
+
+<p>Exempted registration type</p>
+
+
+<p>Systém vytvoří Toll transaction a odpovídající Rated toll event.</p>
+
+
+<p>Systém zagreguje Ratel toll event do Bill session pro Exemption
+partner se subjektem = Exemption partner odpovídající dané kategorii
+osvobození za použití systémové funkce Zagreguj oceněné události do
+fakturační dávky (SYS.BAR.0.12.HR).</p>
+
+
+<p>Poznámka 1: Pokud žádný VCM.Exemption partner nebude definován pro
+dané osvobození, pak nikdo osvobození nebude kompenzovat a takovéto
+oceněné Toll TripRecords se do BAR ani nepošlou.</p>
+
+
+<p>Poznámka 2: Subjektem Toll Transaction bude Exemption partner, ale
+bude vyplněna reference na Vehicle nebo EETS Vehicle, aby bylo zřejmé,
+kdo mýtnou trasu projel.</p>
+
+
+<p>Exempted <strong>trip</strong> registration type</p>
+
+
+<p>Systém vytvoří Toll Transaction a odpovídající Rated Toll Event.</p>
+
+
+<p>System zagreguje Rated Toll Event do Bill session pro Exemption
+partner se subjektem = Exemption partner odpovídající dané kategorii
+osvobození za použití systémové funkce Zagreguj oceněné události do
+fakturační dávky (SYS.BAR.0.12.HR) a postup končí.</p>
+
+
+<p>Poznámka: Subjektem Toll Transaction bude Exemption partner, ale bude
+vyplněna reference na Vehicle nebo EETS Vehicle, aby bylo zřejmé, kdo
+mýtnou trasu projel.</p>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<p><mark>Exempted not compliant registration type</mark></p>
+
+
+<p><mark>Systém vytvoří Toll transaction a odpovídající Rated toll
+event.</mark></p>
+
+
+<p><mark>Systém zagreguje Ratel toll event do Bill session pro Exemption
+partner se subjektem = Exemption partner odpovídající dané kategorii
+osvobození, nebo do Bill session pro Post-paid se subjektem = Account
+(tj.</mark> <mark>podle příslušnosti vozidla) za použití systémové
+funkce Zagreguj oceněné události do fakturační dávky
+(SYS.BAR.0.12.HR).</mark></p>
+
+
+<p><mark>Poznámka: Subjektem Toll Transaction bude Exemption partner,
+ale bude vyplněna reference na Vehicle nebo EETS Vehicle, aby bylo
+zřejmé, kdo mýtnou trasu projel.</mark></p>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<p>-----------------------------------------------------------------------------------------------------------------------</p>
+
+
+<p>Vytvoření Unpaid Toll Transaction a Rated Toll Event,</p>
+
+
+<p>pokud jde o Registration type = Post-paid card, Pre-paid (v případě
+nedostatečného zůstatku) nebo Not registered:</p>
+
+
+<p>Systém na základě údajů ze vstupu vytvoří Unpaid Toll
+Transaction:</p>
+
+
+<ul>
+<li><p>Toll transaction type = ze vstupu</p>
+<ul>
+<li><p>0 = Rating (send)</p></li>
+<li><p><mark>1 = Cancelling (revoke)</mark></p></li>
+<li><p><mark>3 = Rerating (adjust)</mark></p></li>
+</ul></li>
+<li><p>Unpaid toll transaction status =</p>
+<ul>
+<li><p>Ready for processing, v případě že jde o Post-paid card
+registration type</p></li>
+<li><p>Offence, v případě že jde o Pre-paid bez dostatečného zůstatku,
+nebo Not registered registration type</p></li>
+</ul></li>
+<li><p>Vehicle category = ze vstupu</p></li>
+<li><p>Emission class = ze vstupu</p></li>
+<li><p>Emission class CO2= ze vstupu</p></li>
+<li><p>Registration number = ze vstupu</p></li>
+<li><p>Registration country = ze vstupu</p></li>
+<li><p>OBU serial number = ze vstupu</p></li>
+<li><p>OBU assignment status = ze vstupu</p></li>
+<li><p>Event time = ze vstupu</p></li>
+<li><p>Offence time = sysdate time pokud status je Offence, jinak
+null</p></li>
+<li><p>Creation time = sysdate time</p></li>
+<li><p>Agregation time = null</p></li>
+<li><p>Discount applied = pokud Unpaid toll transaction status =
+Offence, pak false, jinak true.</p></li>
+<li><p>Transaction amount = suma (Rated Toll Event.Price
+amount)</p></li>
+<li><p>Transaction amount VAT = suma (Rated Toll Event.Price amount
+VAT)</p></li>
+<li><p>Transaction discount amount =</p>
+<ul>
+<li><p>pokud Discount applied = false a alespoň jeden Rated toll
+event.Discount rate &lt;&gt;0, pak 0, jinak null.</p></li>
+<li><p>pokud Discount applied = true, je to součet slev (tj. suma (Rated
+Toll Event.Discount amount))</p></li>
+</ul></li>
+<li><p>Transaction discount amount VAT =</p>
+<ul>
+<li><p>pokud Discount applied = false a alespoň jeden Rated toll
+event.Discount rate &lt;&gt;0, pak 0, jinak null.</p></li>
+<li><p>pokud Discount applied = true, je to součet slev s daní (tj. suma
+(Rated Toll Event.Discount amount VAT))</p></li>
+</ul></li>
+<li><p>Transaction discount rate = Rated Toll Event.Discount rate (z
+první RTE)</p></li>
+<li><p>Vehicle = ze vstupu</p></li>
+<li><p>EETS vehicle = ze vstupu</p></li>
+<li><p>Subject type = ze vstupu</p></li>
+<li><p>Subject number = ze vstupu</p></li>
+<li><p>Original toll transaction = ze vstupu</p></li>
+<li><p>Cancelled = false</p></li>
+<li><p>Registration type = ze vstupu</p>
+<ul>
+<li><p>Post-paid card</p></li>
+<li><p>Pre-paid (v případě nedostatečného zůstatku)</p></li>
+<li><p>Not registered</p></li>
+</ul></li>
+<li><p>Toll trip record = ze vstupu</p></li>
+<li><p>Toll trip = ze vstupu</p></li>
+<li><p>Bill issuer = ze vstupu (tj. System operator)</p></li>
+</ul>
+
+
+<p>Systém pro každou oceněnou složku mýta události zpoplatnění vytvoří
+Rated toll event:</p>
+
+
+<ul>
+<li><p>Charge type = ze vstupu</p></li>
+<li><p>Basic unit price = ze vstupu</p></li>
+<li><p>Basic unit price definition method = ze vstupu</p></li>
+<li><p>Unit price = ze vstupu</p></li>
+<li><p>Unit price VAT = ze vstupu</p></li>
+<li><p>Number of units = ze vstupu</p></li>
+<li><p>Metric unit = ze vstupu</p></li>
+<li><p>Price amount =</p>
+<ul>
+<li><p>pokud Discount applied = false, pak Price amount ze
+vstupu,</p></li>
+<li><p>jinak Price amount ze vstupu – Discount amount</p></li>
+</ul></li>
+<li><p>Price amount VAT =</p>
+<ul>
+<li><p>pokud Discount applied = false, pak Price amount VAT ze
+vstupu,</p></li>
+<li><p>jinak Price amount VAT ze vstupu – Discount amount VAT</p></li>
+</ul></li>
+<li><p>Tax rate = ze vstupu</p></li>
+<li><p>Discount amount = ze vstupu</p></li>
+<li><p>Discount amount VAT = ze vstupu</p></li>
+<li><p>Discount rate = ze vstupu</p></li>
+<li><p>Billing service = ze vstupu</p></li>
+<li><p>Unpaid toll transaction = reference na Unpaid Toll
+Transaction</p></li>
+</ul>
+
+
+<p>Vytvoření Card Payment Request,</p>
+
+
+<p>pokud jde o Registration type = Post-paid card:</p>
+
+
+<p>Systém vytvoří Card Payment request:</p>
+
+
+<ul>
+<li><p>Attempt count = 0</p></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Process on = budoucí datum a čas, kdy se má záznam
+zprocesovat</p></li>
+<li><p>Unpaid toll transaction = reference na nově vytvořený Unpaid toll
+transaction</p></li>
+</ul>
+
+
+<p>Vytvoření a odeslání notifikace,</p>
+
+
+<p>pokud jde o Registration type = Pre-paid v případě nedostatečného
+zůstatku.</p>
+
+
+<p>Systém zjistí zda existuje vyplněný kontakt (na VT Vehicle, pokud tam
+není tak na VT Account, pokud tam neni tak na VT Customer). Pokud je
+vyplněn:</p>
+
+
+<ul>
+<li><p>E-mail address, Systém vygeneruje emailovou notifikaci
+(NTF.BAR.13.HR) a odešle ji.</p></li>
+<li><p><mark>Phone number, Systém vygeneruje SMS notifikaci
+(NTF.BAR.14.HR) a odešle ji.</mark></p></li>
+</ul>
+
+
+<p>Přidání na Alert list,</p>
+
+
+<p>pokud jde o Registration type = Pre-paid v případě nedostatečného
+zůstatku (tj. jakmile se UTT přenastaví do stavu Offence).</p>
+
+
+<p>Systém na základě nezaplacené mýtné transakce vytvoří nebo updatuje
+záznam na Alert listu pro dané SPZ, navýší Total due amount o celkovou
+nezaplacenou částku transakce a Offence count navýší o 1 přestupek, za
+použití systémové funkce Zaeviduj Offence na Alert list
+(SYS.TDP.5.6):</p>
+
+
+<ul>
+<li><p>UTT.Registration number a UTT.Registration country</p></li>
+<li><p>Bill.Bill issuer</p></li>
+<li><p>Unpaid toll transaction.Transaction amount VAT</p></li>
+<li><p>1 (tj. navýší počet přestupků +1)</p></li>
+</ul>
+
+
+<p>Vytvoření Toll Transaction a Rated Toll Event,</p>
+
+
+<p>pokud jde o Registration type = EETS, Exempted, <mark>Exempted not
+compliant,</mark> Exempted trip, Post-paid invoice nebo Pre-paid
+s dostatečným zůstatkem:</p>
+
+
+<p>Systém na základě údajů ze vstupu vytvoří Toll Transaction:</p>
+
+
+<ul>
+<li><p>Toll transaction type = ze vstupu</p>
+<ul>
+<li><p>0 = Rating (send)</p></li>
+<li><p><mark>1 = Cancelling (revoke)</mark></p></li>
+<li><p><mark>3 = Rerating (adjust)</mark></p></li>
+</ul></li>
+<li><p>Toll transaction status = Processed</p></li>
+<li><p>Vehicle category = ze vstupu</p></li>
+<li><p>Emission class = ze vstupu</p></li>
+<li><p>Emission class CO2= ze vstupu</p></li>
+<li><p>Registration number = ze vstupu</p></li>
+<li><p>Registration country = ze vstupu</p></li>
+<li><p>OBU serial number = ze vstupu</p></li>
+<li><p>OBU assignment status = ze vstupu</p></li>
+<li><p>Event time = ze vstupu</p></li>
+<li><p>Creation time = sysdate time</p></li>
+<li><p>Agregation time = null</p></li>
+<li><p>Unpaid toll transaction creation time = null</p></li>
+<li><p>Discount applied = true</p></li>
+<li><p>Transaction amount = suma (Rated Toll Event.Price
+amount)</p></li>
+<li><p>Transaction amount VAT = suma (Rated Toll Event.Price amount
+VAT)</p></li>
+<li><p>Transaction discount amount = suma (Rated Toll Event.Discount
+amount)</p></li>
+<li><p>Transaction discount amount VAT = suma (Rated Toll Event.Discount
+amount VAT)</p></li>
+<li><p>Transaction discount rate = Rated Toll Event.Discount rate (z
+první RTE)</p></li>
+<li><p>Vehicle = ze vstupu</p></li>
+<li><p>EETS vehicle = ze vstupu</p></li>
+<li><p>Subject type = ze vstupu</p></li>
+<li><p>Subject number = ze vstupu</p></li>
+<li><p>Original toll transaction = ze vstupu</p></li>
+<li><p>Cancelled = false</p></li>
+<li><p>Registration type = ze vstupu</p>
+<ul>
+<li><p>EETS</p></li>
+<li><p>Pre-paid (v případě dostatečného zůstatku)</p></li>
+<li><p>Exempted</p></li>
+<li><p><mark>Exempted not compliant</mark></p></li>
+<li><p>Exempted trip</p></li>
+</ul></li>
+<li><p>Toll trip record = ze vstupu</p></li>
+<li><p>Toll trip = ze vstupu</p></li>
+<li><p>Bill issuer = ze vstupu (tj. System operator)</p></li>
+<li></li>
+</ul>
+
+
+<p>Systém pro každou oceněnou složku mýta události zpoplatnění vytvoří
+Rated toll event:</p>
+
+
+<ul>
+<li><p>Charge type = ze vstupu</p></li>
+<li><p>Basic unit price = ze vstupu</p></li>
+<li><p>Basic unit price definition method = ze vstupu</p></li>
+<li><p>Unit price = ze vstupu</p></li>
+<li><p>Unit price VAT = ze vstupu</p></li>
+<li><p>Number of units = ze vstupu</p></li>
+<li><p>Metric unit = ze vstupu</p></li>
+<li><p>Price amount = Price amount ze vstupu – Discount amount</p></li>
+<li><p>Price amount VAT = Price amount VAT ze vstupu – Discount amount
+VAT</p></li>
+<li><p>Tax rate = ze vstupu</p></li>
+<li><p>Discount amount = ze vstupu</p></li>
+<li><p>Discount amount VAT = ze vstupu</p></li>
+<li><p>Discount rate = ze vstupu</p></li>
+<li><p>Billing service = ze vstupu</p></li>
+<li><p>Toll transaction = reference na Toll Transaction</p></li>
+</ul>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-9">Alternativní postupy</h4>
+
+
+<p><mark>Původní záznamy pro re-rating nebo cancelling se
+nenašly</mark></p>
+
+
+<p><mark>Pokud pro re-rating nebo cancelling události Systém nenajde
+původní záznamy, tak se tyto záznamy odloží.</mark></p>
+
+
+<p>Nulové Rated Toll Events na fakturách</p>
+
+
+<p>Pokud jde o nulový Rated Toll Event (Price amount VAT = 0 a zároveň
+Discount rate = null) a konfigurační klíč =
+BE_AggregateZeroTollTransactions = false, RTE se neagreguje do Bill Item
+a Bill session.</p>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="chybové-postupy-9">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-8">Poznámky</h4>
+
+
+<p>Nejsou.</p>
+
+
+<h3 id="vytvoř-billing-details-sys.bar.1.9.hr">Vytvoř billing details
+(SYS.BAR.1.9.HR)</h3>
+
+
+<h4 id="cíl-10">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je na základě vytvořených Toll
+Transactions a Rated toll events vytvořit Billing Details za každého
+Bill issuer a zaslat je příslušnýcm Poskytovatelům mýtných služeb.</p>
+
+
+<h4 id="spuštění-případu-10">Spuštění případu</h4>
+
+
+<p>V pravidelných intervalech na základě naplánované operace
+BEm.ExportBillingDetailsHr.</p>
+
+
+<h4 id="podmínky-spuštění-9">Podmínky spuštění</h4>
+
+
+<p>Nejsou.</p>
+
+
+<h4 id="popis-4">Popis</h4>
+
+
+<p>Systém pro každého Pokytovatele mýtných služeb najde všechny Toll
+Transaction, které ješte nebyly zahrnuty do Billing Details a pak je pro
+každého Poskytovatele mýtných služeb postupně zpracovává.</p>
+
+
+<p>Systém seskupí Toll transactions podle Bill issuer, aby se vytvořily
+Billing Details za každého Bill issuer zvlášť (= apduOriginator).</p>
+
+
+<p>Jako informationSenderId bude uveden System operator s příznakem
+System owner = true (tj. HAC).</p>
+
+
+<p>Systém pro apci sekci vygeneruje apduIdentifier ze sekvence
+outgoingApduIdentifierSequence.</p>
+
+
+<p>Systém dohledá odpovídající Rated Toll Events k nalezeným Toll
+Transactions.</p>
+
+
+<p>Systém pro každou Toll Transaction vytvoří jeden BillingDetailsAdu
+element, pro který vygeneruje aduIdentifier ze sekvence
+outgoingAduIdentifierSequence.</p>
+
+
+<p>Systém spočítá na základě nalezených oceněných událostí:</p>
+
+
+<ul>
+<li><p>billingDetailAmount.PaymentFeeAmount = SUM (Rated toll
+events.price amount)</p></li>
+<li><p>billingDetailAmount.VatRate = VAT rate z první RTE</p></li>
+</ul>
+
+
+<p>Pokud jde o Toll Transaction typu Rerating nebo Cancelling, Systém do
+sekce billingDetailsAdu/relatedBillingDetails uvede referenci na původní
+billing details (Toll Transaction.EETS Export Billing details pro Toll
+Transaction number z Toll Transaction, která je uvedena jako Toll
+Transaction.Original toll transaction).</p>
+
+
+<p>Systém pro každou Toll Transaction ze skupiny vytvoří usageList,
+který vyplní následovně:</p>
+
+
+<ul>
+<li><p>v sekci usageListEntry:</p></li>
+</ul>
+
+
+<ul>
+<li><p>forSectionedRoads uvede:</p>
+<ul>
+<li><p>Toll Transaction.Invoice agregation number,</p></li>
+<li><p>podsekci usedSections, kde ve uvede:</p>
+<ul>
+<li><p>tollContext = Bill issuer = VCM.System operator,</p></li>
+<li><p>chargeObjectDesignation = Toll Transaction.Toll trip (ID podle
+Context data zaslaných TSP),</p></li>
+<li><p>appliedLocationClass = 0</p></li>
+<li><p>tollEventTime = Toll Transaction.Event time</p></li>
+<li><p>podsekci usedSectionFee, kde uvede Price amount a VAT rate z
+Rated toll event s Charge type = Infrastructure nebo Toll.</p></li>
+<li><p>podsekci usedSectionExternalCosts, kde uvede Price amount a VAT
+rate z Rated toll event s:</p></li>
+</ul>
+<ul>
+<li><p>Charge type = Pollution v podsekci externalCostsAir,</p></li>
+<li><p>Charge type = Emission CO2 v podsekci externalCostsCo2.</p></li>
+</ul></li>
+<li><p>podsekci appliedTariffTableVersion = <mark>TBD</mark> <mark>(pro
+začátek budeme plnit = 1)</mark></p></li>
+<li><p>podsekci appliedLocalVehicleClass, kde uvede:</p>
+<ul>
+<li><p>appliedLocalVehicleClassId = Toll Transaction.Vehicle
+category</p></li>
+</ul></li>
+<li><p>podsekci vehicleDescription, kde uvede:</p>
+<ul>
+<li></li>
+<li></li>
+<li><p>environmentalCharacteristics = Toll Transaction.Emission
+class</p></li>
+<li><p>futureCharacteristics = Toll Transaction.Emission class
+CO2</p></li>
+</ul></li>
+<li><p>usageFee = usedSectionFee</p></li>
+<li><p>usageExternalCosts = korespondující
+usedSectionExternalCosts</p></li>
+</ul></li>
+<li><p>v sekci includedDiscounts uvede Discount rate, VAT rate a
+Discount amount pro ostatní Rated toll events s nenulovou Discount
+rate.</p></li>
+</ul>
+
+
+<p>Systém vytvoří zprávu Billing details (DEX.BAR.29.HR).</p>
+
+
+<p>Systém vyexportuje Billing details za použití rozhraní
+(INT.BAR.26.HR).</p>
+
+
+<p>Systém na příslušné Toll Transaction na základě provedeného exportu
+updatuje atributy:</p>
+
+
+<ul>
+<li><p>EETS Export Billing details Toll transaction number = z
+billingDetailsAdus.aduIdentifier</p></li>
+<li><p>Export date</p></li>
+<li><p>Export log</p></li>
+<li><p>EETS Toll declaration ID = null</p></li>
+</ul>
+
+
+<p>Systém pokračuje se stejným nebo dalším Poskytovatelem mýtných služeb
+dokud existují další Toll Transactions na zpracování.</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-10">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-10">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-9">Poznámky</h4>
+
+
+<p>Poznámka 1: Pokud jde o Rerating nebo Cancelling Toll transactions
+(případně i při souběhu s původní Toll transaction), tak údaje Toll
+transactions musí být v Billing details uvedené v pořadí Rating,
+Cancelling a Rerating.</p>
+
+
+<p>Poznámka 2: Prázdý export Billing details teď nebude podporován,
+dokud se nezjistí způsob, jak takové BD vytvářet.</p>
+
+
+<h3 id="zaplať-mýtnou-transakci-tokenem-sys.bar.1.10.hr">Zaplať mýtnou
+transakci tokenem (SYS.BAR.1.10.HR)</h3>
+
+
+<h4 id="cíl-11">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je uhradit uloženou Unpaid Toll
+Transaction.</p>
+
+
+<h4 id="spuštění-případu-11">Spuštění případu</h4>
+
+
+<p>V pravidelných intervalech na základě <mark>naplánované
+operace</mark> BEm.ExecuteTokenPaymentPolling.</p>
+
+
+<h4 id="podmínky-spuštění-10">Podmínky spuštění</h4>
+
+
+<p>Systém vytvořil Unpaid Toll Transaction ve stavu Ready for
+processing, v rámci případu užití Ulož oceněnou mýtnou transakci
+(SYS.BAR.1.8.HR).</p>
+
+
+<h4 id="section-1"></h4>
+
+
+<h4 id="popis-5">Popis</h4>
+
+
+<p>Systém dohledá Unpaid Toll Transactions ve stavu Ready for processing
+a seřadí je podle podle počtu již provedených pokusů o zaplacení (Card
+Payment Request.Attempt count) od nejmenšího k největšímu, a následně je
+seřadí podle UTT.Event time od nejstaršího k nejnovějšímu (budou se
+zpracovávat prvně ty, které ještě nemají pokus o zaplacení, pak ty které
+už pokus mají, atd., v případě shodného počtu pokusů budou zpracovávány
+od nejstaršího).</p>
+
+
+<p>Systém pak zpracovává jeden Unpaid Toll Transaction po druhém.</p>
+
+
+<p>Systém zjistí zda již existuje Payment session pro Card Payment
+Request pro zpracovávaný Unpaid Toll Transaction:</p>
+
+
+<ul>
+<li><ul>
+<li><ul>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+<li><ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul></li>
+<li><ul>
+<li></li>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+</ul></li>
+<li><p>Pokud aktivní Payment session již existuje (tj. buď Payment
+session existuje a je ve stavu New nebo In progress):</p>
+<ul>
+<li><p>a na Payment session není vyplněn Card token, Systém jej prvně
+získá – postup pokračuje od kroku získání Tokenu v postupu při vytvoření
+nové Payment session,</p></li>
+</ul>
+<ul>
+<li><p>a na Payment session je vyplněn Card token, Systém zjistí stav
+transakce na CorvusPay bráně, a podle získaného Response code a
+konfigurace (CorvusPay Response Code a Process Step Scheduling) zjistí,
+zda jde o:</p>
+<ul>
+<li><p>zamítnutou transakci, pak postup pokračuje Chybovým postupem =
+Zamítnutí transakce,</p></li>
+<li><p>transakce ještě není zprocesována, pak <mark>Systém:</mark></p>
+<ul>
+<li><p><mark>na Payment session updatuje Transaction result podle
+odpovědi z brány, Request time a Process count o 1</mark></p></li>
+<li><p><mark>na Card payment request updatuje Process on podle
+konfigurace Process step scheduling a aktuální hodnoty Payment
+session.Process count,</mark></p></li>
+</ul></li>
+<li><p>transakce je zamítnuta, ale může se zopakovat, pak postup
+pokračuje Alternativním postupem = Zamítnutá transakce s možným
+opakováním.</p></li>
+</ul></li>
+</ul>
+<ul>
+<li><ul>
+<li><p>transakce je schválená, postup pokračuje společným postupem, pro
+případ úspěšného dokončení platební transakce.</p></li>
+</ul></li>
+</ul></li>
+<li><p>Pokud aktivní Payment session neexistuje (tj. buď Payment session
+neexistuje nebo existuje a není ve stavu New nebo In progress):</p>
+<ul>
+<li><p>Systém vytvoří Payment session:</p>
+<ul>
+<li><p>Online payment identifier =unikátní identifikátor platební
+transakce přiřazený Systémem (guid generovaný z CO)</p></li>
+<li><p>Payment session type = Toll</p></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Variable symbol = vygenerovaný ze sekvence pro variabilní symboly
+(PNFVS)</p></li>
+<li><p>Internet banking channel =</p>
+<ul>
+<li><p>pokud Card Payment Request.count = 0, pak Corvus System api
+(synchro api pro první pokus)</p></li>
+<li><p>pokud Card Payment Request.count &gt;0, pak Corvus Tokenize api
+(asynchro api pro každý další pokus)</p></li>
+</ul></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Card payment request = reference na odpovídající Card Payment
+Request</p></li>
+</ul></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li><p>Systém zjistí Payment card, kterou má k platbě použít (první
+Payment card, která existuje ve směru od Vehicle k Account).</p></li>
+<li><p>Systém updatuje na Payment session:</p>
+<ul>
+<li><p>Card number = z VCM.Payment card.Masked card number (z první
+Payment card, která existuje ve směru od Vehicle k Account)</p></li>
+<li><p>Card token = z VCM.Payment card.Payment card token (z první
+Payment card, která existuje ve směru od Vehicle k Account)</p></li>
+</ul></li>
+<li><p>Systém vyvolá synchroní (pokud jde o první pokus) nebo
+asynchronní komunikaci s CorvusPay platební bránou (rozhraní
+INT.BAR.27.HR), kdy inicializuje platební transakci za pomocí tokenu a
+identifikace cílového příjemce platby (tj. Unpaid Toll Transaction.Bill
+issuer). Systém do platební brány pošle částku platby, měnu platby,
+token, <mark>Bill issuer (jako store_id)?</mark>:</p>
+<ul>
+<li></li>
+<li><p>Pokud jde o asynchronní komunikaci a Systém obdržel kladnou
+odpověď o přijetí a zařazení transakce do fronty na zpracování na straně
+CorvusPay, změní stav Payment session na In progress a nastaví Process
+count = 0 a postup končí. Poznámka: Systém se následně periodicky
+dotazuje CorvusPay na stav transakce a následně pokaždé updatuje na
+Payment session atribut Status request time a Process count dokud
+nedostane finální Response code.</p></li>
+<li><p>Jinak Systém na základě získaného Response code z platební brány
+a konfigurace (CorvusPay Response Code a Process Step Scheduling)
+zjistí, zda jde o:</p>
+<ul>
+<li><p>zamítnutou transakci, pak postup pokračuje Chybovým postupem =
+Zamítnutí transakce,</p></li>
+</ul>
+<ul>
+<li><p>zamítnutou transakci, ale může se zopakovat, pak postup pokračuje
+Alternativním postupem = Zamítnutá transakce s možným
+opakováním.</p></li>
+<li><p>schválenou transakci, postup pokračuje společným postupem, pro
+případ úspěšného dokončení platební transakce.</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+<p>V případě úspěšného dokončení platební transakce, Systém:</p>
+
+
+<ul>
+<li><p>na Payment session uloží do Result code návratový kód z platební
+brány,</p></li>
+<li><p>změní Payment session status na Realized.</p></li>
+</ul>
+
+
+<p>Systém vytvoří Payment s parametry:</p>
+
+
+<ul>
+<li><p>Payment number = Unikátní číslo platby podle číslovacího
+schématu.</p></li>
+<li><p>Payment type = Toll payment</p></li>
+<li><p>Payment method = Bank card payment</p></li>
+<li><p>Payment category = Credit payment</p></li>
+<li><p>Payment status = Realized</p></li>
+<li><p>Matching status = Recognized – matching not needed</p></li>
+<li><p>Variable symbol = Variable symbol z Payment session</p></li>
+<li><p>Specific symbol = Subject number z Unpaid Toll
+Transaction</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Date of payment = aktuální datum</p></li>
+<li><p>Date of collection = aktuální datum</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Subject type = z Unpaid Toll Transaction (Account)</p></li>
+<li><p>Subject number = z Unpaid Toll Transaction
+(Account.number)</p></li>
+<li><p>Bill issuer bank account = zjištěné číslo bankovního účtu Bill
+issuera (BIBA) pro Reason = toll</p></li>
+<li><p>Bill issuer = z Unpaid Toll Transaction</p></li>
+</ul>
+
+
+<p>Systém na základě Unpaid Toll Transaction vytvoří odpovídající Toll
+Transaction ve stavu Processed, kdy se zkopírují hodnoty odpovídajících
+atributů z Unpaid Toll Transaction.</p>
+
+
+<p>Systém převěsí na Toll Transaction odpovídající Rated Toll
+Events.</p>
+
+
+<p>Systém updatuje atributy Toll Transaction:</p>
+
+
+<ul>
+<li><p>Unpaid Toll Transaction creation time = z Unpaid Toll
+Transaction.creation time</p></li>
+<li><p>Payment = referenci na realizovanou platbu</p></li>
+</ul>
+
+
+<p>Systém zruší Unapid Toll Transaction.</p>
+
+
+<p>Systém zagreguje Rated toll Event do Bill session, za použití
+systémové Zagreguj oceněné události do fakturační dávky
+(SYS.BAR.0.12.HR).</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-11">Alternativní postupy</h4>
+
+
+<p>Zamítnutá transakce s možným opakováním</p>
+
+
+<p>Pokud Systém při zjišťování stavu transakce na CorvusPay bráně dostal
+Response code, který podle konfigurace (CorvusPay Response Code a
+Process Step Scheduling) znamená, že transakce je zamítnuta, ale může se
+zopakovat, pak Systém:</p>
+
+
+<ul>
+<li><p>na Payment session updatuje</p>
+<ul>
+<li><p>Status = Rejected by bank,</p></li>
+<li><p>Result code podle odpovědi z brány,</p></li>
+<li><p>Status request time podle posledního dotazu</p></li>
+<li><p>Process count navýší o 1,</p></li>
+</ul></li>
+<li><p>na Card payment request</p>
+<ul>
+<li><p>navýší Attempt count o 1,</p></li>
+<li><p>Process on updatuje podle konfigurace Process step scheduling a
+aktuální hodnoty Attempt count,</p></li>
+</ul></li>
+<li><p>vyhodnotí, zda počet platebních pokusů dosáhl nakonfigurovaného
+maxima (tj. Card Payment Request.attempt count &gt;
+BE_maximalCountOfPaymentAttempts):</p>
+<ul>
+<li><p>Pokud maximum bylo dosaženo:</p>
+<ul>
+<li><p>Systém updatuje Card Payment Request:</p>
+<ul>
+<li><p>Deleted on = sysdate</p></li>
+</ul></li>
+<li><p>Systém na Rated Toll event:</p>
+<ul>
+<li><p>z Rated Toll Event.Price amount VAT odečte Discount amount
+VAT,</p></li>
+<li><p>z Rated Toll Event.Price amount odečte Discount amount,</p></li>
+</ul></li>
+<li><p>Systém na Unpaid Toll Transaction:</p>
+<ul>
+<li><p>změní stav na Offence</p></li>
+<li><p>uloží datum Offence time</p></li>
+<li><p>dopočítá Transaction amount VAT = suma (Rated Toll Event.Price
+amount VAT)</p></li>
+<li><p>dopočítá Transaction amount = suma (Rated Toll Event.Price
+amount),</p></li>
+</ul></li>
+<li><p>Systém informuje Alert list: Systém na základě nezaplacené mýtné
+transakce vytvoří nebo updatuje záznam na Alert listu pro dané SPZ,
+navýší Total due amount o celkovou nezaplacenou částku transakce a
+Offence count navýší o 1 přestupek, za použití systémové funkce Zaeviduj
+Offence na Alert list (SYS.TDP.5.6):</p>
+<ul>
+<li><p>UTT.Registration number a UTT.Registration country</p></li>
+<li><p>Bill.Bill issuer</p></li>
+<li><p>+ Unpaid toll transaction.Transaction amount VAT</p></li>
+<li><p>+ 1 offence (tj. navýší počet přestupků +1)</p></li>
+</ul></li>
+<li><p>Systém zjistí zda existuje vyplněný kontakt (na VT Vehicle, pokud
+tam není tak na VT Account, pokud tam neni tak na VT Customer). Pokud je
+vyplněn:</p>
+<ul>
+<li><p>E-mail address, Systém vygeneruje emailovou notifikaci
+(NTF.BAR.13.HR) a odešle ji.</p></li>
+<li><p>Phone number, Systém vygeneruje SMS notifikaci (NTF.BAR.14.HR) a
+odešle ji.</p></li>
+</ul></li>
+</ul></li>
+<li><p>Pokud počet platebních pokusů nedosáhl nakonfigurovaného
+maxima:</p>
+<ul>
+<li><p>Systém vytvoří novou Payment session:</p>
+<ul>
+<li><p>Online payment identifier =unikátní identifikátor platební
+transakce přiřazený Systémem (guid generovaný z CO)</p></li>
+<li><p>Payment session type = Toll</p></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Variable symbol = vygenerovaný ze sekvence pro variabilní symboly
+(PNFVS)</p></li>
+<li><p>Internet banking channel = CorvusPay Tokenize api (asynchro api
+pro každý další pokus)</p></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Card payment request = reference na odpovídající Card Payment
+Request</p></li>
+</ul></li>
+<li><p>Systém updatuje Card Payment Request.process on =
+sysdate.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+<h4 id="chybové-postupy-11">Chybové postupy</h4>
+
+
+<p>Chybějící platná Payment card</p>
+
+
+<p>Pokud se žádná platná Payment card na Vehicle nebo Account nenašla,
+Systém nastaví Payment session status na Rejected a uloží do Result code
+chybový kód značící chybějící kartu. Systém na Card Payment Request
+updatuje Attempt count o 1.</p>
+
+
+<ul>
+<li><ul>
+<li></li>
+<li><ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul></li>
+<li><ul>
+<li></li>
+<li></li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li></li>
+<li></li>
+</ul></li>
+</ul>
+
+
+<p>Postup postup pokračuje Alternativním postupem a to krokem, kdy
+Systém zjišťuje, zda počet platebních pokusů dosáhl nakonfigurovaného
+maxima.</p>
+
+
+<p>Neúspěšné přijetí transakce platební branou při asynchronní
+komunikaci (transakce nebyla zařazena do fronty)</p>
+
+
+<p>Pokud jde o asynchronní komunikaci a Systém obdržel negativní odpověď
+o přijetí a zařazení transakce do fronty na zpracování na straně
+CorvusPay, Systém:</p>
+
+
+<ul>
+<li><p>na Payment session updatuje Process count o 1</p></li>
+<li></li>
+<li><p>na Card Payment Request updatuje Process on podle Process Step
+Scheduling a attempt count. (Poznámka: V tomto případě se nebude
+updatovat Card Payment Request.Attemp count atribut, jelikož jde o
+technické zamítnutí transakce) .</p></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<p>Zamítnutí transakce</p>
+
+
+<p>Pokud transakce nebyla schválena a není možné opakování podle
+konfigurace (CorvusPay Response Code a Process Step Scheduling):</p>
+
+
+<ul>
+<li><p>Systém na Payment session updatuje:</p>
+<ul>
+<li><p>Status = Rejected by bank,</p></li>
+<li><p>Result code podle odpovědi z brány,</p></li>
+<li><p>Status request time podle posledního dotazu</p></li>
+<li><p>Process count navýší o 1,</p></li>
+</ul></li>
+<li><p>Systém na Card payment request:</p>
+<ul>
+<li><p>navýší Attempt count o 1,</p></li>
+<li><p>Deleted on = sysdate,</p></li>
+</ul></li>
+<li></li>
+<li><p>Systém na Rated Toll event:</p>
+<ul>
+<li><p>z Rated Toll Event.Price amount VAT odečte Discount amount
+VAT,</p></li>
+<li><p>z Rated Toll Event.Price amount odečte Discount amount,</p></li>
+</ul></li>
+<li><p>Systém na Unpaid Toll Transaction:</p>
+<ul>
+<li><p>změní stav na Offence</p></li>
+<li><p>uloží datum Offence time</p></li>
+<li><p>dopočítá Transaction amount VAT = suma (Rated Toll Event.Price
+amount VAT)</p></li>
+<li><p>dopočítá Transaction amount = suma (Rated Toll Event.Price
+amount),</p></li>
+</ul></li>
+<li><p>Systém informuje Alert list: Systém na základě nezaplacené mýtné
+transakce vytvoří nebo updatuje záznam na Alert listu pro dané SPZ,
+navýší Total due amount o celkovou nezaplacenou částku transakce a
+Offence count navýší o 1 přestupek, za použití systémové funkce Zaeviduj
+Offence na Alert list (SYS.TDP.5.6):</p>
+<ul>
+<li><p>UTT.Registration number a UTT.Registration country</p></li>
+<li><p>Bill.Bill issuer</p></li>
+<li><p>+ Unpaid toll transaction.Transaction amount VAT</p></li>
+<li><p>+ 1 offence (tj. navýší počet přestupků +1)</p></li>
+</ul></li>
+<li><p>Systém zjistí zda existuje vyplněný kontakt (na VT Vehicle, pokud
+tam není tak na VT Account, pokud tam neni tak na VT Customer). Pokud je
+vyplněn:</p>
+<ul>
+<li><p>E-mail address, Systém vygeneruje emailovou notifikaci
+(NTF.BAR.13.HR) a odešle ji.</p></li>
+<li><p>Phone number, Systém vygeneruje SMS notifikaci (NTF.BAR.14.HR) a
+odešle ji.</p></li>
+</ul></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="poznámky-10">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h2 id="operace-s-platbami-1">Operace s platbami</h2>
+
+
+<h3 id="zaplať-událost-online-přes-platební-bránu-sys.bar.2.15.hr">Zaplať
+událost online přes platební bránu (SYS.BAR.2.15.HR)</h3>
+
+
+<h4 id="cíl-12">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je uhradit oceněnou událost online přes
+CorvusPay platební bránu.</p>
+
+
+<h4 id="spuštění-případu-12">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí následujících případů užití:</p>
+
+
+<ul>
+<li><p>Zaplať předplacený kredit – Pre-paid in single domain
+(UC.BAR.0.1.HR)</p>
+<ul>
+<li><p>online platba z Web portalu nebo Mobile App</p></li>
+</ul></li>
+<li><p>Uhraď přestupek (UC.BAR.0.20.HR)</p>
+<ul>
+<li><p>online platba z Offence portálu</p></li>
+<li><p>online platba z Web portalu nebo Mobile App</p></li>
+<li></li>
+<li></li>
+<li></li>
+</ul></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-11">Podmínky spuštění</h4>
+
+
+<p>Je znám Bill issuer, důvod platby, částka a Account.</p>
+
+
+<p><mark>Account není terminovaný.</mark></p>
+
+
+<p>Žádost o platbu přišla z:</p>
+
+
+<ul>
+<li><p>Rozhraní Web Portal API (INT.BAR.33.HR) – online platba.</p></li>
+</ul>
+
+
+<h4 id="popis-6">Popis</h4>
+
+
+<p>Systém na základě vstupních dat vytvoří Payment Session:</p>
+
+
+<ul>
+<li><p>Online payment identifier =unikátní identifikátor platební
+transakce přiřazený Systémem (guid generovaný z CO)</p></li>
+<li><p>Payment session type = podle důvodu ze vstupu:</p>
+<ul>
+<li><p>Top-up, pokud důvodem transakce je Top-up</p></li>
+<li><p>Offence, pokud jde o placení přestupků (placení UTT ve stavu
+Offence),</p></li>
+<li><p>Offence RfP payment, pokud jde o placení RfP za
+přestupky,</p></li>
+<li><p>jinak Services</p></li>
+<li><p><mark>TBD</mark></p></li>
+</ul></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Variable symbol = vygenerovaný ze sekvence pro variabilní symboly
+(PNFVS)</p></li>
+<li><p>Internet banking channel = Online CorvusPay payment</p></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Card payment request = null</p></li>
+<li><p>Selected payment method = null</p></li>
+</ul>
+
+
+<p>Systém vyvolá komunikaci s CorvusPay platební bránou (rozhraní
+INT.BAR.27.HR). Systém do platební brány pošle částku platby, měnu
+platby, Online payment identifier (jako order_id), Bill issuer (jako
+store_id), Variable symbol (jako additional_order_number), required
+complete = false, subscription = false.</p>
+
+
+<p>Platební brána vrátí redirect url.</p>
+
+
+<p>Systém přesměruje Aktéra na stránku platební brány (pokud operace
+byla inicializována v rámci Systému) nebo pošle redirect url externímu
+systému,který přesměruje svého uživatele.</p>
+
+
+<p>Aktér na stránce platební brány zvolí platební metodu z nabízeného
+seznamu a následně zadá patřičné platební údaje a autorizuje
+transakci.</p>
+
+
+<p>V případě úspěšného dokončení platby, Systém na Payment session uloží
+do:</p>
+
+
+<ul>
+<li><p>Selected payment method = zákazníkem vybraná CorvusPay platební
+metodu na bráně</p></li>
+<li><p>Card type = Typ karty zaslaný z platební brány</p></li>
+<li><p>Card expiry = Expirace karty zaslaný z platební brány</p></li>
+<li><p>Card number = Číslo (maskované) karty zaslaný z platební
+brány</p></li>
+<li><p>Card brand = Brand karty zaslaný z platební brány</p></li>
+<li><p>Result code návratový kód z platební brány</p></li>
+<li><p>změní Payment session status na Realized.</p></li>
+</ul>
+
+
+<p>Systém zjistí BIBA pro fakturaci na základě Bill issuer a Reason:</p>
+
+
+<ul>
+<li><p>Offence, pokud Payment session type = Offence</p></li>
+<li><p>Top-up, pokud Payment session type = Top-up</p></li>
+<li><p>jinak Services.</p></li>
+</ul>
+
+
+<p>Systém vytvoří Payment s parametry:</p>
+
+
+<ul>
+<li><p>Payment number = Unikátní číslo platby podle číslovacího
+schématu.</p></li>
+<li><p>Payment type =</p>
+<ul>
+<li><p>Top-up payment, pokud jde o Top-up,</p></li>
+<li><p>jinak Bill payment.</p></li>
+</ul></li>
+<li><p>Payment method = pokud</p>
+<ul>
+<li><p>Payment Session.selected payment method = Card payment a Card
+type má Card type.type = Bank card, pak Bank card payment</p></li>
+<li><p>Payment Session.selected payment method = Card payment a Card
+type má Card type.type = Bank card má Card type.type = Fleet card , pak
+Fleet card payment</p></li>
+<li><p><mark>Payment Session.selected payment method = Apple Pay, pak
+Bank card payment</mark></p></li>
+<li><p><mark>Payment Session.selected payment method = Google Pay, pak
+Bank card payment</mark></p></li>
+<li><p>Payment Session.selected payment method = Pay by IBAN, pak Bank
+transfer payment</p></li>
+<li><p><mark>Payment Session.selected payment method = Quick wallet
+payment, pak Wallet payment</mark></p></li>
+<li><p><mark>Payment Session.selected payment method = paysafecard, pak
+Gift card payment</mark></p></li>
+</ul></li>
+<li><p>Payment category = Credit payment</p></li>
+<li><p>Payment status = Realized</p></li>
+<li><p>Matching status = Recognized – not matched</p></li>
+<li><p>Variable symbol = Variable symbol z Payment session, pokud
+existuje, jinak Null</p></li>
+<li><p>Specific symbol = Subject number</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Matched amount = 0</p></li>
+<li><p>Date of payment = aktuální datum</p></li>
+<li><p>Date of collection = aktuální datum</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Subject type = ze vstupu nebo podle Unpaid Toll
+Transaction</p></li>
+<li><p>Subject number = ze vstupu nebo podle Unpaid Toll
+Transaction</p></li>
+<li><p>FCI = FCI karty, v případě platby tankovací kartou</p></li>
+<li><p>Bill issuer bank account = zjištěný BIBA</p></li>
+<li><p>Bill issuer = ze vstupu nebo podle Unpaid Toll
+Transaction</p></li>
+</ul>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-12">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-12">Chybové postupy</h4>
+
+
+<p>Neúspěšná transakce</p>
+
+
+<p>Pokud dojde k chybě při komunikaci s platební bránou (např.
+transakace není dokončena do lhůty stanovené konfiguračním klíčem
+<mark><em>BE.PaymentReversalTimeout</em>)</mark> nebo platební brána
+vrátí chybový návratový kód, Systém:</p>
+
+
+<ul>
+<li><p>uloží do Selected payment method vybranou CorvusPay platební
+methodu</p></li>
+<li><p>nastaví Payment session status na Rejected</p></li>
+<li><p>uloží do Result code chybový kód z platební brány</p></li>
+<li></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="poznámky-11">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="zaplať-událost-platbou-z-externího-systému-sys.bar.2.16.hr">Zaplať
+událost platbou z externího systému (SYS.BAR.2.16.HR)</h3>
+
+
+<h4 id="cíl-13">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je uhradit oceněnou událost platbou
+realizovanou v externím systému.</p>
+
+
+<h4 id="spuštění-případu-13">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí následujících případů užití:</p>
+
+
+<ul>
+<li><p>Zaplať předplacený kredit – Pre-paid in single domain
+(UC.BAR.0.1.HR)</p>
+<ul>
+<li><p>jiná než online platba z Web portalu nebo Mobile App</p></li>
+<li><p>platba přes NexGo EFT na MEV</p></li>
+<li><p>platba na externí POS</p></li>
+</ul></li>
+<li><p>Uhraď přestupek (UC.BAR.0.20.HR)</p>
+<ul>
+<li><p><mark>jiná než online platba z Web portalu nebo Mobile
+App</mark></p></li>
+<li><p>platba přes NexGo EFT na MEV</p></li>
+<li><p><mark>platba na externí POS</mark></p></li>
+</ul></li>
+<li></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-12">Podmínky spuštění</h4>
+
+
+<p>Je znám Bill issuer, důvod platby, částka a Account.</p>
+
+
+<p><mark>Account není terminovaný.</mark></p>
+
+
+<p>Informace o platbě přišla z:</p>
+
+
+<ul>
+<li><p>Rozhraní ERP Navision (INT.BAR.30.HR) – platba bankovním
+převodem</p></li>
+<li><p>Rozhraní Web Portal API (INT.BAR.33.HR) – jiná platba než online
+(tj. platba SMS nebo Voucherem)</p></li>
+<li><p>Rozhraní Web Portal API (INT.BAR.33.HR) – platba přes NextGo
+EFT</p></li>
+<li><p>Rozhraní POS API (INT.BAR.34.HR) – platba na externí POS přes
+její EFT nebo hotovostí</p></li>
+</ul>
+
+
+<h4 id="popis-7">Popis</h4>
+
+
+<p>Systém zjistí BIBA pro fakturaci na základě Bill issuer a Reason:</p>
+
+
+<ul>
+<li><p>Offence, pokud jde o Offence operaci</p></li>
+<li><p>Top-up, pokud jde o Top-up</p></li>
+<li><p>jinak Services.</p></li>
+</ul>
+
+
+<p>Systém na základě vstupních dat vytvoří Payment s parametry:</p>
+
+
+<ul>
+<li><p>Payment number = Unikátní číslo platby podle číslovacího
+schématu.</p></li>
+<li><p>Payment type =</p>
+<ul>
+<li><p>Top-up payment, pokud jde o Top-up,</p></li>
+<li><p>jinak Bill payment.</p></li>
+</ul></li>
+<li><p>Payment method <mark>=</mark> <mark></mark></p>
+<ul>
+<li><p><mark>ze vstupu</mark></p></li>
+<li><p><mark>jinak Bank transfer payment</mark></p></li>
+</ul></li>
+<li><p>Payment category = Credit payment</p></li>
+<li><p>Payment status = Realized</p></li>
+<li><p>Matching status = Recognized – not matched</p></li>
+<li><p>Variable symbol = <mark>Null</mark></p></li>
+<li><p>Specific symbol = Subject number</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Matched amount = 0</p></li>
+<li><p>Date of payment = ze vstupu</p></li>
+<li><p>Date of collection = ze vstupu</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Subject type = podle Subject number</p></li>
+<li><p>Subject number = ze vstupu</p></li>
+<li><p>FCI = FCI karty, v případě platby tankovací kartou</p></li>
+<li><p>Bill issuer bank account = zjištěný BIBA</p></li>
+<li><p>Bill issuer = ze vstupu</p></li>
+<li></li>
+</ul>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-13">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-13">Chybové postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="poznámky-12">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="tokenizuj-kartu-přes-platební-bránu-sys.bar.2.17.hr">Tokenizuj
+kartu přes platební bránu (SYS.BAR.2.17.HR)</h3>
+
+
+<h4 id="cíl-14">Cíl</h4>
+
+
+<p>Cílem tohoto případu užití je tokenizovat bankovní nebo fleet kartu
+přes CorvusPay platební bránu.</p>
+
+
+<h4 id="spuštění-případu-14">Spuštění případu</h4>
+
+
+<p>Případ užití je vloženou součástí následujících případů užití:</p>
+
+
+<ul>
+<li><p><mark>TBD</mark></p></li>
+</ul>
+
+
+<p>Žádost o tokenizaci přišla z:</p>
+
+
+<ul>
+<li><p>Rozhraní Web Portal API (INT.BAR.33.HR) – tokenizace.</p>
+<ul>
+<li></li>
+</ul></li>
+</ul>
+
+
+<h4 id="podmínky-spuštění-13">Podmínky spuštění</h4>
+
+
+<p>Je znám Bill issuer, Account a případně Vozidlo.</p>
+
+
+<p><mark>Account není terminovaný.</mark></p>
+
+
+<h4 id="popis-8">Popis</h4>
+
+
+<p>Systém na základě vstupních dat vytvoří Payment Session:</p>
+
+
+<ul>
+<li><p>Online payment identifier =unikátní identifikátor platební
+transakce přiřazený Systémem (guid generovaný z CO)</p></li>
+<li><p>Payment session type = Subscription payment</p></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Payment amount = 0,01</p></li>
+<li><p>Variable symbol = vygenerovaný ze sekvence pro variabilní symboly
+(PNFVS)</p></li>
+<li><p>Internet banking channel = Corvus System api nebo CorvusPay
+Tokenize api, podle procesu</p></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Card payment request = null</p></li>
+<li><p>Selected payment method = null</p></li>
+<li><p>Required complete = true</p></li>
+<li><p>Subscription required = true</p></li>
+</ul>
+
+
+<p>Systém vyvolá komunikaci s CorvusPay platební bránou (rozhraní
+INT.BAR.27.HR). Systém do platební brány pošle částku platby 0,01 EUR,
+Online payment identifier (jako order_id), Bill issuer (jako store_id),
+Variable symbol (jako additional_order_number), required complete =
+true, subscription required = true.</p>
+
+
+<p>Platební brána vrátí redirect url.</p>
+
+
+<p>Systém přesměruje Aktéra na stránku platební brány (pokud operace
+byla inicializována v rámci Systému) nebo pošle redirect url externímu
+systému,který přesměruje svého uživatele.</p>
+
+
+<p>Aktér na stránce platební brány zadá patřičné údaje karty a
+autorizuje tokenizaci.</p>
+
+
+<p>V případě úspěšného dokončení tokenizace, Systém na Payment session
+uloží do:</p>
+
+
+<ul>
+<li><p>Selected payment method = card</p></li>
+<li><p>Card type = Typ karty zaslaný z platební brány</p></li>
+<li><p>Card expiry = Expirace karty zaslaná z platební brány</p></li>
+<li><p>Card number = Číslo (maskované) karty zaslané z platební
+brány</p></li>
+<li><p>Card brand = Brand karty zaslaný z platební brány</p></li>
+<li><p>Result code návratový kód z platební brány</p></li>
+<li><p>změní Payment session status na Realized.</p></li>
+</ul>
+
+
+<p>Systém uloží token a další relevantní údaje o platební kartě na
+Vozidlo nebo Account, podle toho, pro kterou entitu byla tokenizace
+inicializována.</p>
+
+
+<p>Systém zjistí BIBA na základě Bill issuer a Reason Top-up.</p>
+
+
+<p>Systém vytvoří credit Payment s parametry:</p>
+
+
+<ul>
+<li><p>Payment number = Unikátní číslo platby podle číslovacího
+schématu.</p></li>
+<li><p>Payment type = Tokenization reservation</p></li>
+<li><p>Payment method = pokud</p>
+<ul>
+<li><p>Payment Session.selected payment method = Card payment a Card
+type má Card type.type = Bank card, pak Bank card payment</p></li>
+<li><p>Payment Session.selected payment method = Card payment a Card
+type má Card type.type = Bank card má Card type.type = Fleet card , pak
+Fleet card payment</p></li>
+</ul></li>
+<li><p>Payment category = Credit payment</p></li>
+<li><p>Payment status = Realized</p></li>
+<li><p>Matching status = Recognized –matched</p></li>
+<li><p>Variable symbol = Variable symbol z Payment session, pokud
+existuje, jinak Null</p></li>
+<li><p>Specific symbol = Subject number</p></li>
+<li><p>Payment amount = částka platby</p></li>
+<li><p>Matched amount = částka platby</p></li>
+<li><p>Date of payment = aktuální datum</p></li>
+<li><p>Date of collection = aktuální datum</p></li>
+<li><p>Comment = null</p></li>
+<li><p>Subject type = ze vstupu</p></li>
+<li><p>Subject number = ze vstupu</p></li>
+<li><p>FCI = FCI karty, v případě platby tankovací kartou</p></li>
+<li><p>Bill issuer bank account = zjištěný BIBA</p></li>
+<li><p>Bill issuer = ze vstupu</p></li>
+</ul>
+
+
+<p>Systém vytvoří debit Payment jako kopii kreditní platby, s vyjímkou
+parametrů:</p>
+
+
+<ul>
+<li><p>Payment number = Unikátní číslo platby podle číslovacího
+schématu.</p></li>
+<li><p>Payment type = Tokenization reservation cancel</p></li>
+<li><p>Payment category = Debit payment</p></li>
+<li><p>Payment status = Registered</p></li>
+<li><p>Matching status = Recognized –matched</p></li>
+<li><p><mark>Date of collection =</mark> <mark>null</mark></p></li>
+</ul>
+
+
+<p>Systém napáruje kreditní platbu s debetní platbou, tj. vytvoří pro ně
+Matching s následujícími parametry:</p>
+
+
+<ul>
+<li><p>Date of matching = Datum a čas, kdy bylo párování
+provedeno</p></li>
+<li><p><mark>Effective date of matching = vyšší datum z datumů obou
+párovaných</mark> stran (tj. payment.date of collection)</p></li>
+<li><p>Payment – debit matching side = debit payment</p></li>
+<li><p>Payment – credit matching side = credit payment</p></li>
+<li><p>Matched amount = částka platby</p></li>
+<li><p>Matching method = Automatic</p></li>
+<li><p>Disconnect allowed = False</p></li>
+<li><p>BO Operátor = System</p></li>
+</ul>
+
+
+<p>Systém pro debetní platbu vytvoří Payment session pro zrušení
+tokenizační transakce jako kopii původní Payment session, s vyjímkou
+parametrů:</p>
+
+
+<ul>
+<li><p>Payment session type = Subscription payment cancel</p></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Variable symbol = vygenerovaný ze sekvence pro variabilní symboly
+(PNFVS)</p></li>
+<li><p>Created on = aktuální datum a čas</p></li>
+<li><p>Required complete = false,</p></li>
+<li><p>Subscription required = false</p></li>
+<li><p>Selected payment method = null</p></li>
+<li><p>Result code = null</p></li>
+<li><p>Payment session status = New</p></li>
+<li><p>Authorisation code = null.</p></li>
+<li></li>
+</ul>
+
+
+<p>Systém vyvolá komunikaci s CorvusPay platební bránou (rozhraní
+INT.BAR.27.HR). Systém do platební brány pošle původní částku platby
+(tj. 0,01 EUR), Online payment identifier, který byl použit pro
+tokenizaci karty (jako order_id), Bill issuer (jako store_id), Variable
+symbol (jako additional_order_number), required complete = false,
+subscription required = false.</p>
+
+
+<p>V případě úspěšného dokončení zrušení tokenizační transakce, Systém
+na Payment session uloží do:</p>
+
+
+<ul>
+<li><p>Selected payment method = card</p></li>
+<li><p>Result code návratový kód z platební brány</p></li>
+<li><p>změní Payment session status na Realized.</p></li>
+</ul>
+
+
+<p>Systém na debetní platbě změní:</p>
+
+
+<ul>
+<li><p>Payment status = Realized</p></li>
+<li><p><mark>Collection date =</mark> <mark>sysdate</mark></p></li>
+</ul>
+
+
+<p>Systém na Matchingu plateb updatuje Effective date of matching.</p>
+
+
+<p>Postup končí.</p>
+
+
+<h4 id="alternativní-postupy-14">Alternativní postupy</h4>
+
+
+<p>Nejsou</p>
+
+
+<h4 id="chybové-postupy-14">Chybové postupy</h4>
+
+
+<p>Neúspěšná transakce</p>
+
+
+<p>Pokud platební brána vrátí chybový návratový kód
+(TransactionRejected), Systém:</p>
+
+
+<ul>
+<li><p>nastaví Payment session status na Rejected by bank</p></li>
+<li><p>uloží do Result code chybový kód z platební brány</p></li>
+</ul>
+
+
+<p>Postup končí</p>
+
+
+<h4 id="poznámky-13">Poznámky</h4>
+
+
+<p>Nejsou</p>
+
+
+<h3 id="section-2"></h3>
+
+
+<h4 id="section-3"></h4>
+
+
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+
+
+<h4 id="section-4"></h4>
+
+
+<h4 id="section-5"></h4>
+
+
+<ul>
+<li><ul>
+<li><ul>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+<li></li>
+</ul>
+
+
+<h4 id="section-6"></h4>
+
+
+<p> </p>
+
+
+<h4 id="section-7"></h4>
+
+
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li><p> </p>
+<ul>
+<li></li>
+<li><ul>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li><p> </p></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+
+
+        </main>
+
+        <!-- Right Sidebar - Modern Minimap -->
+        <aside class="minimap" id="minimap">
+            <div class="minimap-header">
+                <h4>Overview</h4>
+            </div>
+            <div class="minimap-content">
+                <div class="minimap-viewport" id="minimapViewport"></div>
+                <div class="change-indicator" id="changeIndicator" style="display: none;">
+                    <!-- Change marks will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <script>
+        // Document metadata
+        const documentMetadata = {
+            baseName: "HR_FS_Billing_Accounts_Receivables_CZ",
+            displayName: "Hr Fs Billing Accounts Receivables Cz",
+            version: "v00_02",
+            sectionNumber: 8,
+            sectionTitle: "Systémové funkce"
+        };
+        
+        let originalContent = document.getElementById('mainContent').outerHTML;
+        let comparisonContent = null;
+        
+        // Test diff library on load
+        function initializeDiff() {
+            if (typeof Diff === 'undefined') {
+                console.error('Diff library failed to load from CDN');
+                const warningDiv = document.createElement('div');
+                warningDiv.style.cssText = 'background: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; border: 1px solid #ffeaa7; border-radius: 4px;';
+                warningDiv.innerHTML = '⚠️ Diff comparison library failed to load. The "Show changes" feature may not work properly.';
+                document.querySelector('.version-bar').appendChild(warningDiv);
+                return false;
+            }
+            console.log('Diff library loaded successfully');
+            return true;
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            initializeTheme();
+            initializeDiff();
+            initializeVersionControls();
+            initializeNavigation();
+            initializeScrollBehavior();
+        });
+        
+        function initializeVersionControls() {
+            console.log('Initializing version controls');
+            const versionSelect = document.getElementById('versionSelect');
+            const showChangesCheckbox = document.getElementById('showChanges');
+            
+            // Detect if running standalone (file:// protocol)
+            const isStandalone = window.location.protocol === 'file:';
+            const availableVersions = versionSelect.options.length;
+            
+            console.log('Protocol:', window.location.protocol);
+            console.log('Is standalone:', isStandalone);
+            console.log('Available versions:', availableVersions);
+            
+            if (isStandalone) {
+                // Running standalone - disable comparison features
+                console.log('Standalone mode detected, disabling comparison features');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+                
+                // Add standalone notice
+                const notice = document.createElement('div');
+                notice.style.cssText = 'background: #e3f2fd; color: #1565c0; padding: 8px 12px; margin: 0 1rem; border-radius: 4px; font-size: 0.8rem;';
+                notice.innerHTML = '📄 Standalone mode - Version comparison disabled';
+                document.querySelector('.top-bar .controls').appendChild(notice);
+                
+                // Hide version controls
+                versionSelect.parentElement.style.display = 'none';
+                showChangesCheckbox.parentElement.style.display = 'none';
+            } else if (availableVersions === 0) {
+                // Server mode but no versions to compare with - disable controls
+                console.log('No comparison versions available, disabling controls');
+                versionSelect.disabled = true;
+                showChangesCheckbox.disabled = true;
+                showChangesCheckbox.checked = false;
+            } else {
+                // At least one version available for comparison - enable controls
+                console.log('Comparison versions available, enabling controls');
+                versionSelect.disabled = false;
+                showChangesCheckbox.disabled = false;
+                showChangesCheckbox.checked = false; // Start unchecked
+                
+                // Pre-load the selected version for comparison
+                loadVersionForComparison();
+            }
+        }
+        
+        function toggleDiff() {
+            console.log('toggleDiff() called');
+            const showChanges = document.getElementById('showChanges').checked;
+            console.log('showChanges checkbox value:', showChanges);
+            const contentDiv = document.getElementById('mainContent');
+            console.log('comparisonContent exists:', !!comparisonContent);
+            
+            if (showChanges && comparisonContent) {
+                console.log('Showing diff view');
+                showDiffView(originalContent, comparisonContent);
+                // Create change indicators after showing diff
+                setTimeout(createChangeIndicators, 100);
+            } else {
+                console.log('Showing original content');
+                contentDiv.innerHTML = originalContent;
+                // Hide change indicators
+                document.getElementById('changeIndicator').style.display = 'none';
+            }
+        }
+        
+        function loadVersionForComparison() {
+            console.log('loadVersionForComparison() called');
+            const selectedVersion = document.getElementById('versionSelect').value;
+            console.log('Selected version:', selectedVersion);
+            console.log('Current version:', documentMetadata.version);
+            if (selectedVersion === documentMetadata.version) {
+                console.log('Same version selected, clearing comparison');
+                comparisonContent = null;
+                toggleDiff();
+                return;
+            }
+            
+            // Generate the correct filename using the same sanitization logic as the backend
+            function sanitizeFilename(text) {
+                return text
+                    .replace(/<[^>]+>/g, '') // Remove HTML tags
+                    .replace(/[^\p{L}\p{N}\s\-_]/gu, '') // Remove non-letters/numbers but preserve Unicode letters
+                    .replace(/[\s_]+/g, '_') // Replace spaces/underscores with single underscore
+                    .toLowerCase()
+                    .substring(0, 50) // Limit length
+                    .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+            }
+            
+            const sanitizedTitle = sanitizeFilename(documentMetadata.sectionTitle);
+            const comparisonPath = `../${selectedVersion}/${documentMetadata.baseName}_${String(documentMetadata.sectionNumber).padStart(2, '0')}_${sanitizedTitle}.html`;
+            
+            console.log('Attempting to load:', comparisonPath);
+            
+            fetch(comparisonPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const content = doc.getElementById('mainContent');
+                    if (content) {
+                        comparisonContent = content.outerHTML;
+                        console.log('Comparison content loaded successfully');
+                        toggleDiff();
+                    } else {
+                        console.error('No mainContent found in comparison file');
+                        comparisonContent = null;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading comparison version:', error);
+                    console.error('Attempted path was:', comparisonPath);
+                    comparisonContent = null;
+                    
+                    // Show user-friendly error
+                    const errorMsg = `Could not load comparison version: ${error.message}\n\nPath: ${comparisonPath}\n\nNote: Make sure you're opening the HTML file directly in your browser, not through a web server.`;
+                    alert(errorMsg);
+                });
+        }
+        
+        function showDiffView(original, comparison) {
+            if (!comparison) return;
+            
+            const contentDiv = document.getElementById('mainContent');
+            
+            if (typeof Diff !== 'undefined') {
+                console.log('Creating comprehensive diff view');
+                try {
+                    // First, show the original content
+                    contentDiv.innerHTML = original;
+                    
+                    // Create temporary elements to parse the HTML
+                    const tempOriginal = document.createElement('div');
+                    const tempComparison = document.createElement('div');
+                    tempOriginal.innerHTML = original;
+                    tempComparison.innerHTML = comparison;
+                    
+                    // Apply table-specific highlighting
+                    const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+                    const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+                    
+                    if (originalRows.length > 0 || comparisonRows.length > 0) {
+                        console.log(`Comparing ${originalRows.length} vs ${comparisonRows.length} table rows`);
+                        
+                        if (originalRows.length !== comparisonRows.length) {
+                            highlightTableDifferences(original, comparison, contentDiv);
+                        } else {
+                            highlightCellDifferences(originalRows, comparisonRows, contentDiv, original);
+                        }
+                    }
+                    
+                    // Apply line-by-line text highlighting
+                    highlightTextDifferences(tempOriginal, tempComparison, contentDiv);
+                    
+                } catch (error) {
+                    console.error('Error creating diff:', error);
+                    contentDiv.innerHTML = original;
+                }
+            } else {
+                console.warn('Diff library not loaded, using original content');
+                contentDiv.innerHTML = original;
+            }
+        }
+        
+        function highlightTextDifferences(originalElement, comparisonElement, contentDiv) {
+            console.log('Applying line-by-line text highlighting');
+            
+            // Only compare actual document content, not template elements  
+            // Now that we preserve outerHTML, we can use the specific selector
+            const contentSelector = '#mainContent p, #mainContent li, #mainContent h1, #mainContent h2, #mainContent h3, #mainContent h4, #mainContent h5, #mainContent h6, #mainContent blockquote';
+            
+            // Get text-containing elements from document content only
+            const originalTextElements = originalElement.querySelectorAll(contentSelector);
+            const comparisonTextElements = comparisonElement.querySelectorAll(contentSelector);
+            
+            console.log(`Comparing ${originalTextElements.length} original elements vs ${comparisonTextElements.length} comparison elements`);
+            
+            // Create maps for comparison
+            const originalTexts = Array.from(originalTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            const comparisonTexts = Array.from(comparisonTextElements).map(el => el.textContent.trim()).filter(text => text.length > 0);
+            
+            console.log(`Filtered to ${originalTexts.length} original texts vs ${comparisonTexts.length} comparison texts`);
+            
+            // Find corresponding elements in the rendered content
+            const renderedElements = contentDiv.querySelectorAll(contentSelector);
+            
+            let changeCount = { added: 0, modified: 0, removed: 0 };
+            
+            // Create a more sophisticated comparison
+            const originalSet = new Set(originalTexts);
+            const comparisonSet = new Set(comparisonTexts);
+            
+            // Find differences
+            const addedTexts = originalTexts.filter(text => !comparisonSet.has(text));
+            const removedTexts = comparisonTexts.filter(text => !originalSet.has(text));
+            const commonTexts = originalTexts.filter(text => comparisonSet.has(text));
+            
+            // Apply highlighting to rendered elements
+            Array.from(renderedElements).forEach(element => {
+                const elementText = element.textContent.trim();
+                
+                if (addedTexts.includes(elementText)) {
+                    // This content was added in the new version
+                    element.classList.add('diff-line-added');
+                    element.title = 'Added in this version';
+                    changeCount.added++;
+                } else if (removedTexts.includes(elementText)) {
+                    // This shouldn't happen in original content, but for completeness
+                    element.classList.add('diff-line-removed'); 
+                    element.title = 'Removed in this version';
+                    changeCount.removed++;
+                } else if (commonTexts.includes(elementText)) {
+                    // Check if position changed (simple heuristic for modification)
+                    const originalIndex = originalTexts.indexOf(elementText);
+                    const comparisonIndex = comparisonTexts.indexOf(elementText);
+                    
+                    if (Math.abs(originalIndex - comparisonIndex) > 2) {
+                        // Content moved significantly - mark as modified
+                        element.classList.add('diff-line-modified');
+                        element.title = 'Position changed in this version';
+                        changeCount.modified++;
+                    }
+                }
+            });
+            
+            // Count removed items (for completeness in logging)
+            changeCount.removed = removedTexts.length;
+            
+            console.log(`Text differences: ${changeCount.added} added, ${changeCount.modified} modified, ${changeCount.removed} removed`);
+        }
+        
+        function highlightTableDifferences(original, comparison, contentDiv) {
+            console.log('Highlighting table row differences');
+            contentDiv.innerHTML = original;
+            
+            // Parse both versions to find the differences
+            const tempOriginal = document.createElement('div');
+            const tempComparison = document.createElement('div');
+            tempOriginal.innerHTML = original;
+            tempComparison.innerHTML = comparison;
+            
+            const originalRows = Array.from(tempOriginal.querySelectorAll('tbody tr'));
+            const comparisonRows = Array.from(tempComparison.querySelectorAll('tbody tr'));
+            
+            console.log(`v${documentMetadata.version} has ${originalRows.length} rows vs comparison with ${comparisonRows.length} rows - ${originalRows.length - comparisonRows.length} new rows`);
+            
+            // Highlight the new rows (if there are more in original than comparison)
+            if (originalRows.length > comparisonRows.length) {
+                const tableRows = contentDiv.querySelectorAll('tbody tr');
+                const newRowsCount = originalRows.length - comparisonRows.length;
+                console.log(`Highlighting ${newRowsCount} new rows (${comparisonRows.length} to ${originalRows.length - 1})`);
+                
+                for (let i = comparisonRows.length; i < originalRows.length; i++) {
+                    if (tableRows[i]) {
+                        tableRows[i].style.setProperty('background-color', '#d4edda', 'important');
+                        tableRows[i].style.border = '3px solid #28a745';
+                        tableRows[i].title = 'New row added in this version';
+                        
+                        // Apply background to all cells in the row
+                        const cells = tableRows[i].querySelectorAll('td');
+                        cells.forEach(cell => {
+                            cell.style.setProperty('background-color', '#d4edda', 'important');
+                        });
+                    }
+                }
+            }
+        }
+        
+        function highlightCellDifferences(originalRows, comparisonRows, contentDiv, originalHtml) {
+            console.log('Highlighting cell-level differences');
+            contentDiv.innerHTML = originalHtml;
+            
+            // Find and highlight specific cell differences
+            let differencesFound = false;
+            const tableRows = contentDiv.querySelectorAll('tbody tr');
+            
+            originalRows.forEach((originalRow, rowIndex) => {
+                if (rowIndex < comparisonRows.length) {
+                    const comparisonRow = comparisonRows[rowIndex];
+                    const originalCells = Array.from(originalRow.querySelectorAll('td'));
+                    const comparisonCells = Array.from(comparisonRow.querySelectorAll('td'));
+                    
+                    originalCells.forEach((originalCell, cellIndex) => {
+                        if (cellIndex < comparisonCells.length) {
+                            const originalText = originalCell.textContent.trim();
+                            const comparisonText = comparisonCells[cellIndex].textContent.trim();
+                            
+                            if (originalText !== comparisonText) {
+                                console.log(`Row ${rowIndex}, Cell ${cellIndex} differs`);
+                                const actualCell = tableRows[rowIndex]?.querySelectorAll('td')[cellIndex];
+                                if (actualCell) {
+                                    actualCell.style.backgroundColor = '#fff3cd';
+                                    actualCell.style.border = '2px solid #ffc107';
+                                    actualCell.title = `Changed from: "${comparisonText}"`;
+                                    differencesFound = true;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            
+            if (!differencesFound) {
+                const indicator = document.createElement('div');
+                indicator.style.cssText = 'background: #d1ecf1; color: #0c5460; padding: 10px; margin: 10px 0; border: 1px solid #bee5eb; border-radius: 4px;';
+                indicator.innerHTML = 'ℹ️ No significant content differences found between versions';
+                contentDiv.insertBefore(indicator, contentDiv.firstChild);
+            }
+        }
+        
+        function changeWidth() {
+            const widthSelect = document.getElementById('widthSelect');
+            const contentDiv = document.getElementById('mainContent');
+            const selectedWidth = widthSelect.value;
+            
+            // Remove all width classes
+            contentDiv.classList.remove('narrow', 'wide', 'full-width', 'standard');
+            
+            // Add the selected width class
+            contentDiv.classList.add(selectedWidth);
+            
+            console.log('Width changed to:', selectedWidth);
+        }
+        
+        // Theme Toggle Functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme changed to:', newTheme);
+        }
+        
+        function initializeTheme() {
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            let theme;
+            if (savedTheme) {
+                theme = savedTheme;
+            } else {
+                theme = systemPrefersDark ? 'dark' : 'light';
+            }
+            
+            document.documentElement.setAttribute('data-theme', theme);
+            const themeButton = document.getElementById('themeToggle');
+            themeButton.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('Theme initialized:', theme);
+        }
+        
+        // Navigation Functions
+        function goBack() {
+            window.history.back();
+        }
+        
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+        
+        // Modern Navigation System with Search
+        function initializeNavigation() {
+            const nav = document.getElementById('sectionNav');
+            const searchInput = document.getElementById('navSearch');
+            const noResults = document.getElementById('navNoResults');
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            
+            let navigationData = [];
+            let currentH1 = null;
+            let currentH2 = null;
+            
+            // Build navigation data structure
+            headers.forEach((header, index) => {
+                // Create anchor ID if it doesn't exist
+                if (!header.id) {
+                    header.id = `section-${index}`;
+                }
+                
+                const level = parseInt(header.tagName.charAt(1));
+                const navItem = {
+                    id: header.id,
+                    text: header.textContent.trim(),
+                    level: level,
+                    element: header,
+                    searchText: header.textContent.toLowerCase().trim()
+                };
+                
+                navigationData.push(navItem);
+            });
+            
+            // Render navigation tree
+            function renderNavigation(items = navigationData) {
+                nav.innerHTML = '';
+                noResults.style.display = items.length === 0 ? 'block' : 'none';
+                
+                let currentH1Container = null;
+                let currentH2Container = null;
+                
+                items.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'nav-item';
+                    
+                    // Create item header container
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'nav-item-header';
+                    
+                    if (item.level === 1) {
+                        const hasChildren = items.some((child, childIndex) => 
+                            childIndex > index && child.level === 2);
+                        
+                        if (hasChildren) {
+                            const toggle = document.createElement('div');
+                            toggle.className = 'nav-toggle';
+                            toggle.innerHTML = '▶';
+                            toggle.onclick = (e) => {
+                                e.stopPropagation();
+                                toggleNavSection(toggle, li);
+                            };
+                            headerDiv.appendChild(toggle);
+                        } else {
+                            const spacer = document.createElement('div');
+                            spacer.style.width = '24px';
+                            headerDiv.appendChild(spacer);
+                        }
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h1`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        headerDiv.appendChild(a);
+                        
+                        li.appendChild(headerDiv);
+                        
+                        if (hasChildren) {
+                            const childrenContainer = document.createElement('div');
+                            childrenContainer.className = 'nav-children';
+                            li.appendChild(childrenContainer);
+                            currentH2Container = childrenContainer;
+                        }
+                        
+                        nav.appendChild(li);
+                        currentH1Container = li;
+                        
+                    } else if (item.level === 2 && currentH2Container) {
+                        const h2Li = document.createElement('li');
+                        h2Li.className = 'nav-item';
+                        
+                        const h2Header = document.createElement('div');
+                        h2Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h2Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h2`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h2Header.appendChild(a);
+                        
+                        h2Li.appendChild(h2Header);
+                        currentH2Container.appendChild(h2Li);
+                        
+                    } else if (item.level === 3 && currentH2Container) {
+                        const h3Li = document.createElement('li');
+                        h3Li.className = 'nav-item';
+                        
+                        const h3Header = document.createElement('div');
+                        h3Header.className = 'nav-item-header';
+                        
+                        const spacer = document.createElement('div');
+                        spacer.style.width = '24px';
+                        h3Header.appendChild(spacer);
+                        
+                        const a = document.createElement('a');
+                        a.href = `#${item.id}`;
+                        a.textContent = item.text;
+                        a.className = `nav-link h3`;
+                        a.onclick = (e) => navigateToSection(e, item.element, a);
+                        h3Header.appendChild(a);
+                        
+                        h3Li.appendChild(h3Header);
+                        currentH2Container.appendChild(h3Li);
+                    }
+                });
+                
+                // Auto-expand first level
+                const firstExpandable = nav.querySelector('.nav-toggle');
+                if (firstExpandable) {
+                    const firstContainer = firstExpandable.parentElement.parentElement;
+                    toggleNavSection(firstExpandable, firstContainer);
+                }
+            }
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query === '') {
+                    renderNavigation(navigationData);
+                } else {
+                    const filtered = navigationData.filter(item => 
+                        item.searchText.includes(query));
+                    renderNavigation(filtered);
+                }
+            });
+            
+            // Initial render
+            renderNavigation();
+            
+            // Update active nav item on scroll
+            window.addEventListener('scroll', updateActiveNavOnScroll);
+            
+            // Initialize minimap
+            initializeMinimap();
+        }
+        
+        function checkForChildren(headers, currentIndex, targetLevel = null) {
+            const currentLevel = parseInt(headers[currentIndex].tagName.charAt(1));
+            const checkLevel = targetLevel || (currentLevel + 1);
+            
+            for (let i = currentIndex + 1; i < headers.length; i++) {
+                const nextLevel = parseInt(headers[i].tagName.charAt(1));
+                if (nextLevel <= currentLevel) break;
+                if (nextLevel === checkLevel) return true;
+            }
+            return false;
+        }
+        
+        function toggleNavSection(toggle, container) {
+            const childrenContainer = container.querySelector('.nav-children');
+            if (!childrenContainer) return;
+            
+            const isExpanded = childrenContainer.classList.contains('expanded');
+            
+            if (isExpanded) {
+                childrenContainer.classList.remove('expanded');
+                toggle.classList.remove('expanded');
+                toggle.innerHTML = '▶';
+            } else {
+                childrenContainer.classList.add('expanded');
+                toggle.classList.add('expanded');
+                toggle.innerHTML = '▼';
+            }
+        }
+        
+        // Modern Minimap Implementation
+        function initializeMinimap() {
+            const minimap = document.getElementById('minimap');
+            const minimapViewport = document.getElementById('minimapViewport');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (!minimap || !minimapViewport || !mainContent) return;
+            
+            function updateMinimapViewport() {
+                const docHeight = document.documentElement.scrollHeight;
+                const viewHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset;
+                const minimapHeight = minimap.clientHeight - 100; // Account for header
+                
+                // Calculate viewport position and size
+                const viewportTop = (scrollTop / docHeight) * minimapHeight;
+                const viewportHeight = Math.max(20, (viewHeight / docHeight) * minimapHeight);
+                
+                minimapViewport.style.top = `${viewportTop}px`;
+                minimapViewport.style.height = `${viewportHeight}px`;
+            }
+            
+            // Update on scroll and resize
+            window.addEventListener('scroll', updateMinimapViewport);
+            window.addEventListener('resize', updateMinimapViewport);
+            
+            // Click to navigate
+            const minimapContent = minimap.querySelector('.minimap-content');
+            minimapContent.addEventListener('click', (e) => {
+                const rect = minimapContent.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const minimapHeight = minimapContent.clientHeight;
+                const scrollPercent = clickY / minimapHeight;
+                const targetScroll = scrollPercent * (document.documentElement.scrollHeight - window.innerHeight);
+                
+                window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
+            });
+            
+            // Initial update
+            updateMinimapViewport();
+        }
+        
+        function navigateToSection(e, header, link) {
+            e.preventDefault();
+            header.scrollIntoView({ behavior: 'smooth' });
+            updateActiveNavItem(link);
+        }
+        
+        function updateActiveNavItem(activeLink) {
+            document.querySelectorAll('#sectionNav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+        
+        function updateActiveNavOnScroll() {
+            const headers = document.querySelectorAll('#mainContent h1, #mainContent h2, #mainContent h3');
+            const navLinks = document.querySelectorAll('#sectionNav a');
+            
+            let current = '';
+            headers.forEach(header => {
+                const rect = header.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    current = header.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Floating Top Bar Scroll Behavior
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        
+        function initializeScrollBehavior() {
+            const topBar = document.getElementById('topBar');
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Clear any existing timeout
+                clearTimeout(scrollTimeout);
+                
+                // Hide/show logic
+                if (scrollTop > lastScrollTop && scrollTop > 60) {
+                    // Scrolling down & past header height
+                    topBar.classList.add('hidden');
+                } else {
+                    // Scrolling up or at top
+                    topBar.classList.remove('hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+                
+                // Update change indicators if visible
+                updateChangeIndicators();
+            }, { passive: true });
+        }
+        
+        // Change Indicator Functions
+        function updateChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            if (!indicator.style.display || indicator.style.display === 'none') return;
+            
+            // Get document dimensions
+            const docHeight = document.documentElement.scrollHeight;
+            const viewHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset;
+            
+            // Update existing change marks
+            const marks = indicator.querySelectorAll('.change-mark');
+            marks.forEach(mark => {
+                const targetId = mark.dataset.target;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const elementTop = targetElement.offsetTop;
+                    const percentage = (elementTop / docHeight) * 100;
+                    mark.style.top = `${percentage}%`;
+                }
+            });
+        }
+        
+        function createChangeIndicators() {
+            const indicator = document.getElementById('changeIndicator');
+            const minimapContent = document.querySelector('.minimap-content');
+            
+            if (!indicator || !minimapContent) return;
+            
+            indicator.innerHTML = ''; // Clear existing marks
+            
+            // Find all changed elements
+            const addedElements = document.querySelectorAll('.diff-line-added, tr[style*="background-color: #d4edda"]');
+            const modifiedElements = document.querySelectorAll('.diff-line-modified, td[style*="background-color: #fff3cd"]');
+            const removedElements = document.querySelectorAll('.diff-line-removed');
+            
+            const docHeight = document.documentElement.scrollHeight;
+            const minimapHeight = minimapContent.clientHeight;
+            
+            // Helper function to create change marks
+            function createChangeMark(element, type, index) {
+                const mark = document.createElement('div');
+                mark.className = `change-mark ${type}`;
+                mark.dataset.target = element.id || `${type}-${index}`;
+                
+                if (!element.id) {
+                    element.id = `${type}-${index}`;
+                }
+                
+                const elementTop = element.offsetTop;
+                const percentage = (elementTop / docHeight) * minimapHeight;
+                mark.style.top = `${Math.max(0, Math.min(minimapHeight - 3, percentage))}px`;
+                
+                // Set titles
+                const titles = {
+                    added: 'Added content',
+                    modified: 'Modified content', 
+                    removed: 'Removed content'
+                };
+                mark.title = titles[type] || element.title || `${type} content`;
+                
+                // Click to scroll to element
+                mark.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+                
+                return mark;
+            }
+            
+            // Create marks for added elements
+            addedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'added', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for modified elements
+            modifiedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'modified', index);
+                indicator.appendChild(mark);
+            });
+            
+            // Create marks for removed elements
+            removedElements.forEach((element, index) => {
+                const mark = createChangeMark(element, 'removed', index);
+                indicator.appendChild(mark);
+            });
+            
+            const totalChanges = addedElements.length + modifiedElements.length + removedElements.length;
+            
+            // Show indicator if there are changes
+            if (totalChanges > 0) {
+                indicator.style.display = 'block';
+                console.log(`Created ${totalChanges} change indicators (${addedElements.length} added, ${modifiedElements.length} modified, ${removedElements.length} removed)`);
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

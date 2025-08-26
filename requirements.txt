@@ -1,0 +1,6 @@
+pypandoc==1.13
+click==8.1.7
+GitPython==3.1.40
+beautifulsoup4==4.12.2
+rich==13.7.0
+questionary==2.1.0
