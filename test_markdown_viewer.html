@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Viewer Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            padding: 2rem;
+        }
+        .markdown-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--pico-card-background-color);
+            border-radius: 0.5rem;
+        }
+        pre {
+            background: var(--pico-code-background-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        table {
+            margin: 1rem 0;
+        }
+        blockquote {
+            border-left: 4px solid var(--pico-primary-color);
+            padding-left: 1rem;
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>Markdown Viewer Test</h2>
+        <button onclick="loadTestFile()">Load TEST_FS_01.md</button>
+        <button onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    
+    <div id="markdown-content" class="markdown-content">
+        <p>Click "Load TEST_FS_01.md" to test Markdown rendering...</p>
+    </div>
+
+    <script>
+        // Configure marked for better rendering
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            sanitize: false,
+            highlight: function(code, lang) {
+                return code; // Simple highlighting for now
+            }
+        });
+
+        async function loadTestFile() {
+            try {
+                const response = await fetch('test_output.md');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const markdownText = await response.text();
+                const htmlContent = marked.parse(markdownText);
+                
+                document.getElementById('markdown-content').innerHTML = htmlContent;
+                console.log('Markdown loaded and rendered successfully');
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                document.getElementById('markdown-content').innerHTML = 
+                    `<p style="color: red;">Error loading markdown: ${error.message}</p>`;
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+        }
+
+        // Initialize theme
+        document.documentElement.setAttribute('data-theme', 'light');
+    </script>
+</body>
+</html>

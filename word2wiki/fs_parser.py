@@ -45,6 +45,8 @@ class FSParser:
         r'^(.+?)_(\d+_\d+)_at_(\d{4}_\d{2}_\d{2})\.docx$',
         # Pattern: HR_FS_Billing_Accounts_Receivables_CZ_at_2025_08_21.docx (no version)
         r'^(.+?)_at_(\d{4}_\d{2}_\d{2})\.docx$',
+        # Pattern: TEST_FS_01.docx (test files with single digit version)
+        r'^(TEST_FS)_(\d+)\.docx$',
         # Pattern: HR_FS_Billing_Accounts_Receivables_CZ_00_03.docx (version only)
         r'^(.+?)_(\d+_\d+)\.docx$',
         # Pattern: HR_FS_Billing_Accounts_Receivables_CZ.docx (base name only)
@@ -58,6 +60,17 @@ class FSParser:
             source_dir: Directory containing FS documents
         """
         self.source_dir = Path(source_dir)
+    
+    def parse_document_from_path(self, file_path: Path) -> Optional[FSDocument]:
+        """Parse a file path into FSDocument.
+        
+        Args:
+            file_path: Path to the file to parse
+            
+        Returns:
+            FSDocument if parsing successful, None otherwise
+        """
+        return self.parse_filename(file_path.name)
     
     def parse_filename(self, filename: str) -> Optional[FSDocument]:
         """Parse a single filename into FSDocument.

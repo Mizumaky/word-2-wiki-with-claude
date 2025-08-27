@@ -1,0 +1,219 @@
+{
+  "main": {
+    "id": "457679b633411961",
+    "type": "split",
+    "children": [
+      {
+        "id": "ab7e8020b2c634c5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "89bde60c4364ed40",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TEST_FS/v01/03_doménový_model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "03_doménový_model"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "673b890eedd35761",
+    "type": "split",
+    "children": [
+      {
+        "id": "dba8e8912696afcd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a5a743fd06ee919",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "bcd6ab1019341165",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "8b6652a22b2d16c2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "bb0423e6b93c753d",
+    "type": "split",
+    "children": [
+      {
+        "id": "94d51d37b6b2acce",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ebe282d0c2c3706e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TEST_FS/v01/03_doménový_model.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 03_doménový_model"
+            }
+          },
+          {
+            "id": "ace8a89eb639cc4e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TEST_FS/v01/03_doménový_model.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 03_doménový_model"
+            }
+          },
+          {
+            "id": "a0e629ffc916654e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "21cd347eea3a20c0",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "TEST_FS/v01/03_doménový_model.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 03_doménový_model"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "89bde60c4364ed40",
+  "lastOpenFiles": [
+    "TEST_FS/INDEX.md",
+    "TEST_FS/v01/INDEX.md",
+    "TEST_FS/v01/05_systémové_funkce.md",
+    "TEST_FS/v01/04_případy_užití.md",
+    "TEST_FS/v01/03_doménový_model.md",
+    "TEST_FS/v01/02_úvod.md",
+    "TEST_FS/v01/01_obsah_obsah_toc-heading.md",
+    "TEST_FS/v01/00_metadata.md",
+    "TEST_FS/v01/full_document.md",
+    "TEST_FS/v01/media/media/image8.png",
+    "TEST_FS/v01/media/media/image7.png",
+    "TEST_FS/v01/media/media/image5.png",
+    "TEST_FS/v01/media/media/image6.png",
+    "TEST_FS/v01/media/media/image4.png",
+    "TEST_FS/v01/media/media/image3.png",
+    "TEST_FS/v01/media/media/image2.svg",
+    "TEST_FS/v01/media/media",
+    "TEST_FS/v01/01_obsah.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/INDEX.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/12_příloha_c_konfigurovatelnost_modulu.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/11_příloha_b_vstupní_a_výstupní_artefakty.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/10_příloha_a_integrační_body.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/09_neprocesní_funkcionality.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/08_systémové_funkce_web_portal_api.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/07_systémové_funkce.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/06_případy_užití.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/05_aktéři.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/04_doménový_model.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/03_úvod.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/02_historie_dokumentu.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/01_obsah.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/00_metadata.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/full_document.md",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image9.png",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image8.png",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image7.png",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image16.emf",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image17.emf",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image15.emf",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image14.emf",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media/image12.emf",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media/media",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21/media",
+    "HR_FS_Billing_Accounts_Receivables_CZ/v00_03_2025_08_21",
+    "HR_FS_Billing_Accounts_Receivables_CZ"
+  ]
+}

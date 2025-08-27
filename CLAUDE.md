@@ -1,17 +1,18 @@
 # Word-2-Wiki-with-Claude Project Memory
 
 ## Project Overview
-This is a Python application that converts Word documents (.docx) to HTML wiki format using Pandoc. The project provides:
+This is a Python application that converts Word documents (.docx) to **Obsidian-compatible Markdown** using Pandoc. The project provides:
 
-- Word to HTML conversion with clean HTML5 output
-- **Modern HTML UI** with Pico CSS framework, tree navigation, theme switching
-- **Version comparison** with intelligent diff highlighting 
-- Header-based document splitting (configurable h1/h2 levels)  
+- Word to Obsidian Markdown conversion with pipe tables
+- Header-based document splitting (H1 level)
 - Media extraction and proper referencing
-- **Interactive launcher** with arrow-key menu navigation
-- **Standalone HTML** files that work without server
+- YAML frontmatter for metadata
+- Wikilink navigation between documents
+- Version management with diff comparison
 - Git integration for versioning
 - Rich CLI interface
+
+**IMPORTANT**: The `output_md/` directory is used as an **Obsidian vault** with `.obsidian` folder for vault settings.
 
 ## Current State (Updated 2025-08-22)
 - ✅ **Modern UI Completed**: Hierarchical tree navigation, theme toggle, diff comparison
@@ -114,3 +115,4 @@ python main.py commit files -m "message"      # Commit files
 - **Standalone Mode** (Individual Files): file:// protocol limitations disable comparison features
 - **Smart Detection**: JavaScript automatically detects protocol and adjusts UI accordingly
 - **Easy Sharing**: Double-click launcher makes deployment to coworkers trivial
+- do not use emojis within code

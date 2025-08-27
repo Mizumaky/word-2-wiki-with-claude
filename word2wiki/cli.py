@@ -8,9 +8,8 @@ from rich.table import Table
 from rich.prompt import IntPrompt, Confirm
 import shutil
 
-from .converter import WordToWikiConverter
 from .git_manager import GitManager
-from .version_converter import VersionAwareConverter
+from .markdown_converter import MarkdownConverter
 from .interactive_cli import InteractiveCLI
 from .fs_parser import FSParser
 from .version_utils import version_sort_key
@@ -21,17 +20,17 @@ console = Console()
 @click.group()
 @click.version_option(version="1.0.0")
 def cli():
-    """Word to Wiki Converter - Convert Word documents to HTML wiki format.
+    """Word to Obsidian Markdown Converter - Convert Word documents to Obsidian-compatible Markdown.
     
-    This tool converts Word documents (.docx) to clean HTML5 with:
-    • Header-based document splitting (configurable h1/h2 levels)
+    This tool converts Word documents (.docx) to Obsidian-compatible Markdown with:
+    • Header-based document splitting (H1 level)
     • Media extraction and proper referencing  
     • Version management with diff comparison
-    • Index generation for navigation
-    • Git integration for versioning
+    • Index generation with wikilinks for navigation
+    • YAML frontmatter for metadata
     
     Commands:
-        convert      Convert Word documents to HTML wiki format
+        convert      Convert Word documents to Obsidian Markdown format
         convert-all  Convert all FS documents in source directory
         status       Show conversion status and available documents  
         browse       Open converted documents in your browser
@@ -58,7 +57,7 @@ def cli():
 @cli.command()
 @click.option('--input-file', '-f', type=click.Path(exists=True, path_type=Path), default=None,
               help='Specific input file to convert (skips interactive selection)')
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Base output directory for converted files')
 @click.option('--no-split', is_flag=True, default=False,
               help='Do not split by headers, create single file')
@@ -120,12 +119,8 @@ def convert(
             console.print("Conversion cancelled", style="yellow")
             return
         
-        # Initialize version-aware converter
-        converter = VersionAwareConverter(
-            base_output_dir=output_dir,
-            split_by_headers=not no_split,
-            header_level=header_level
-        )
+        # Initialize markdown converter
+        converter = MarkdownConverter(output_dir=output_dir)
         
         # Perform conversion
         output_files = converter.convert_document(document)
@@ -153,7 +148,7 @@ def convert(
 
 
 @cli.command()
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Directory to watch for files')
 def status(output_dir: Path):
     """Show comprehensive status of FS documents and conversion progress.
@@ -258,7 +253,7 @@ def status(output_dir: Path):
 
 
 @cli.command()
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Output directory to browse')
 def browse(output_dir: Path):
     """Browse converted document versions and open them in your web browser.
@@ -452,17 +447,17 @@ def commit(files, message: str, author_name: Optional[str], author_email: Option
 
 
 @cli.command()
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Output directory to clear')
 @click.option('--force', '-f', is_flag=True, default=False,
               help='Force deletion without confirmation prompt')
 def clear(output_dir: Path, force: bool):
-    """Clear the output directory by removing all converted files.
+    """Clear the output directory by removing all converted files while preserving .obsidian vault folders.
     
-    WARNING: This permanently deletes all converted HTML files, indexes, and media!
+    WARNING: This permanently deletes all converted Markdown files, indexes, and media!
     
     Features:
-    • Removes entire output directory and all contents
+    • Removes all content except .obsidian folders (preserves Obsidian vault settings)
     • Interactive confirmation prompt (unless --force is used)
     • Preserves source documents (only removes converted output)
     • Useful for clean rebuilds or testing
@@ -476,12 +471,35 @@ def clear(output_dir: Path, force: bool):
         console.print(f"Output directory [bold]{output_dir}[/bold] does not exist", style="yellow")
         return
     
-    # Count items to be deleted
-    total_items = sum(1 for _ in output_dir.rglob('*'))
+    def _count_items_to_delete(path: Path) -> int:
+        """Count items that will be deleted (excluding .obsidian folders)."""
+        count = 0
+        for item in path.rglob('*'):
+            # Skip .obsidian folders and their contents
+            if '.obsidian' in item.parts:
+                continue
+            count += 1
+        return count
+    
+    def _delete_with_obsidian_preservation(path: Path):
+        """Delete directory contents while preserving .obsidian folders."""
+        for item in path.iterdir():
+            if item.name == '.obsidian':
+                console.print(f"   Preserving Obsidian vault: [bold cyan]{item}[/bold cyan]")
+                continue
+            
+            if item.is_dir():
+                shutil.rmtree(item)
+            else:
+                item.unlink()
+    
+    # Count items to be deleted (excluding .obsidian)
+    total_items = _count_items_to_delete(output_dir)
     
     console.print(f"\n[bold red]WARNING:[/bold red] This will permanently delete:")
     console.print(f"   Directory: [bold]{output_dir.absolute()}[/bold]")
     console.print(f"   Total items: [bold]{total_items}[/bold] files and folders")
+    console.print(f"   [bold cyan]Note:[/bold cyan] .obsidian folders will be preserved")
     
     if not force:
         if not Confirm.ask("\n[bold yellow]Are you sure you want to proceed?[/bold yellow]", default=False):
@@ -489,16 +507,16 @@ def clear(output_dir: Path, force: bool):
             return
     
     try:
-        console.print(f"\nRemoving [bold]{output_dir}[/bold]...", style="blue")
-        shutil.rmtree(output_dir)
-        console.print("Output directory cleared successfully", style="green")
+        console.print(f"\nClearing [bold]{output_dir}[/bold] (preserving .obsidian)...", style="blue")
+        _delete_with_obsidian_preservation(output_dir)
+        console.print("Output directory cleared successfully (Obsidian vault settings preserved)", style="green")
         
     except Exception as e:
         console.print(f"Failed to clear output directory: {e}", style="red")
 
 
 @cli.command()
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Base output directory for converted files')
 @click.option('--no-split', is_flag=True, default=False,
               help='Do not split by headers, create single files')
@@ -565,11 +583,7 @@ def convert_all(
     console.print(f"Converting [bold]{len(documents)}[/bold] document(s)...\n")
     
     # Initialize converter
-    converter = VersionAwareConverter(
-        base_output_dir=output_dir,
-        split_by_headers=not no_split,
-        header_level=header_level
-    )
+    converter = MarkdownConverter(output_dir=output_dir)
     
     # Track results
     successful = []
@@ -611,7 +625,115 @@ def convert_all(
 
 
 @cli.command()
-@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output'),
+@click.option('--input-file', '-f', type=click.Path(exists=True, path_type=Path), default=None,
+              help='Specific input file to convert (skips interactive selection)')  
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
+              help='Base output directory for Markdown files')
+@click.option('--source-dir', '-s', type=click.Path(path_type=Path), default=Path('FS_source'),
+              help='Directory containing source Word documents')
+def convert_markdown(
+    input_file: Optional[Path],
+    output_dir: Path,
+    source_dir: Path
+):
+    """Convert Word documents to Obsidian-compatible Markdown files.
+    
+    Features:
+    • Word document conversion via Pandoc
+    • Automatic file splitting by H1 headers
+    • Obsidian-compatible [[wikilink]] navigation
+    • Comprehensive index generation with table of contents
+    • Media extraction and proper referencing
+    • Multi-version support with master index
+    
+    The converter creates a structured hierarchy:
+    • Master INDEX.md with all documents and versions
+    • Document-specific INDEX.md for version overview  
+    • Version-specific INDEX.md with detailed navigation
+    • Individual section files split by headers
+    • Media files organized in version subdirectories
+    
+    Perfect for Obsidian viewing with full cross-linking support.
+    """
+    from .markdown_converter import MarkdownConverter
+    from .interactive_cli import InteractiveCLI
+    
+    console.print("[bold]Convert Word Documents to Markdown[/bold]", style="blue")
+    
+    # Initialize converter and CLI
+    converter = MarkdownConverter(output_dir)
+    interactive_cli = InteractiveCLI(source_dir)
+    
+    if input_file:
+        # Convert specific file
+        parser = FSParser(source_dir)
+        document = parser.parse_document_from_path(input_file)
+        if document:
+            result_files = converter.convert_document(document)
+            console.print(f"[green]Generated {len(result_files)} Markdown files[/green]")
+            
+            # Show master index location
+            master_index = output_dir / "INDEX.md"
+            console.print(f"[blue]Master Index:[/blue] {master_index}")
+            console.print("[yellow]Open in Obsidian to browse with full navigation[/yellow]")
+        else:
+            console.print(f"[red]Could not parse document: {input_file}[/red]")
+    else:
+        # Interactive selection
+        document = interactive_cli.select_document_for_conversion()
+        if document:
+            # Check for version conflicts
+            if interactive_cli.check_version_conflict(document):
+                try:
+                    result_files = converter.convert_document(document)
+                    console.print(f"[green]Generated {len(result_files)} Markdown files[/green]")
+                    
+                    # Show navigation info
+                    master_index = output_dir / "INDEX.md"
+                    doc_index = output_dir / document.base_name / "INDEX.md"
+                    version_index = output_dir / document.base_name / f"v{document.full_version}" / "INDEX.md"
+                    
+                    console.print(f"\n[bold blue]Navigation:[/bold blue]")
+                    console.print(f"  Master Index: [link]{master_index}[/link]")
+                    console.print(f"  Document Index: [link]{doc_index}[/link]") 
+                    console.print(f"  Version Index: [link]{version_index}[/link]")
+                    console.print(f"\n[yellow]Open {master_index} in Obsidian for full navigation[/yellow]")
+                    
+                except Exception as e:
+                    console.print(f"[red]Conversion failed: {e}[/red]")
+        else:
+            console.print("No document selected", style="yellow")
+
+
+@cli.command() 
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
+              help='Directory containing Markdown files')
+def browse_markdown(output_dir: Path):
+    """Browse Markdown documents in Obsidian or default app.
+    
+    Opens the master INDEX.md file in your default Markdown application.
+    For best experience, use Obsidian as your default .md file handler.
+    """
+    import webbrowser
+    
+    master_index = output_dir / "INDEX.md"
+    
+    if not master_index.exists():
+        console.print(f"[red]No master index found at {master_index}[/red]")
+        console.print("Run [blue]convert-markdown[/blue] first to generate Markdown files")
+        return
+    
+    try:
+        webbrowser.open(str(master_index))
+        console.print(f"[green]Opened {master_index} in default application[/green]")
+        console.print("[yellow]For best experience, set Obsidian as default .md handler[/yellow]")
+    except Exception as e:
+        console.print(f"[red]Could not open file: {e}[/red]")
+        console.print(f"[blue]Manual path:[/blue] {master_index.absolute()}")
+
+
+@cli.command()
+@click.option('--output-dir', '-o', type=click.Path(path_type=Path), default=Path('output_md'),
               help='Base output directory for converted files')
 @click.option('--no-split', is_flag=True, default=False,
               help='Do not split by headers, create single files')
@@ -691,11 +813,7 @@ def reset(
     console.print(f"Found [bold]{len(documents)}[/bold] FS document(s) to convert")
     
     # Initialize converter
-    converter = VersionAwareConverter(
-        base_output_dir=output_dir,
-        split_by_headers=not no_split,
-        header_level=header_level
-    )
+    converter = MarkdownConverter(output_dir=output_dir)
     
     # Track results
     successful = []
