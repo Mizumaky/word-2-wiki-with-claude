@@ -1,8 +1,9 @@
 # Test Fs
 
-## Available Versions (1)
+## Available Versions (2)
 
-- [[v01/INDEX|📄 v01]] ⭐ Latest 🆕 Current
+- [[v02/INDEX|📄 v02]] ⭐ Latest
+- [[v01/INDEX|📄 v01]] 🆕 Current
 
 ---
 *Navigate back to [[../INDEX|🏠 Document Library]]*

@@ -59,7 +59,7 @@ class MarkdownConverter:
         # Convert to single Markdown file
         full_md = self._convert_to_markdown(document.path, version_dir, media_dir)
         
-        # Tables are now processed at AST level via Lua filter during Pandoc conversion
+        # Complex tables converted to pipe format via Lua filter during Pandoc conversion
         
         # Split into sections
         section_files = self._split_markdown_by_headers(full_md, version_dir)
@@ -92,17 +92,17 @@ class MarkdownConverter:
         output_path = output_dir / "full_document.md"
         
         try:
-            # Get absolute path to Lua filter
-            lua_filter = Path(__file__).parent.parent / "split-merged-cells.lua"
+            # Get absolute path to Lua filter for table conversion
+            lua_filter = Path(__file__).parent.parent / "table-pipe-converter.lua"
             
-            # Pandoc options optimized to force pipe table output
+            # Pandoc options optimized to force pipe table output with controlled spacing
             extra_args = [
                 "--wrap=none",                           # No line wrapping
                 "--markdown-headings=atx",               # Use ### style headers
                 f"--extract-media={media_dir}",          # Extract images
                 "--standalone",                          # Complete document
-                f"--lua-filter={lua_filter}",            # Process merged cells at AST level
-                "--to=markdown+pipe_tables-simple_tables-multiline_tables-grid_tables",  # Force pipe tables, keep raw_html as fallback
+                f"--lua-filter={lua_filter}",            # Convert complex tables to pipe format
+                "--to=markdown+pipe_tables-simple_tables-multiline_tables-grid_tables+blank_before_header",  # Force pipe tables, control header spacing
                 "--columns=999",                         # Very wide columns to prefer pipe tables
             ]
             
@@ -323,7 +323,8 @@ type: "version_index"
         
         return header
     
-    # Table processing now handled at AST level via Lua filter during Pandoc conversion
+    
+    # Table conversion to pipe format handled at AST level via Lua filter during Pandoc conversion
     
     def _create_header_anchor(self, header: str) -> str:
         """Create Obsidian-compatible header anchor.
