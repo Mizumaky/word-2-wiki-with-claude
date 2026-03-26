@@ -174,3 +174,6 @@ Thumbs.db
 
 # FS Manager persisted user data (catalog, pinned files, online links)
 fs_manager/data/
+
+# Generated Obsidian vault output (regenerated on each conversion run)
+output_md/
