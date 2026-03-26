@@ -171,3 +171,6 @@ Thumbs.db
 
 # Claude AI configuration (may contain sensitive data)
 .claude/settings.local.json
+
+# FS Manager persisted user data (catalog, pinned files, online links)
+fs_manager/data/

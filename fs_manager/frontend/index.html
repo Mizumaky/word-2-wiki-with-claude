@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FS Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=7">
+</head>
+<body>
+    <header class="container-fluid">
+        <nav>
+            <ul><li><strong class="brand">FS Manager</strong></li></ul>
+            <ul>
+                <li><button class="btn-icon" id="btn-settings" title="Settings">&#9881;</button></li>
+                <li><button class="btn-icon" id="btn-theme" title="Toggle theme">&#9790;</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container-fluid">
+        <nav class="tab-bar">
+            <button class="tab active" data-tab="home">Home</button>
+            <button class="tab" data-tab="local-files">Local Files</button>
+            <button class="tab" data-tab="online-files">Online Files</button>
+            <button class="tab" data-tab="confluence">Confluence</button>
+        </nav>
+
+        <!-- ===== Home ===== -->
+        <section class="tab-content active" id="tab-home">
+            <div class="home-section">
+                <div class="home-section-header">
+                    <p class="section-header">Favorites</p>
+                </div>
+                <div id="fav-files-container">
+                    <div class="empty-state">No favorites yet. Browse files and star them to add here.</div>
+                </div>
+            </div>
+            <div class="home-section">
+                <div class="home-section-header">
+                    <p class="section-header">Recently Opened</p>
+                </div>
+                <div id="recent-files-container">
+                    <div class="empty-state">No recent files.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Local Files ===== -->
+        <section class="tab-content" id="tab-local-files">
+            <div class="local-files-layout">
+                <aside class="sidebar">
+                    <div class="sidebar-label">Locations</div>
+                    <div id="sidebar-locations"></div>
+                    <button class="sidebar-add" id="btn-pin-folder">+ Pin Folder</button>
+                </aside>
+                <div class="browser-main">
+                    <div class="address-bar" id="address-bar">
+                        <button class="nav-btn" id="nav-back" title="Back" disabled>&#8592;</button>
+                        <button class="nav-btn" id="nav-up" title="Up one level">&#8593;</button>
+                        <div class="breadcrumb-area" id="breadcrumb-area">
+                            <div class="breadcrumb-display" id="breadcrumb-display"></div>
+                            <input type="text" class="path-edit" id="path-edit" placeholder="Enter path...">
+                        </div>
+                        <button class="nav-btn" id="nav-go" title="Go">&#8629;</button>
+                    </div>
+                    <div id="file-list-container">
+                        <div id="file-list-body">
+                            <div class="empty-state">Select a location or type a path to browse.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Online Files ===== -->
+        <section class="tab-content" id="tab-online-files">
+            <div class="tab-header">
+                <p class="section-header" style="margin:0;">Online Files</p>
+                <button class="btn-sm outline" id="btn-add-online">+ Add Link</button>
+            </div>
+            <div id="online-files-container">
+                <div class="empty-state">No online files added. Click "+ Add Link" to add a OneDrive shared link.</div>
+            </div>
+        </section>
+
+        <!-- ===== Confluence ===== -->
+        <section class="tab-content" id="tab-confluence">
+            <div class="tab-header">
+                <p class="section-header" style="margin:0;">Browse on Confluence</p>
+            </div>
+            <div id="confluence-container">
+                <div class="empty-state">Confluence integration coming soon.</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Context menu -->
+    <div class="context-menu" id="context-menu"></div>
+
+    <!-- Pin Folder Dialog -->
+    <dialog id="pin-folder-dialog">
+        <article>
+            <header>
+                <button aria-label="Close" rel="prev" class="close-dialog"></button>
+                <h3>Pin Folder</h3>
+            </header>
+            <form id="pin-folder-form">
+                <label for="pin-label">Label</label>
+                <input type="text" id="pin-label" name="label" placeholder="e.g. Billing FS" required>
+                <label for="pin-path">Folder Path</label>
+                <input type="text" id="pin-path" name="path" placeholder="e.g. C:\Documents\FSky\HRETC" required>
+            </form>
+            <footer>
+                <button class="secondary close-dialog">Cancel</button>
+                <button id="btn-save-pin">Pin</button>
+            </footer>
+        </article>
+    </dialog>
+
+    <!-- Add Online Link Dialog -->
+    <dialog id="add-online-dialog">
+        <article>
+            <header>
+                <button aria-label="Close" rel="prev" class="close-dialog"></button>
+                <h3>Add Online File</h3>
+            </header>
+            <form id="add-online-form">
+                <label for="online-label">Label</label>
+                <input type="text" id="online-label" name="label" placeholder="e.g. HR Billing FS v3" required>
+                <label for="online-url">OneDrive Share Link</label>
+                <input type="url" id="online-url" name="url" placeholder="https://..." required>
+                <label for="online-folder">Folder (for grouping)</label>
+                <input type="text" id="online-folder" name="folder" placeholder="e.g. Billing (optional)">
+            </form>
+            <footer>
+                <button class="secondary close-dialog">Cancel</button>
+                <button id="btn-save-online">Add</button>
+            </footer>
+        </article>
+    </dialog>
+
+    <!-- Settings Dialog -->
+    <dialog id="settings-dialog">
+        <article>
+            <header>
+                <button aria-label="Close" rel="prev" class="close-dialog"></button>
+                <h3>Settings</h3>
+            </header>
+            <form id="settings-form">
+                <label for="default-open-action">Default action on double-click</label>
+                <select id="default-open-action">
+                    <option value="word">Open in Word</option>
+                    <option value="html">Open as HTML</option>
+                    <option value="interactive">Open Interactive</option>
+                </select>
+            </form>
+            <footer>
+                <button class="secondary close-dialog">Cancel</button>
+                <button id="btn-save-settings">Save</button>
+            </footer>
+        </article>
+    </dialog>
+
+    <script src="/js/app.js?v=7"></script>
+    <script src="/js/file-browser.js?v=7"></script>
+    <script src="/js/catalog.js?v=7"></script>
+</body>
+</html>

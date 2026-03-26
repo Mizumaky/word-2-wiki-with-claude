@@ -1,0 +1,567 @@
+/* FS Manager — Refined UI */
+
+:root {
+    --sidebar-w: 160px;
+    --accent: #2563eb;
+    --accent-soft: rgba(37, 99, 235, 0.07);
+    --accent-hover: rgba(37, 99, 235, 0.13);
+    --word-blue: #2b579a;
+    --online-blue: #0078d4;
+    --star-color: #e8a317;
+    --row-h: 27px;
+    --radius: 4px;
+    --font: "DM Sans", "Segoe UI Variable", "Segoe UI", -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    font-size: 13.5px;
+}
+
+/* ==================== Layout ==================== */
+
+header.container-fluid {
+    background: var(--pico-card-background-color);
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    padding: 0.3rem 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header nav { margin-bottom: 0; }
+
+.brand { letter-spacing: -0.01em; }
+
+main.container-fluid {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0.5rem 1.2rem;
+}
+
+/* ==================== Buttons ==================== */
+
+.btn-sm {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.78rem;
+    border-radius: var(--radius);
+    font-family: var(--font);
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pico-muted-color);
+    font-size: 0.95rem;
+    padding: 0.1rem 0.4rem;
+    line-height: 1;
+    width: auto;
+}
+
+.btn-icon:hover { color: var(--pico-color); }
+
+.btn-action {
+    padding: 0.05rem 0.45rem;
+    font-size: 0.72rem;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid var(--pico-muted-border-color);
+    background: var(--pico-card-background-color);
+    color: var(--pico-color);
+    transition: border-color 0.1s, background 0.1s;
+    white-space: nowrap;
+    line-height: 1.7;
+    font-family: var(--font);
+}
+
+.btn-action:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.btn-action.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-action.stub {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.btn-star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.05rem 0.2rem;
+    font-size: 0.78rem;
+    color: var(--pico-muted-color);
+    border-radius: 3px;
+    transition: color 0.1s;
+    line-height: 1;
+}
+
+.btn-star:hover { color: var(--star-color); }
+.btn-star.is-starred { color: var(--star-color); }
+
+/* ==================== Tabs ==================== */
+
+.tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--pico-muted-border-color);
+    margin-bottom: 0.5rem;
+}
+
+.tab-bar .tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+    color: var(--pico-muted-color);
+    cursor: pointer;
+    border-radius: 0;
+    transition: color 0.12s, border-color 0.12s;
+    font-family: var(--font);
+}
+
+.tab-bar .tab:hover { color: var(--pico-color); }
+
+.tab-bar .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ==================== Section headers ==================== */
+
+.section-header {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pico-muted-color);
+    margin: 0 0 0.4rem 0;
+    font-weight: 600;
+}
+
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+/* ==================== Sidebar (Local Files) ==================== */
+
+.local-files-layout {
+    display: flex;
+    gap: 0;
+}
+
+.sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    padding-right: 0.65rem;
+    margin-right: 0.65rem;
+    border-right: 1px solid var(--pico-muted-border-color);
+}
+
+.sidebar-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--pico-muted-color);
+    font-weight: 600;
+    padding: 0.15rem 0.35rem 0.3rem;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.22rem 0.35rem;
+    font-size: 0.78rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: var(--pico-color);
+    position: relative;
+    user-select: none;
+    transition: background 0.08s;
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+}
+
+.sidebar-item:hover {
+    background: var(--accent-soft);
+}
+
+.sidebar-item.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 500;
+    border-left-color: var(--accent);
+}
+
+.sidebar-item .si-icon {
+    width: 16px;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1;
+}
+
+.sidebar-item .si-icon .icon-folder {
+    font-size: 0.82rem;
+    opacity: 0.65;
+}
+
+.sidebar-item.active .si-icon .icon-folder { opacity: 1; }
+
+.sidebar-item .si-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-item .si-remove {
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pico-muted-color);
+    font-size: 0.65rem;
+    padding: 0.05rem 0.25rem;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+.sidebar-item:hover .si-remove { opacity: 0.5; }
+.sidebar-item .si-remove:hover { opacity: 1; color: #dc2626; }
+
+.sidebar-add {
+    font-size: 0.72rem;
+    color: var(--pico-muted-color);
+    background: none;
+    border: 1px dashed var(--pico-muted-border-color);
+    cursor: pointer;
+    padding: 0.2rem 0.35rem;
+    text-align: left;
+    width: 100%;
+    border-radius: var(--radius);
+    margin-top: 0.35rem;
+    font-family: var(--font);
+    transition: color 0.1s, border-color 0.1s;
+}
+
+.sidebar-add:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.browser-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==================== Address bar ==================== */
+
+.address-bar {
+    display: flex;
+    align-items: center;
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: var(--radius);
+    padding: 0.02rem 0.25rem;
+    margin-bottom: 0.35rem;
+    min-height: 28px;
+    gap: 0.05rem;
+    transition: border-color 0.12s;
+}
+
+.address-bar:focus-within { border-color: var(--accent); }
+
+.address-bar .nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.08rem 0.25rem;
+    font-size: 0.72rem;
+    color: var(--pico-muted-color);
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.address-bar .nav-btn:hover {
+    background: var(--pico-muted-border-color);
+    color: var(--pico-color);
+}
+
+.address-bar .nav-btn:disabled { opacity: 0.2; cursor: default; }
+.address-bar .nav-btn:disabled:hover { background: none; }
+
+.address-bar .breadcrumb-area {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    cursor: text;
+}
+
+.address-bar .breadcrumb-display {
+    display: flex;
+    align-items: center;
+    gap: 0.02rem;
+    font-size: 0.76rem;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+}
+
+.address-bar .bc-segment {
+    cursor: pointer;
+    padding: 0.04rem 0.18rem;
+    border-radius: 3px;
+    color: var(--pico-color);
+    flex-shrink: 0;
+}
+
+.address-bar .bc-segment:last-child {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.address-bar .bc-segment:hover { background: var(--pico-muted-border-color); }
+
+.address-bar .bc-sep {
+    color: var(--pico-muted-color);
+    font-size: 0.58rem;
+    flex-shrink: 0;
+    user-select: none;
+    padding: 0 0.02rem;
+}
+
+.address-bar .path-edit {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.76rem;
+    padding: 0.08rem 0.18rem;
+    color: var(--pico-color);
+    outline: none;
+    font-family: var(--font);
+    display: none;
+    min-width: 0;
+    margin: 0;
+}
+
+.address-bar.editing .breadcrumb-display { display: none; }
+.address-bar.editing .path-edit { display: block; }
+
+/* ==================== File list ==================== */
+
+#file-list-container {
+    overflow: hidden;
+    flex: 1;
+}
+
+.file-row {
+    display: flex;
+    align-items: center;
+    padding: 0 0.35rem;
+    border-radius: 3px;
+    cursor: default;
+    user-select: none;
+    transition: background 0.06s;
+    min-width: 0;
+    height: var(--row-h);
+}
+
+.file-row:hover { background: var(--accent-soft); }
+.file-row.selected { background: var(--accent-hover); }
+.file-row.is-dir { cursor: pointer; }
+
+/* Word doc icons */
+.icon-word {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--word-blue);
+    border-radius: 2px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.icon-word.online {
+    background: var(--online-blue);
+}
+
+.icon-folder {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+/* Columns */
+.col-icon { width: 24px; flex-shrink: 0; text-align: center; }
+
+.col-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.78rem;
+}
+
+.col-name .dir-name { font-weight: 500; }
+
+.col-time {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    color: var(--pico-muted-color);
+    padding: 0 0.4rem;
+    white-space: nowrap;
+}
+
+.col-actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.08s;
+    padding-left: 0.35rem;
+}
+
+.file-row:hover .col-actions { opacity: 1; }
+
+.open-label {
+    font-size: 0.65rem;
+    color: var(--pico-muted-color);
+    white-space: nowrap;
+    padding-right: 0.15rem;
+}
+
+/* Tree indentation */
+.indent-1 { padding-left: calc(0.35rem + 16px); }
+.indent-2 { padding-left: calc(0.35rem + 32px); }
+.indent-3 { padding-left: calc(0.35rem + 48px); }
+.indent-4 { padding-left: calc(0.35rem + 64px); }
+
+.chevron {
+    display: inline-block;
+    width: 12px;
+    font-size: 0.5rem;
+    color: var(--pico-muted-color);
+    transition: transform 0.12s;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.chevron.open { transform: rotate(90deg); }
+
+/* ==================== Context menu ==================== */
+
+.context-menu {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: var(--pico-card-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    padding: 3px 0;
+    min-width: 170px;
+    font-family: var(--font);
+    font-size: 0.78rem;
+}
+
+.ctx-item {
+    padding: 5px 14px;
+    cursor: pointer;
+    color: var(--pico-color);
+    transition: background 0.06s;
+}
+
+.ctx-item:hover {
+    background: var(--accent-soft);
+}
+
+.ctx-item.danger { color: #dc2626; }
+.ctx-item.danger:hover { background: rgba(220, 38, 38, 0.08); }
+
+.ctx-separator {
+    height: 1px;
+    background: var(--pico-muted-border-color);
+    margin: 3px 0;
+}
+
+/* ==================== Home ==================== */
+
+.home-section { margin-bottom: 1.2rem; }
+
+.home-section-header {
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    margin-bottom: 0.2rem;
+}
+
+/* ==================== Online files ==================== */
+
+.online-section { margin-bottom: 1rem; }
+
+.online-section-header {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.18rem 0.35rem;
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    margin-bottom: 0.15rem;
+    color: var(--pico-muted-color);
+}
+
+/* ==================== Empty states ==================== */
+
+.empty-state {
+    color: var(--pico-muted-color);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* ==================== Responsive ==================== */
+
+@media (max-width: 768px) {
+    .tab-bar { overflow-x: auto; }
+    .open-label { display: none; }
+    .sidebar { width: 120px; padding-right: 0.4rem; margin-right: 0.4rem; }
+}
+
+@media (max-width: 560px) {
+    .sidebar { display: none; }
+    .local-files-layout { display: block; }
+}
